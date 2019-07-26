@@ -12,6 +12,7 @@ namespace XAdd
         public event Action ButtonAppendSheetsClicked;
         public event Action ButtonInsertDateClicked;
         public event Action ButtonAppendSheetsCustom;
+        public event Action ButtonTableOfContentsClicked;
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
 
@@ -37,5 +38,12 @@ namespace XAdd
         {
             ButtonAppendSheetsCustom?.Invoke();
         }
+
+        private void TableOfContents_Click(object sender, RibbonControlEventArgs e)
+        {
+            ButtonTableOfContentsClicked?.Invoke();
+
+        }
+
     }
 }

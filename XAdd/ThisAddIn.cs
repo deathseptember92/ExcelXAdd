@@ -44,8 +44,11 @@ namespace XAdd
             ribbon.ButtonAppendSheetsClicked += ribbon_ButtonAppendSheets;
             ribbon.ButtonInsertDateClicked += ribbon_ButtonInsertDate;
             ribbon.ButtonAppendSheetsCustom += ribbon_ButtonAppendSheetsCustom;
+            ribbon.ButtonTableOfContentsClicked += ribbon_ButtonTableOfContents;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
+
+      
 
         #region Удаление столбцов
         private void ribbon_ButtonRemoveColumns() //удаляет столбцы на активном листе. кнопка нажата
@@ -170,7 +173,7 @@ namespace XAdd
 
             }
 
-            Application.Sheets[1].Select();
+
             Application.Sheets.Add(Before: Application.Sheets[1], Count: 1);
             Application.ActiveSheet.Name = "Job";
             Excel.Worksheet jobSheet = Application.Sheets["Job"];
@@ -390,7 +393,42 @@ namespace XAdd
 
         #endregion
 
+        #region Оглавление книги
 
+        private void ribbon_ButtonTableOfContents()
+        {
+            Application.DisplayAlerts = false;
+
+            try
+            {
+                Application.Sheets["TableOfContents"].Delete();
+            }
+            catch (Exception)
+            {
+
+            }
+
+            Application.Sheets.Add(Before: Application.Sheets[1], Count: 1);
+            Application.ActiveSheet.Name = "TableOfContents";
+            Excel.Worksheet jobSheet = Application.Sheets["TableOfContents"];
+            Excel.Range startCell = jobSheet.Cells[2,1];
+            jobSheet.Cells[1, 1].Value = "Table of Contents";
+
+            foreach (Excel.Worksheet ws in Application.Worksheets)
+            {
+                if (ws.Index!=1)
+                {
+                    jobSheet.Hyperlinks.Add(startCell, "", ws.Name+"!A1", missing, ws.Name);
+                    startCell = startCell.Offset[1,0];
+                }
+            }
+
+            Application.DisplayAlerts = true;
+
+
+        }
+
+        #endregion
 
 
 
