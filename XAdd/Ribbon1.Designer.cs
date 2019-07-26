@@ -36,13 +36,13 @@
         {
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
-            this.RemoveColumns = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
+            this.group3 = this.Factory.CreateRibbonGroup();
+            this.RemoveColumns = this.Factory.CreateRibbonButton();
             this.AppendSheets = this.Factory.CreateRibbonButton();
             this.AppendSheetsCustom = this.Factory.CreateRibbonButton();
-            this.group3 = this.Factory.CreateRibbonGroup();
-            this.InsertDate = this.Factory.CreateRibbonButton();
             this.TableOfContents = this.Factory.CreateRibbonButton();
+            this.InsertDate = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -64,14 +64,6 @@
             this.group1.Label = "Столбцы";
             this.group1.Name = "group1";
             // 
-            // RemoveColumns
-            // 
-            this.RemoveColumns.Image = global::XAdd.Properties.Resources.deletecolumn;
-            this.RemoveColumns.Label = "Удалить столбцы";
-            this.RemoveColumns.Name = "RemoveColumns";
-            this.RemoveColumns.ShowImage = true;
-            this.RemoveColumns.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.RemoveColumns_Click);
-            // 
             // group2
             // 
             this.group2.Items.Add(this.AppendSheets);
@@ -79,6 +71,20 @@
             this.group2.Items.Add(this.TableOfContents);
             this.group2.Label = "Листы";
             this.group2.Name = "group2";
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.InsertDate);
+            this.group3.Label = "Дата";
+            this.group3.Name = "group3";
+            // 
+            // RemoveColumns
+            // 
+            this.RemoveColumns.Image = global::XAdd.Properties.Resources.deletecolumn;
+            this.RemoveColumns.Label = "Удалить столбцы";
+            this.RemoveColumns.Name = "RemoveColumns";
+            this.RemoveColumns.ShowImage = true;
+            this.RemoveColumns.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.RemoveColumns_Click);
             // 
             // AppendSheets
             // 
@@ -99,11 +105,15 @@
     "ты";
             this.AppendSheetsCustom.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AppendSheetsCustom_Click);
             // 
-            // group3
+            // TableOfContents
             // 
-            this.group3.Items.Add(this.InsertDate);
-            this.group3.Label = "Дата";
-            this.group3.Name = "group3";
+            this.TableOfContents.Image = global::XAdd.Properties.Resources.tableofcontents;
+            this.TableOfContents.Label = "Создать оглавление книги";
+            this.TableOfContents.Name = "TableOfContents";
+            this.TableOfContents.ScreenTip = "Будет создан лист TableOfContents, на котором будет оглавление книги с ссылками н" +
+    "а листы ";
+            this.TableOfContents.ShowImage = true;
+            this.TableOfContents.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.TableOfContents_Click);
             // 
             // InsertDate
             // 
@@ -113,12 +123,6 @@
             this.InsertDate.ShowImage = true;
             this.InsertDate.SuperTip = "Выделите ячейку или диапозон ячеек для вставки даты";
             this.InsertDate.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.InsertDate_Click);
-            // 
-            // TableOfContents
-            // 
-            this.TableOfContents.Label = "Создать оглавление книги";
-            this.TableOfContents.Name = "TableOfContents";
-            this.TableOfContents.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.TableOfContents_Click);
             // 
             // Ribbon1
             // 

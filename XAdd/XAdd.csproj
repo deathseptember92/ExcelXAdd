@@ -257,6 +257,9 @@
   <ItemGroup>
     <None Include="Resources\combine.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tableofcontents.png" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
