@@ -40,18 +40,18 @@ namespace XAdd
         {
             
             var ribbon = new Ribbon1();
-            ribbon.ButtonRemoveColumnsClicked += ribbon_ButtonRemoveColumns;
-            ribbon.ButtonAppendSheetsClicked += ribbon_ButtonAppendSheets;
-            ribbon.ButtonInsertDateClicked += ribbon_ButtonInsertDate;
-            ribbon.ButtonAppendSheetsCustom += ribbon_ButtonAppendSheetsCustom;
-            ribbon.ButtonTableOfContentsClicked += ribbon_ButtonTableOfContents;
+            ribbon.ButtonRemoveColumnsClicked += Ribbon_ButtonRemoveColumns;
+            ribbon.ButtonAppendSheetsClicked += Ribbon_ButtonAppendSheets;
+            ribbon.ButtonInsertDateClicked += Ribbon_ButtonInsertDate;
+            ribbon.ButtonAppendSheetsCustom += Ribbon_ButtonAppendSheetsCustom;
+            ribbon.ButtonTableOfContentsClicked += Ribbon_ButtonTableOfContents;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
 
       
 
         #region Удаление столбцов
-        private void ribbon_ButtonRemoveColumns() //удаляет столбцы на активном листе. кнопка нажата
+        private void Ribbon_ButtonRemoveColumns() //удаляет столбцы на активном листе. кнопка нажата
         {
 
             Excel.Worksheet activeSheet = this.Application.ActiveSheet;
@@ -157,7 +157,7 @@ namespace XAdd
         #endregion
 
         #region Объединение листов
-        private void ribbon_ButtonAppendSheets() // объединяет все листы в активной книге. кнопка нажата
+        private void Ribbon_ButtonAppendSheets() // объединяет все листы в активной книге. кнопка нажата
         {
             Application.DisplayAlerts = false;
             long LastRow;
@@ -202,7 +202,7 @@ namespace XAdd
         #endregion
 
         #region Выбор даты
-        private void ribbon_ButtonInsertDate() // показывает пользователю форму с календарем. нажата кнопка на риббоне
+        private void Ribbon_ButtonInsertDate() // показывает пользователю форму с календарем. нажата кнопка на риббоне
         {
             
             form_DatePicker.StartPosition = FormStartPosition.CenterScreen;
@@ -237,7 +237,7 @@ namespace XAdd
 
         #region Кастомное объединение листов
 
-        private void ribbon_ButtonAppendSheetsCustom() // наполнение Treeview1 из списка открытых книг
+        private void Ribbon_ButtonAppendSheetsCustom() // наполнение Treeview1 из списка открытых книг
         {
             form_AppendSheetsCustom.treeView1.Nodes.Clear();
             form_AppendSheetsCustom.treeView2.Nodes.Clear();
@@ -395,7 +395,7 @@ namespace XAdd
 
         #region Оглавление книги
 
-        private void ribbon_ButtonTableOfContents()
+        private void Ribbon_ButtonTableOfContents()
         {
             Application.DisplayAlerts = false;
 
