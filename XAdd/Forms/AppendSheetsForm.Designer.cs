@@ -119,6 +119,7 @@
             this.Name = "AppendSheetsForm";
             this.Text = "Объединение листов";
             this.Deactivate += new System.EventHandler(this.AppendSheetsForm_Deactivate);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AppendSheetsForm_FormClosing);
             this.Load += new System.EventHandler(this.AppendSheetsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

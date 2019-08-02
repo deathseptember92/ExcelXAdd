@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.OleDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +17,29 @@ namespace XAdd
     {
         DatePickerForm form_DatePicker = new DatePickerForm();
         AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
+        SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
         
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            #region Обработчики_ОбъединениеЛистов
 
             form_AppendSheetsCustom.SelectedNodesToFinalList += AppendSheetsCustom_SelectedNodesToList;
             form_AppendSheetsCustom.RemoveNodesFromFinalList += AppendSheetsCustom_RemoveNodesFromList;
             form_AppendSheetsCustom.AppendSheetsClicked += AppendSheetsCustom_Append;
+
+            #endregion
+
+            #region Обработчики_ДиспетчерЛистов
+
+            form_SheetsManager.SheetsManagerClickNode += SheetsManagerClickNode;
+            form_SheetsManager.SheetsManagerDoubleClickNode += SheetsManagerDoubleClickNode;
+
+
+            #endregion
+
+
         }
+
 
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
@@ -38,10 +55,12 @@ namespace XAdd
             ribbon.ButtonInsertDateClicked += Ribbon_ButtonInsertDate;
             ribbon.ButtonAppendSheetsCustom += Ribbon_ButtonAppendSheetsCustom;
             ribbon.ButtonTableOfContentsClicked += Ribbon_ButtonTableOfContents;
+            ribbon.ButtonSheetsManagerClicked += Ribbon_ButtonSheetsManager;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
 
-      
+    
+
 
         #region Удаление столбцов
         private void Ribbon_ButtonRemoveColumns() //удаляет столбцы на активном листе. кнопка нажата
@@ -423,7 +442,42 @@ namespace XAdd
 
         #endregion
 
+        #region Диспетчер листов
 
+        private void Ribbon_ButtonSheetsManager()
+        {
+            form_SheetsManager.treeView1.Nodes.Clear();
+
+            foreach (Excel.Workbook wb in Application.Workbooks)
+            {
+                form_SheetsManager.treeView1.Nodes.Add(wb.Name, wb.Name);
+                TreeNode[] tnd = form_SheetsManager.treeView1.Nodes.Find(wb.Name, false);
+                form_SheetsManager.treeView1.SelectedNode = tnd[0];
+                foreach (Excel.Worksheet ws in Application.Worksheets)
+                {
+                    form_SheetsManager.treeView1.SelectedNode.Nodes.Add(wb.Name, ws.Name);
+                }
+            }
+
+            form_SheetsManager.Show();
+        }
+
+        private void SheetsManagerDoubleClickNode()
+        {
+            
+        }
+
+        private void SheetsManagerClickNode()
+        {
+
+            
+            
+
+
+        }
+
+
+        #endregion
 
 
 

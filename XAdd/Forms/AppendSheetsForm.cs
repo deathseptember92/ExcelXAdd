@@ -60,5 +60,11 @@ namespace XAdd
         {
          
         }
+
+        private void AppendSheetsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel=true;
+        }
     }
 }
