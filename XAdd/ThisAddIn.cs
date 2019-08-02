@@ -470,11 +470,12 @@ namespace XAdd
         private void SheetsManagerClickNode()
         {
 
-            if (form_SheetsManager.treeView1.SelectedNode.Nodes.Count>0)
+            if (form_SheetsManager.treeView1.SelectedNode.Parent!=null)
             {
                 MessageBox.Show(form_SheetsManager.treeView1.SelectedNode.Text);
             }
-            
+                
+
 
         }
 

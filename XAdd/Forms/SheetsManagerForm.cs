@@ -27,14 +27,16 @@ namespace XAdd
             e.Cancel = true;
         }
 
-        private void TreeView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            SheetsManagerDoubleClickNode?.Invoke();
+            treeView1.SelectedNode = e.Node;
+            SheetsManagerClickNode?.Invoke();
         }
 
-        private void TreeView1_Click(object sender, EventArgs e)
+        private void TreeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            SheetsManagerClickNode?.Invoke();
+            treeView1.SelectedNode = e.Node;
+            SheetsManagerDoubleClickNode?.Invoke();
         }
     }
 }
