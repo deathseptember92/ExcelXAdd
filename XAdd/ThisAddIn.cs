@@ -458,7 +458,7 @@ namespace XAdd
                     form_SheetsManager.treeView1.SelectedNode.Nodes.Add(wb.Name, ws.Name);
                 }
             }
-
+            form_SheetsManager.treeView1.ExpandAll();
             form_SheetsManager.Show();
         }
 
@@ -469,10 +469,19 @@ namespace XAdd
 
         private void SheetsManagerClickNode()
         {
-
+            if (form_SheetsManager.treeView1.SelectedNode.Nodes.Count>0)
+            {
+                Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
+                int LastCol = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+                //form_SheetsManager.dataGridView1.ColumnCount = LastCol;
+                for (int i = 0; i < LastCol; i++)
+                {
+                    form_SheetsManager.dataGridView1.Columns.Add("col1",actSheet.Cells[1, i]);
+                }
+            }
             
             
-
 
         }
 
