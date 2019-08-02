@@ -453,7 +453,7 @@ namespace XAdd
                 form_SheetsManager.treeView1.Nodes.Add(wb.Name, wb.Name);
                 TreeNode[] tnd = form_SheetsManager.treeView1.Nodes.Find(wb.Name, false);
                 form_SheetsManager.treeView1.SelectedNode = tnd[0];
-                foreach (Excel.Worksheet ws in Application.Worksheets)
+                foreach (Excel.Worksheet ws in wb.Sheets)
                 {
                     form_SheetsManager.treeView1.SelectedNode.Nodes.Add(wb.Name, ws.Name);
                 }
@@ -469,8 +469,11 @@ namespace XAdd
 
         private void SheetsManagerClickNode()
         {
-            
-            
+
+            if (form_SheetsManager.treeView1.SelectedNode.Nodes.Count>0)
+            {
+                MessageBox.Show(form_SheetsManager.treeView1.SelectedNode.Text);
+            }
             
 
         }
