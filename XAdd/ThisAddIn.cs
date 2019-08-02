@@ -18,14 +18,7 @@ namespace XAdd
         
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-            //Office.CommandBar CellMenu = this.Application.CommandBars["Cell"];
-            //CellMenu.Reset();
-            //Office.MsoControlType menuItem = Office.MsoControlType.msoControlButton;
-            //Office.CommandBarButton exampleMenuItem = (Office.CommandBarButton)CellMenu.Controls.Add(menuItem, missing, missing, 1, true);
-            //exampleMenuItem.Style = Office.MsoButtonStyle.msoButtonCaption;
-            //exampleMenuItem.Caption = "Вставить дату";
-            //exampleMenuItem.Click += new Microsoft.Office.Core._CommandBarButtonEvents_ClickEventHandler(ribbon_ButtonInsertDate);
-            //form_DatePicker.DateSelected += DatePicker_dateSelected;
+
             form_AppendSheetsCustom.SelectedNodesToFinalList += AppendSheetsCustom_SelectedNodesToList;
             form_AppendSheetsCustom.RemoveNodesFromFinalList += AppendSheetsCustom_RemoveNodesFromList;
             form_AppendSheetsCustom.AppendSheetsClicked += AppendSheetsCustom_Append;
