@@ -28,6 +28,7 @@
     <AssemblyName>XAdd</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>опубликовать\</PublishUrl>
     <InstallUrl />
@@ -37,7 +38,6 @@
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <IsWebBootstrapper>False</IsWebBootstrapper>
     <ProductName>XAdd</ProductName>
     <PublisherName />
     <SupportUrl />
@@ -247,6 +247,7 @@
       <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
+    <None Include="XAdd_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\appendtable.png" />
@@ -280,7 +281,7 @@
     <ManifestKeyFile>XAdd_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>34F56E786AB3E8ABA9308DAD116917F6B3DBBE1B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>0C58D26EE7B3ADDF7331E6C78EAC5C61993356CE</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
