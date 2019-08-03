@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // treeView1
@@ -48,9 +48,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(334, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(335, 13);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(517, 418);
+            this.dataGridView1.Size = new System.Drawing.Size(516, 417);
             this.dataGridView1.TabIndex = 1;
             // 
             // SheetsManagerForm
@@ -63,8 +63,8 @@
             this.Name = "SheetsManagerForm";
             this.Text = "SheetsManagerForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SheetsManagerForm_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -72,7 +72,7 @@
         #endregion
 
         internal System.Windows.Forms.TreeView treeView1;
-        internal System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.BindingSource bindingSource1;
+        internal System.Windows.Forms.DataGridView dataGridView1;
     }
 }

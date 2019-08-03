@@ -464,19 +464,31 @@ namespace XAdd
 
         private void SheetsManagerDoubleClickNode()
         {
-            
+            if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
+            {
+                Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
+                actSheet.Activate();
+                
+            }
         }
 
         private void SheetsManagerClickNode()
         {
 
-            if (form_SheetsManager.treeView1.SelectedNode.Parent!=null)
+            if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
             {
-                MessageBox.Show(form_SheetsManager.treeView1.SelectedNode.Text);
+                Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
+                int lastCol = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+                for (int i = 0; i < lastCol; i++)
+                {
+                    form_SheetsManager.dataGridView1.Columns.Add(Convert.ToString(i), actSheet.Cells.Item[1,i].Value);
+                }
+
+                form_SheetsManager.dataGridView1.Update();
+
             }
-                
-
-
         }
 
 
