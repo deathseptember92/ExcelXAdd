@@ -294,6 +294,12 @@
   <ItemGroup>
     <None Include="Resources\159-1597907_delete-garbage-remove-trash-trash-can-icon-delete1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\newdocument.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\newsheet.png" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

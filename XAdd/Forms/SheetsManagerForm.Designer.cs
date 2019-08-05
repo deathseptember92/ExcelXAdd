@@ -33,6 +33,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.NewBookButton = new System.Windows.Forms.Button();
+            this.NewSheetButton = new System.Windows.Forms.Button();
             this.OpenButton = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.RenameButton = new System.Windows.Forms.Button();
@@ -47,15 +49,21 @@
             // 
             // treeView1
             // 
+            this.treeView1.CheckBoxes = true;
+            this.treeView1.HideSelection = false;
             this.treeView1.Location = new System.Drawing.Point(18, 31);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(304, 411);
             this.treeView1.TabIndex = 0;
+            this.treeView1.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView1_BeforeCheck);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView1_NodeMouseClick);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView1_NodeMouseDoubleClick);
+            this.treeView1.MouseEnter += new System.EventHandler(this.TreeView1_MouseEnter);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.NewBookButton);
+            this.groupBox1.Controls.Add(this.NewSheetButton);
             this.groupBox1.Controls.Add(this.OpenButton);
             this.groupBox1.Controls.Add(this.RemoveButton);
             this.groupBox1.Controls.Add(this.RenameButton);
@@ -86,6 +94,30 @@
             this.panel1.TabIndex = 0;
             this.panel1.MouseEnter += new System.EventHandler(this.Panel1_MouseEnter);
             // 
+            // NewBookButton
+            // 
+            this.NewBookButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.NewBookButton.BackgroundImage = global::XAdd.Properties.Resources.newdocument;
+            this.NewBookButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.NewBookButton.Location = new System.Drawing.Point(52, 434);
+            this.NewBookButton.Name = "NewBookButton";
+            this.NewBookButton.Size = new System.Drawing.Size(40, 40);
+            this.NewBookButton.TabIndex = 4;
+            this.NewBookButton.UseVisualStyleBackColor = false;
+            this.NewBookButton.Click += new System.EventHandler(this.NewBookButton_Click);
+            // 
+            // NewSheetButton
+            // 
+            this.NewSheetButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.NewSheetButton.BackgroundImage = global::XAdd.Properties.Resources.newsheet;
+            this.NewSheetButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.NewSheetButton.Location = new System.Drawing.Point(178, 434);
+            this.NewSheetButton.Name = "NewSheetButton";
+            this.NewSheetButton.Size = new System.Drawing.Size(40, 40);
+            this.NewSheetButton.TabIndex = 3;
+            this.NewSheetButton.UseVisualStyleBackColor = false;
+            this.NewSheetButton.Click += new System.EventHandler(this.NewSheetButton_Click);
+            // 
             // OpenButton
             // 
             this.OpenButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -103,7 +135,7 @@
             this.RemoveButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RemoveButton.BackgroundImage = global::XAdd.Properties.Resources._159_1597907_delete_garbage_remove_trash_trash_can_icon_delete1;
             this.RemoveButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.RemoveButton.Location = new System.Drawing.Point(101, 434);
+            this.RemoveButton.Location = new System.Drawing.Point(270, 434);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(40, 40);
             this.RemoveButton.TabIndex = 1;
@@ -115,7 +147,7 @@
             this.RenameButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RenameButton.BackgroundImage = global::XAdd.Properties.Resources.rename;
             this.RenameButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.RenameButton.Location = new System.Drawing.Point(55, 434);
+            this.RenameButton.Location = new System.Drawing.Point(224, 434);
             this.RenameButton.Name = "RenameButton";
             this.RenameButton.Size = new System.Drawing.Size(40, 40);
             this.RenameButton.TabIndex = 0;
@@ -168,5 +200,7 @@
         private System.Windows.Forms.Button RenameButton;
         private System.Windows.Forms.Button OpenButton;
         private System.Windows.Forms.Button RemoveButton;
+        private System.Windows.Forms.Button NewBookButton;
+        private System.Windows.Forms.Button NewSheetButton;
     }
 }

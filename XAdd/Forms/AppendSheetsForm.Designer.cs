@@ -93,6 +93,7 @@
             // AppendSheetsCancel
             // 
             this.AppendSheetsCancel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.AppendSheetsCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.AppendSheetsCancel.Location = new System.Drawing.Point(890, 443);
             this.AppendSheetsCancel.Name = "AppendSheetsCancel";
             this.AppendSheetsCancel.Size = new System.Drawing.Size(135, 37);
@@ -133,9 +134,11 @@
             // 
             // AppendSheetsForm
             // 
+            this.AcceptButton = this.AppendSheetsOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.CancelButton = this.AppendSheetsCancel;
             this.ClientSize = new System.Drawing.Size(1037, 492);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.checkBox1);

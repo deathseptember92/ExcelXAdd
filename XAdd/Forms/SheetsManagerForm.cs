@@ -18,6 +18,9 @@ namespace XAdd
         public event Action SheetsManagerOpenClicked;
         public event Action SheetsManagerRenameClicked;
         public event Action SheetsManagerRemoveClicked;
+        public event Action SheetsManagerNewBookClicked;
+        public event Action SheetsManagerNewSheetClicked;
+
 
         public SheetsManagerForm()
         {
@@ -76,6 +79,30 @@ namespace XAdd
         private void RemoveButton_Click(object sender, EventArgs e)
         {
             SheetsManagerRemoveClicked?.Invoke();
+        }
+
+        private void NewBookButton_Click(object sender, EventArgs e)
+        {
+            SheetsManagerNewBookClicked?.Invoke();
+        }
+
+        private void NewSheetButton_Click(object sender, EventArgs e)
+        {
+            SheetsManagerNewSheetClicked?.Invoke();
+        }
+
+        private void TreeView1_MouseEnter(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void TreeView1_BeforeCheck(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.Parent==null)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
