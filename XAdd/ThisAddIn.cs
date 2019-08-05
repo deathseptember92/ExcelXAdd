@@ -528,6 +528,8 @@ namespace XAdd
                     }
 
                     Form_SheetsManager_Refresh();
+                    form_SheetsManager.treeView1.SelectedNode = form_SheetsManager.treeView1.SelectedNode.LastNode;
+                    form_SheetsManager.treeView1.Focus();
                 }
                 catch (Exception ex)
                 {
@@ -604,6 +606,7 @@ namespace XAdd
             
             if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
             {
+                TreeNode selectedNode = form_SheetsManager.treeView1.SelectedNode;
                 Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
                 Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
 
@@ -611,6 +614,8 @@ namespace XAdd
                 {
                     actWb.Worksheets.Add(missing, actSheet, 1, Excel.XlSheetType.xlWorksheet);
                     Form_SheetsManager_Refresh();
+                    form_SheetsManager.treeView1.SelectedNode = selectedNode;
+                    form_SheetsManager.treeView1.Focus();
 
 
                 }
@@ -638,8 +643,10 @@ namespace XAdd
             }
         }
         private void Form_SheetsManager_SheetsManagerNewBook() //кнопка добавить книгу
-        { 
-            throw new NotImplementedException();
+        {
+            Application.Workbooks.Add(missing);
+            Form_SheetsManager_Refresh();
+            form_SheetsManager.Activate();
         }
 
         private void Form_SheetsManager_Refresh()// обновление Treeview книг и листов

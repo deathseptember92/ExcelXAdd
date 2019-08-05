@@ -20,11 +20,12 @@ namespace XAdd
         public event Action SheetsManagerRemoveClicked;
         public event Action SheetsManagerNewBookClicked;
         public event Action SheetsManagerNewSheetClicked;
-
+        
 
         public SheetsManagerForm()
         {
             InitializeComponent();
+
         }
 
         private void SheetsManagerForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -93,7 +94,7 @@ namespace XAdd
 
         private void TreeView1_MouseEnter(object sender, EventArgs e)
         {
-            
+            treeView1.Focus();
 
         }
 
@@ -104,5 +105,7 @@ namespace XAdd
                 e.Cancel = true;
             }
         }
+
+
     }
 }
