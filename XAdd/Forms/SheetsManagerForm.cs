@@ -15,6 +15,9 @@ namespace XAdd
 
         public event Action SheetsManagerClickNode;
         public event Action SheetsManagerDoubleClickNode;
+        public event Action SheetsManagerOpenClicked;
+        public event Action SheetsManagerRenameClicked;
+        public event Action SheetsManagerRemoveClicked;
 
         public SheetsManagerForm()
         {
@@ -37,6 +40,42 @@ namespace XAdd
         {
             treeView1.SelectedNode = e.Node;
             SheetsManagerDoubleClickNode?.Invoke();
+        }
+
+        private void SheetsManagerForm_Activated(object sender, EventArgs e)
+        {
+            pictureBox1.Image = null;
+
+        }
+
+        private void Panel1_MouseEnter(object sender, EventArgs e)
+        {
+            panel1.Focus();
+        }
+
+        private void PictureBox1_MouseEnter(object sender, EventArgs e)
+        {
+            panel1.Focus();
+        }
+
+        private void SheetsManagerForm_Deactivate(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OpenButton_Click(object sender, EventArgs e)
+        {
+            SheetsManagerOpenClicked?.Invoke();
+        }
+
+        private void RenameButton_Click(object sender, EventArgs e)
+        {
+            SheetsManagerRenameClicked?.Invoke();
+        }
+
+        private void RemoveButton_Click(object sender, EventArgs e)
+        {
+            SheetsManagerRemoveClicked?.Invoke();
         }
     }
 }

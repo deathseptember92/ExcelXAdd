@@ -63,6 +63,26 @@ namespace XAdd.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _159_1597907_delete_garbage_remove_trash_trash_can_icon_delete {
+            get {
+                object obj = ResourceManager.GetObject("159-1597907_delete-garbage-remove-trash-trash-can-icon-delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _159_1597907_delete_garbage_remove_trash_trash_can_icon_delete1 {
+            get {
+                object obj = ResourceManager.GetObject("159-1597907_delete-garbage-remove-trash-trash-can-icon-delete1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap appendtable {
             get {
                 object obj = ResourceManager.GetObject("appendtable", resourceCulture);
@@ -103,6 +123,26 @@ namespace XAdd.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap open {
+            get {
+                object obj = ResourceManager.GetObject("open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap open1 {
+            get {
+                object obj = ResourceManager.GetObject("open1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap removecolumn {
             get {
                 object obj = ResourceManager.GetObject("removecolumn", resourceCulture);
@@ -116,6 +156,16 @@ namespace XAdd.Properties {
         internal static System.Drawing.Bitmap removecolumns {
             get {
                 object obj = ResourceManager.GetObject("removecolumns", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rename {
+            get {
+                object obj = ResourceManager.GetObject("rename", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
