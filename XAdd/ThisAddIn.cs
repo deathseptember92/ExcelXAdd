@@ -405,8 +405,8 @@ namespace XAdd
                 Excel.Worksheet finishSheet = Application.Sheets["Job"];
                 finishSheet.Cells[1,1].EntireRow.Delete();
 
-            } 
-            
+            }
+            Clipboard.Clear();
         }
 
 
@@ -612,9 +612,9 @@ namespace XAdd
 
                 try
                 {
-                    actWb.Worksheets.Add(missing, actSheet, 1, Excel.XlSheetType.xlWorksheet);
-                    Form_SheetsManager_Refresh();
-                    form_SheetsManager.treeView1.SelectedNode = selectedNode;
+                    Excel.Worksheet newSheet =  actWb.Worksheets.Add(missing, actSheet, 1, Excel.XlSheetType.xlWorksheet);
+                    TreeNode addNode = form_SheetsManager.treeView1.SelectedNode.Parent.Nodes.Insert(selectedNode.Index + 1, actWb.Name, newSheet.Name);
+                    form_SheetsManager.treeView1.SelectedNode = addNode;
                     form_SheetsManager.treeView1.Focus();
 
 
@@ -629,10 +629,13 @@ namespace XAdd
             else
             {
                 Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                TreeNode selectedNode = form_SheetsManager.treeView1.SelectedNode;
                 try
                 {
-                    actWb.Worksheets.Add(missing, missing, 1, Excel.XlSheetType.xlWorksheet);
-                    Form_SheetsManager_Refresh();
+                    Excel.Worksheet newSheet = actWb.Worksheets.Add(missing, missing, 1, Excel.XlSheetType.xlWorksheet);
+                    TreeNode addNode = form_SheetsManager.treeView1.SelectedNode.Nodes.Insert(selectedNode.Index + 1, actWb.Name, newSheet.Name);
+                    form_SheetsManager.treeView1.SelectedNode = addNode;
+                    form_SheetsManager.treeView1.Focus();
                 }
                 catch (Exception ex)
                 {
