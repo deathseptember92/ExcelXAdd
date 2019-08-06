@@ -43,6 +43,7 @@
             this.AppendSheetsCustom = this.Factory.CreateRibbonButton();
             this.TableOfContents = this.Factory.CreateRibbonButton();
             this.InsertDate = this.Factory.CreateRibbonButton();
+            this.SheetsManager = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -69,6 +70,7 @@
             this.group2.Items.Add(this.AppendSheets);
             this.group2.Items.Add(this.AppendSheetsCustom);
             this.group2.Items.Add(this.TableOfContents);
+            this.group2.Items.Add(this.SheetsManager);
             this.group2.Label = "Листы";
             this.group2.Name = "group2";
             // 
@@ -124,6 +126,12 @@
             this.InsertDate.SuperTip = "Выделите ячейку или диапозон ячеек для вставки даты";
             this.InsertDate.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.InsertDate_Click);
             // 
+            // SheetsManager
+            // 
+            this.SheetsManager.Label = "Диспетчер листов";
+            this.SheetsManager.Name = "SheetsManager";
+            this.SheetsManager.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SheetsManager_Click);
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -153,6 +161,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton InsertDate;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton AppendSheetsCustom;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton TableOfContents;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton SheetsManager;
     }
 
     partial class ThisRibbonCollection

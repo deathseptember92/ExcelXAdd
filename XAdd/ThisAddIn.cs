@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.OleDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +17,34 @@ namespace XAdd
     {
         DatePickerForm form_DatePicker = new DatePickerForm();
         AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
-        
+        SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
+        SheetRenameForm form_SheetRename = new SheetRenameForm();
+
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            #region Обработчики_ОбъединениеЛистов
 
             form_AppendSheetsCustom.SelectedNodesToFinalList += AppendSheetsCustom_SelectedNodesToList;
             form_AppendSheetsCustom.RemoveNodesFromFinalList += AppendSheetsCustom_RemoveNodesFromList;
             form_AppendSheetsCustom.AppendSheetsClicked += AppendSheetsCustom_Append;
+
+            #endregion
+
+            #region Обработчики_ДиспетчерЛистов
+
+            form_SheetsManager.SheetsManagerClickNode += SheetsManagerClickNode;
+            form_SheetsManager.SheetsManagerDoubleClickNode += SheetsManagerDoubleClickNode;
+            form_SheetsManager.SheetsManagerOpenClicked += Form_SheetsManager_SheetsManagerOpen;
+            form_SheetsManager.SheetsManagerRenameClicked += Form_SheetsManager_SheetsManagerRename;
+            form_SheetsManager.SheetsManagerRemoveClicked += Form_SheetsManager_SheetsManagerRemove;
+            form_SheetsManager.SheetsManagerNewBookClicked += Form_SheetsManager_SheetsManagerNewBook;
+            form_SheetsManager.SheetsManagerNewSheetClicked += Form_SheetsManager_SheetsManagerNewSheet;
+
+            #endregion
+
+
         }
+
 
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
@@ -38,10 +60,12 @@ namespace XAdd
             ribbon.ButtonInsertDateClicked += Ribbon_ButtonInsertDate;
             ribbon.ButtonAppendSheetsCustom += Ribbon_ButtonAppendSheetsCustom;
             ribbon.ButtonTableOfContentsClicked += Ribbon_ButtonTableOfContents;
+            ribbon.ButtonSheetsManagerClicked += Ribbon_ButtonSheetsManager;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
 
-      
+    
+
 
         #region Удаление столбцов
         private void Ribbon_ButtonRemoveColumns() //удаляет столбцы на активном листе. кнопка нажата
@@ -188,7 +212,7 @@ namespace XAdd
                 }
 
             }
-            Microsoft.VisualBasic.Interaction.MsgBox("Листы успешно объединены!", Buttons: Microsoft.VisualBasic.MsgBoxStyle.Information, "XAdd");
+            jobSheet.Cells[1, 1].EntireRow.Delete();
             Application.DisplayAlerts = true;
         }
 
@@ -378,8 +402,11 @@ namespace XAdd
                         jobSheet.Paste(jobSheet.Cells[LastRow + 1, 1]);
                     }
                 }
-            } 
-            
+                Excel.Worksheet finishSheet = Application.Sheets["Job"];
+                finishSheet.Cells[1,1].EntireRow.Delete();
+
+            }
+            Clipboard.Clear();
         }
 
 
@@ -423,7 +450,227 @@ namespace XAdd
 
         #endregion
 
+        #region Диспетчер листов
 
+        private void Ribbon_ButtonSheetsManager()
+        {
+            form_SheetsManager.Hide();
+            form_SheetsManager.treeView1.Nodes.Clear(); //наполнение Treeview списком книг и листов
+
+            foreach (Excel.Workbook wb in Application.Workbooks)
+            {
+                form_SheetsManager.treeView1.Nodes.Add(wb.Name, wb.Name);
+                TreeNode[] tnd = form_SheetsManager.treeView1.Nodes.Find(wb.Name, false);
+                form_SheetsManager.treeView1.SelectedNode = tnd[0];
+                foreach (Excel.Worksheet ws in wb.Sheets)
+                {
+                    form_SheetsManager.treeView1.SelectedNode.Nodes.Add(wb.Name, ws.Name);
+                }
+            }
+            form_SheetsManager.treeView1.ExpandAll();
+            form_SheetsManager.Show();
+        }
+
+        private void SheetsManagerDoubleClickNode()
+        { //двойной клик по листу из Treeview1
+            if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
+            {
+                Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
+                actSheet.Activate();
+                
+            }
+        }
+
+        private void SheetsManagerClickNode() //клик по листу из Treeview1
+        { 
+
+            if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
+            {
+                Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
+                int lastCol = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+                actSheet.Range[actSheet.Cells[1, 1], actSheet.Cells[100, lastCol]].CopyPicture(Excel.XlPictureAppearance.xlScreen, Excel.XlCopyPictureFormat.xlBitmap); //вывод превью листа
+                form_SheetsManager.pictureBox1.Image = Clipboard.GetImage();
+                Clipboard.Clear();
+            }
+        }
+
+        private void Form_SheetsManager_SheetsManagerRemove() // кнопка удаление листа
+        { 
+            if (form_SheetsManager.treeView1.SelectedNode.Parent!=null)
+            {
+
+                try
+                {
+                    Excel.Workbook actWb;
+                    Excel.Worksheet actSheet;
+                    
+                    foreach (TreeNode node in form_SheetsManager.treeView1.Nodes)
+                    {
+                        foreach (TreeNode childNode in node.Nodes)
+                        {
+                            if (childNode.Checked)
+                            {
+                                actWb = Application.Workbooks.Item[childNode.Name];
+                                actSheet = actWb.Sheets.Item[childNode.Text];
+                                actSheet.Delete();
+                            }
+                            else if (childNode==form_SheetsManager.treeView1.SelectedNode)
+                            {
+                                actWb = Application.Workbooks.Item[childNode.Name];
+                                actSheet = actWb.Sheets.Item[childNode.Text];
+                                actSheet.Delete();
+                            }
+
+                        }
+                        
+                    }
+
+                    Form_SheetsManager_Refresh();
+                    form_SheetsManager.treeView1.SelectedNode = form_SheetsManager.treeView1.SelectedNode.LastNode;
+                    form_SheetsManager.treeView1.Focus();
+                }
+                catch (Exception ex)
+                {
+                    Form_SheetsManager_Refresh();
+                    MessageBox.Show(ex.Message, "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                
+            }
+        }
+
+        private void Form_SheetsManager_SheetsManagerRename() // кнопка переименовать лист
+        { 
+
+            int countChecked = 0;
+
+            foreach (TreeNode node in form_SheetsManager.treeView1.Nodes)
+            {
+                foreach (TreeNode childNode in node.Nodes)
+                {
+                    if (childNode.Checked)
+                    {
+                        countChecked++;
+                    }
+                    if (countChecked>1)
+                    {
+                        break;
+                    }
+                }
+            }
+
+
+            if (form_SheetsManager.treeView1.SelectedNode.Parent != null && countChecked<2)
+            {
+
+                Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
+                form_SheetRename.SetSheetName(actSheet.Name);
+                DialogResult dr = form_SheetRename.ShowDialog();
+                
+                if (dr==DialogResult.OK)
+                {
+                    try
+                    {
+                        actSheet.Name = form_SheetRename.textBox1.Text;
+                        Form_SheetsManager_Refresh();
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                        MessageBox.Show(ex.Message,"XAdd",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    }
+                }
+
+
+
+            }
+            else
+            {
+                MessageBox.Show("Выберите один лист!", "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void Form_SheetsManager_SheetsManagerOpen() //кнопка открыть книгу
+        { 
+            throw new NotImplementedException();
+        }
+
+        private void Form_SheetsManager_SheetsManagerNewSheet() //кнопка добавить лист
+        { 
+
+            
+            if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
+            {
+                TreeNode selectedNode = form_SheetsManager.treeView1.SelectedNode;
+                Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
+
+                try
+                {
+                    Excel.Worksheet newSheet =  actWb.Worksheets.Add(missing, actSheet, 1, Excel.XlSheetType.xlWorksheet);
+                    TreeNode addNode = form_SheetsManager.treeView1.SelectedNode.Parent.Nodes.Insert(selectedNode.Index + 1, actWb.Name, newSheet.Name);
+                    form_SheetsManager.treeView1.SelectedNode = addNode;
+                    form_SheetsManager.treeView1.Focus();
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message, "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+            else
+            {
+                Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                TreeNode selectedNode = form_SheetsManager.treeView1.SelectedNode;
+                try
+                {
+                    Excel.Worksheet newSheet = actWb.Worksheets.Add(missing, missing, 1, Excel.XlSheetType.xlWorksheet);
+                    TreeNode addNode = form_SheetsManager.treeView1.SelectedNode.Nodes.Insert(selectedNode.Index + 1, actWb.Name, newSheet.Name);
+                    form_SheetsManager.treeView1.SelectedNode = addNode;
+                    form_SheetsManager.treeView1.Focus();
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message, "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+        }
+        private void Form_SheetsManager_SheetsManagerNewBook() //кнопка добавить книгу
+        {
+            Application.Workbooks.Add(missing);
+            Form_SheetsManager_Refresh();
+            form_SheetsManager.Activate();
+        }
+
+        private void Form_SheetsManager_Refresh()// обновление Treeview книг и листов
+        {
+
+            form_SheetsManager.treeView1.Nodes.Clear(); 
+
+            foreach (Excel.Workbook wb in Application.Workbooks)
+            {
+                form_SheetsManager.treeView1.Nodes.Add(wb.Name, wb.Name);
+                TreeNode[] tnd = form_SheetsManager.treeView1.Nodes.Find(wb.Name, false);
+                form_SheetsManager.treeView1.SelectedNode = tnd[0];
+                foreach (Excel.Worksheet ws in wb.Sheets)
+                {
+                    form_SheetsManager.treeView1.SelectedNode.Nodes.Add(wb.Name, ws.Name);
+                }
+            }
+            form_SheetsManager.treeView1.ExpandAll();
+        }
+
+        #endregion
 
 
 
