@@ -602,7 +602,16 @@ namespace XAdd
         }
 
         private void Form_SheetsManager_SheetsManagerOpen() //кнопка открыть книгу
-        { 
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel Files (*.xls,*.xls,*.xlsm,*.xla,*.xlsb,*.xlam)|*.xl*";
+            if (ofd.ShowDialog()==DialogResult.OK)
+            {
+                Application.Workbooks.Open(ofd.FileName);
+                Form_SheetsManager_Refresh();
+                form_SheetsManager.Activate();
+            }
+            
 
         }
 
@@ -700,6 +709,7 @@ namespace XAdd
             {
                 Application.Worksheets[sheetName].Visible = Excel.XlSheetVisibility.xlSheetHidden;
             }
+            sheetsName.Clear();
 
         }
         #endregion

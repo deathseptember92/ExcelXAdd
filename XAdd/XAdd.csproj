@@ -300,6 +300,15 @@
   <ItemGroup>
     <None Include="Resources\newsheet.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eye-icon-png-viewed-accomms-10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\show_hide_password-10-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\108-1085479_document-clipart-visitor-book-documents-library-icon-png.png" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
