@@ -699,6 +699,7 @@ namespace XAdd
                 if (ws.Visible==Excel.XlSheetVisibility.xlSheetHidden||ws.Visible==Excel.XlSheetVisibility.xlSheetVeryHidden)
                 {
                     sheetsName.Add(ws.Name);
+                    ws.Tab.Color = Color.PaleVioletRed;
                     ws.Visible = Excel.XlSheetVisibility.xlSheetVisible;
                 }
                 
