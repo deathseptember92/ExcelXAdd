@@ -19,7 +19,7 @@ namespace XAdd
         AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
         SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
         SheetRenameForm form_SheetRename = new SheetRenameForm();
-
+        List<string> sheetsName = new List<string>();
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             #region Обработчики_ОбъединениеЛистов
@@ -61,10 +61,16 @@ namespace XAdd
             ribbon.ButtonAppendSheetsCustom += Ribbon_ButtonAppendSheetsCustom;
             ribbon.ButtonTableOfContentsClicked += Ribbon_ButtonTableOfContents;
             ribbon.ButtonSheetsManagerClicked += Ribbon_ButtonSheetsManager;
+            ribbon.ButtonShowHiddenSheetsClicked += Ribbon_ButtonShowHiddenSheets;
+            ribbon.ButtonHideHiddenSheetsClicked += Ribbon_ButtonHideHiddenSheets;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
 
-    
+        
+
+
+
+
 
 
         #region Удаление столбцов
@@ -597,7 +603,7 @@ namespace XAdd
 
         private void Form_SheetsManager_SheetsManagerOpen() //кнопка открыть книгу
         { 
-            throw new NotImplementedException();
+
         }
 
         private void Form_SheetsManager_SheetsManagerNewSheet() //кнопка добавить лист
@@ -672,7 +678,31 @@ namespace XAdd
 
         #endregion
 
+        #region Показать/скрыть скрытые листы
+        private void Ribbon_ButtonShowHiddenSheets()
+        {
+            
 
+            foreach (Excel.Worksheet ws in Application.ActiveWorkbook.Sheets)
+            {
+                if (ws.Visible==Excel.XlSheetVisibility.xlSheetHidden||ws.Visible==Excel.XlSheetVisibility.xlSheetVeryHidden)
+                {
+                    sheetsName.Add(ws.Name);
+                    ws.Visible = Excel.XlSheetVisibility.xlSheetVisible;
+                }
+                
+            }
+        }
+
+        private void Ribbon_ButtonHideHiddenSheets()
+        {
+            foreach (string sheetName in sheetsName)
+            {
+                Application.Worksheets[sheetName].Visible = Excel.XlSheetVisibility.xlSheetHidden;
+            }
+
+        }
+        #endregion
 
 
         #region Код, автоматически созданный VSTO

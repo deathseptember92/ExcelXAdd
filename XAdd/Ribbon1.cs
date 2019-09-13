@@ -14,6 +14,8 @@ namespace XAdd
         public event Action ButtonAppendSheetsCustom;
         public event Action ButtonTableOfContentsClicked;
         public event Action ButtonSheetsManagerClicked;
+        public event Action ButtonShowHiddenSheetsClicked;
+        public event Action ButtonHideHiddenSheetsClicked;
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
 
@@ -49,6 +51,18 @@ namespace XAdd
         private void SheetsManager_Click(object sender, RibbonControlEventArgs e)
         {
             ButtonSheetsManagerClicked?.Invoke();
+        }
+
+        private void ShowHiddenSheets_Click(object sender, RibbonControlEventArgs e)
+        {
+            HideHiddenSheets.Visible = true;
+            ButtonShowHiddenSheetsClicked?.Invoke();
+        }
+
+        private void HideHiddenSheets_Click(object sender, RibbonControlEventArgs e)
+        {
+            ButtonHideHiddenSheetsClicked?.Invoke();
+            HideHiddenSheets.Visible = false;
         }
     }
 }
