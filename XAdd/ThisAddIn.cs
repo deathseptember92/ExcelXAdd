@@ -42,6 +42,8 @@ namespace XAdd
 
             #endregion
 
+            form_DatePicker.DateSelected += DatePicker_dateSelected;// обработчик выбор даты
+
 
         }
 

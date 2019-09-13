@@ -31,13 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.NewBookButton = new System.Windows.Forms.Button();
             this.NewSheetButton = new System.Windows.Forms.Button();
             this.OpenButton = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.RenameButton = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
@@ -73,26 +73,6 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Список листов";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.panel1);
-            this.groupBox2.Location = new System.Drawing.Point(334, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(641, 480);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Предпросмотр";
-            // 
-            // panel1
-            // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(7, 20);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(628, 454);
-            this.panel1.TabIndex = 0;
-            this.panel1.MouseEnter += new System.EventHandler(this.Panel1_MouseEnter);
             // 
             // NewBookButton
             // 
@@ -153,6 +133,26 @@
             this.RenameButton.TabIndex = 0;
             this.RenameButton.UseVisualStyleBackColor = false;
             this.RenameButton.Click += new System.EventHandler(this.RenameButton_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.panel1);
+            this.groupBox2.Location = new System.Drawing.Point(334, 12);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(641, 480);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Предпросмотр";
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Location = new System.Drawing.Point(7, 20);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(628, 454);
+            this.panel1.TabIndex = 0;
+            this.panel1.MouseEnter += new System.EventHandler(this.Panel1_MouseEnter);
             // 
             // pictureBox1
             // 

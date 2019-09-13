@@ -36,5 +36,11 @@ namespace XAdd
             DateSelect = monthCalendar1.SelectionStart;
             DateSelected?.Invoke();
         }
+
+        private void MonthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            DateSelect = monthCalendar1.SelectionStart;
+            DateSelected?.Invoke();
+        }
     }
 }
