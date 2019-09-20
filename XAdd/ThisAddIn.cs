@@ -207,9 +207,13 @@ namespace XAdd
             {
                 if (ws.Index != 1)
                 {
+                    LastCol = ws.Cells.Find("*", System.Reflection.Missing.Value,
+                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
 
-                    LastRow = ws.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
-                    LastCol = ws.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+                    LastRow = ws.Cells.Find("*", System.Reflection.Missing.Value,
+                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows, 
+                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
                     shName = "*********************** " + ws.Name + " ******************************";
                     ws.Range[ws.Cells[1, 1], ws.Cells[LastRow, LastCol]].Copy();
                     LastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row + 1;
@@ -343,8 +347,15 @@ namespace XAdd
                         {
                             actWb = Application.Workbooks.Item[childNode.Name];
                             actSheet = actWb.Sheets[childNode.Text];
-                            LastRow = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
-                            LastCol = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+
+                            LastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+
+                            LastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
                             actSheet.Range[actSheet.Cells[2, 1], actSheet.Cells[LastRow, LastCol]].Copy();
                             LastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row + 1;
                             jobSheet.Paste(jobSheet.Cells[LastRow, 1]);
@@ -381,8 +392,15 @@ namespace XAdd
                         {
                             Excel.Workbook actWb = Application.Workbooks.Item[childNode.Name];
                             Excel.Worksheet actSheet = actWb.Sheets[childNode.Text];
-                            LastRow = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
-                            LastCol = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+
+                            LastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+
+                            LastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
                             shName = "*********************** " + actWb.Name + "\\" + actSheet.Name + " ******************************";
                             actSheet.Range[actSheet.Cells[1, 1], actSheet.Cells[LastRow, LastCol]].Copy();
                             Excel.Workbook jobWb = Application.Workbooks.Item[JobWb];
@@ -398,8 +416,15 @@ namespace XAdd
                     {
                         Excel.Workbook actWb = Application.Workbooks.Item[node.Name];
                         Excel.Worksheet actSheet = actWb.Sheets[node.Text];
-                        LastRow = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
-                        LastCol = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+
+                        LastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+
+                        LastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
                         shName = "*********************** " + actWb.Name + "\\" + actSheet.Name + " ******************************";
                         actSheet.Range[actSheet.Cells[1, 1], actSheet.Cells[LastRow, LastCol]].Copy();
                         Excel.Workbook jobWb = Application.Workbooks.Item[JobWb];
