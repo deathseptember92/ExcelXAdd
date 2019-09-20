@@ -228,13 +228,22 @@ namespace XAdd
             {
                 if (ws.Index != 1)
                 {
-                    LastCol = ws.Cells.Find("*", System.Reflection.Missing.Value,
-                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
-                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                    try
+                    {
+                        LastCol = ws.Cells.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                    }
+                    catch (Exception)
+                    {
 
+                        continue;
+                    }
+                    
                     LastRow = ws.Cells.Find("*", System.Reflection.Missing.Value,
                     System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows, 
                     Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
                     shName = "*********************** " + ws.Name + " ******************************";
                     ws.Range[ws.Cells[1, 1], ws.Cells[LastRow, LastCol]].Copy();
                     LastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row + 1;
@@ -353,6 +362,28 @@ namespace XAdd
             { // объединение с учетом заголовков
                 long LastRow;
                 long LastCol;
+                bool answer = false;
+
+                DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
+                switch (dr)
+                {
+                    case DialogResult.None:
+                        return;
+                    case DialogResult.OK:
+                        answer = true;
+                        break;
+                    case DialogResult.Cancel:
+                        return;
+                    case DialogResult.Yes:
+                        answer = true;
+                        break;
+                    case DialogResult.No:
+                        answer = false;
+                        break;
+                    default:
+                        break;
+                }
+
                 Application.Workbooks.Add();
                 string jobWbString = Application.ActiveWorkbook.Name;
                 Application.ActiveSheet.Name = "Job";
@@ -378,9 +409,18 @@ namespace XAdd
                             actWb = Application.Workbooks.Item[childNode.Name];
                             actSheet = actWb.Sheets[childNode.Text];
 
+                            try
+                            {
                             LastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
                             System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
                             Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                            }
+                            catch (Exception)
+                            {
+
+                                continue;
+                            }
+                            
 
                             LastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
                             System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
@@ -388,7 +428,15 @@ namespace XAdd
 
                             actSheet.Range[actSheet.Cells[2, 1], actSheet.Cells[LastRow, LastCol]].Copy();
                             LastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row + 1;
-                            jobSheet.Paste(jobSheet.Cells[LastRow, 1]);
+                            if (answer)
+                            {
+                                jobSheet.Paste(jobSheet.Cells[LastRow, 1]);
+                            }
+                            else
+                            {
+                                jobSheet.Cells[LastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                jobSheet.Cells[LastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                            }
                         }
 
                     }
@@ -396,11 +444,35 @@ namespace XAdd
                     {
                         actWb = Application.Workbooks.Item[node.Name];
                         actSheet = actWb.Sheets[node.Text];
-                        LastRow = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
-                        LastCol = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+
+                        try
+                        {
+                            LastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                        }
+                        catch (Exception)
+                        {
+
+                            continue;
+                        }
+
+
+                        LastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
                         actSheet.Range[actSheet.Cells[2, 1], actSheet.Cells[LastRow, LastCol]].Copy();
                         LastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row + 1;
-                        jobSheet.Paste(jobSheet.Cells[LastRow, 1]);
+                        if (answer)
+                        {
+                            jobSheet.Paste(jobSheet.Cells[LastRow, 1]);
+                        }
+                        else
+                        {
+                            jobSheet.Cells[LastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                            jobSheet.Cells[LastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                        }
                     }
                 }
             }
@@ -409,6 +481,28 @@ namespace XAdd
                 long LastRow;
                 long LastCol;
                 string shName;
+                bool answer = false;
+
+                DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
+                switch (dr)
+                {
+                    case DialogResult.None:
+                        return;
+                    case DialogResult.OK:
+                        answer = true;
+                        break;
+                    case DialogResult.Cancel:
+                        return;
+                    case DialogResult.Yes:
+                        answer = true;
+                        break;
+                    case DialogResult.No:
+                        answer = false;
+                        break;
+                    default:
+                        break;
+                }
+
                 Application.Workbooks.Add();
                 string JobWb = Application.ActiveWorkbook.Name;
                 Application.ActiveSheet.Name = "Job";
@@ -423,9 +517,18 @@ namespace XAdd
                             Excel.Workbook actWb = Application.Workbooks.Item[childNode.Name];
                             Excel.Worksheet actSheet = actWb.Sheets[childNode.Text];
 
+                            try
+                            {
                             LastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
                             System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
                             Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                            }
+                            catch (Exception)
+                            {
+
+                                continue;
+                            }
+                            
 
                             LastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
                             System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
@@ -438,7 +541,15 @@ namespace XAdd
                             LastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row + 1;
                             jobSheet.Cells[LastRow, 1].EntireRow.Interior.ColorIndex = 6;
                             jobSheet.Cells[LastRow, 1].Value = shName;
-                            jobSheet.Paste(jobSheet.Cells[LastRow + 1, 1]);
+                            if (answer)
+                            {
+                                jobSheet.Paste(jobSheet.Cells[LastRow + 1, 1]);
+                            }
+                            else
+                            {
+                                jobSheet.Cells[LastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                jobSheet.Cells[LastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                            }
                         }
 
                     }
@@ -447,9 +558,17 @@ namespace XAdd
                         Excel.Workbook actWb = Application.Workbooks.Item[node.Name];
                         Excel.Worksheet actSheet = actWb.Sheets[node.Text];
 
-                        LastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
-                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
-                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                        try
+                        {
+                            LastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                        }
+                        catch (Exception)
+                        {
+
+                            continue;
+                        }
 
                         LastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
                         System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
@@ -462,7 +581,15 @@ namespace XAdd
                         LastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row + 1;
                         jobSheet.Cells[LastRow, 1].EntireRow.Interior.ColorIndex = 6;
                         jobSheet.Cells[LastRow, 1].Value = shName;
-                        jobSheet.Paste(jobSheet.Cells[LastRow + 1, 1]);
+                        if (answer)
+                        {
+                            jobSheet.Paste(jobSheet.Cells[LastRow + 1, 1]);
+                        }
+                        else
+                        {
+                            jobSheet.Cells[LastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                            jobSheet.Cells[LastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                        }
                     }
                 }
                 Excel.Worksheet finishSheet = Application.Sheets["Job"];
