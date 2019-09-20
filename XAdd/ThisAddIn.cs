@@ -188,6 +188,27 @@ namespace XAdd
             long LastRow;
             long LastCol;
             string shName;
+            bool answer=false;
+
+            DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
+            switch (dr)
+            {
+                case DialogResult.None:
+                    return;
+                case DialogResult.OK:
+                    answer=true;
+                    break;
+                case DialogResult.Cancel:
+                    return;
+                case DialogResult.Yes:
+                    answer=true;
+                    break;
+                case DialogResult.No:
+                    answer = false;
+                    break;
+                default:
+                    break;
+            }
 
             try
             {
@@ -219,8 +240,17 @@ namespace XAdd
                     LastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row + 1;
                     jobSheet.Cells[LastRow, 1].EntireRow.Interior.ColorIndex = 6;
                     jobSheet.Cells[LastRow, 1].Value = shName;
-                    jobSheet.Paste(jobSheet.Cells[LastRow + 1, 1]);
-
+                    if (answer)
+                    {
+                        jobSheet.Paste(jobSheet.Cells[LastRow + 1, 1]);
+                    }
+                    else
+                    {
+                        jobSheet.Cells[LastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                        jobSheet.Cells[LastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                    }
+                    
+                    
                 }
 
             }
