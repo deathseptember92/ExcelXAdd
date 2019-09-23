@@ -693,13 +693,25 @@ namespace XAdd
         }
 
         private void SheetsManagerClickNode() //клик по листу из Treeview1
-        { 
+        {
+            int lastCol=1;
 
             if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
             {
                 Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
                 Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
-                int lastCol = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+                
+
+                try
+                {
+                    lastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                }
+                catch (Exception)
+                {
+
+                }
                 actSheet.Range[actSheet.Cells[1, 1], actSheet.Cells[100, lastCol]].CopyPicture(Excel.XlPictureAppearance.xlScreen, Excel.XlCopyPictureFormat.xlBitmap); //вывод превью листа
                 form_SheetsManager.pictureBox1.Image = Clipboard.GetImage();
                 Clipboard.Clear();
