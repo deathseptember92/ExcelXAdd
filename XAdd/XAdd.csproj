@@ -259,6 +259,7 @@
     </Compile>
     <AppDesigner Include="Properties\" />
     <None Include="XAdd_1_TemporaryKey.pfx" />
+    <None Include="XAdd_2_TemporaryKey.pfx" />
     <None Include="XAdd_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -320,10 +321,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>XAdd_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>XAdd_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>60B664ED61AFBB7922354950D846B467AEF0A743</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>9CD37739E881A75EE003BA7F7423BFC2B659A2A2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

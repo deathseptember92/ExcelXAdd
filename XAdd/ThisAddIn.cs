@@ -607,11 +607,12 @@ namespace XAdd
 
         private void Ribbon_ButtonTableOfContents()
         {
+            //int LastCol;
             Application.DisplayAlerts = false;
 
             try
             {
-                Application.Sheets["TableOfContents"].Delete();
+                Application.Sheets["Оглавление"].Delete();
             }
             catch (Exception)
             {
@@ -619,10 +620,13 @@ namespace XAdd
             }
 
             Application.Sheets.Add(Before: Application.Sheets[1], Count: 1);
-            Application.ActiveSheet.Name = "TableOfContents";
-            Excel.Worksheet jobSheet = Application.Sheets["TableOfContents"];
-            Excel.Range startCell = jobSheet.Cells[2,1];
-            jobSheet.Cells[1, 1].Value = "Table of Contents";
+            Application.ActiveSheet.Name = "Оглавление";
+            Excel.Worksheet jobSheet = Application.Sheets["Оглавление"];
+            Excel.Range startCell = jobSheet.Cells[2, 1];
+            //Excel.Range pictureCell = jobSheet.Cells[2, 2];
+            jobSheet.Cells[1, 1].Value = "Оглавление книги";
+            jobSheet.Cells[1, 1].Font.Size = 20;
+
 
             foreach (Excel.Worksheet ws in Application.Worksheets)
             {
@@ -630,6 +634,22 @@ namespace XAdd
                 {
                     jobSheet.Hyperlinks.Add(startCell, "", ws.Name+"!A1", missing, ws.Name);
                     startCell = startCell.Offset[1,0];
+                    // превью листов
+                    //try
+                    //{
+                    //    LastCol = ws.Cells.Find("*", System.Reflection.Missing.Value,
+                    //        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                    //        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                    //}
+                    //catch (Exception)
+                    //{
+
+                    //    continue;
+                    //}
+                    //ws.Range[ws.Cells[1, 1], ws.Cells[100, LastCol]].CopyPicture(Excel.XlPictureAppearance.xlScreen, Excel.XlCopyPictureFormat.xlBitmap); //вывод превью листа
+                    //jobSheet.Paste(pictureCell, Clipboard.GetImage());
+                    //pictureCell = pictureCell.Offset[1, 0];
+
                 }
             }
 
