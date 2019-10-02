@@ -11,6 +11,7 @@ using Microsoft.Office.Tools.Excel;
 using System.Windows.Forms;
 using System.Drawing;
 
+
 namespace XAdd
 {
     public partial class ThisAddIn
@@ -20,6 +21,7 @@ namespace XAdd
         AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
         SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
         SheetRenameForm form_SheetRename = new SheetRenameForm();
+        CurrencyForm form_Currency = new CurrencyForm();
         List<string> sheetsName = new List<string>();
         long lastRow;
         long lastCol;
@@ -74,8 +76,11 @@ namespace XAdd
             ribbon.ButtonSheetsManagerClicked += Ribbon_ButtonSheetsManager;
             ribbon.ButtonShowHiddenSheetsClicked += Ribbon_ButtonShowHiddenSheets;
             ribbon.ButtonHideHiddenSheetsClicked += Ribbon_ButtonHideHiddenSheets;
+            ribbon.ButtonCurrencyClicked += Ribbon_ButtonCurrency;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
+
+
 
 
         #region Удаление столбцов
@@ -646,6 +651,7 @@ namespace XAdd
         private void Ribbon_ButtonTableOfContents()
         {
             //int LastCol;
+            Application.
             Application.DisplayAlerts = false;
 
             try
@@ -967,6 +973,14 @@ namespace XAdd
             sheetsName.Clear();
 
         }
+        #endregion
+
+        #region Курсы валют
+        private void Ribbon_ButtonCurrency() // курсы валют кнопка нажата
+        {
+            form_Currency.Show();
+        }
+
         #endregion
 
 

@@ -16,6 +16,7 @@ namespace XAdd
         public event Action ButtonSheetsManagerClicked;
         public event Action ButtonShowHiddenSheetsClicked;
         public event Action ButtonHideHiddenSheetsClicked;
+        public event Action ButtonCurrencyClicked;
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
 
@@ -68,6 +69,11 @@ namespace XAdd
                 toggleButton1.Label = "Показать скрытые листы";
                 ButtonHideHiddenSheetsClicked?.Invoke();
             }
+        }
+
+        private void Currency_Click(object sender, RibbonControlEventArgs e)
+        {
+            ButtonCurrencyClicked?.Invoke();
         }
     }
 }
