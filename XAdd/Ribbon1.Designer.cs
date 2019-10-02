@@ -36,16 +36,15 @@
         {
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
-            this.group2 = this.Factory.CreateRibbonGroup();
-            this.group3 = this.Factory.CreateRibbonGroup();
             this.RemoveColumns = this.Factory.CreateRibbonButton();
+            this.group2 = this.Factory.CreateRibbonGroup();
             this.AppendSheets = this.Factory.CreateRibbonButton();
             this.AppendSheetsCustom = this.Factory.CreateRibbonButton();
             this.TableOfContents = this.Factory.CreateRibbonButton();
             this.SheetsManager = this.Factory.CreateRibbonButton();
-            this.ShowHiddenSheets = this.Factory.CreateRibbonButton();
-            this.HideHiddenSheets = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.InsertDate = this.Factory.CreateRibbonButton();
+            this.toggleButton1 = this.Factory.CreateRibbonToggleButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -67,23 +66,6 @@
             this.group1.Label = "Столбцы";
             this.group1.Name = "group1";
             // 
-            // group2
-            // 
-            this.group2.Items.Add(this.AppendSheets);
-            this.group2.Items.Add(this.AppendSheetsCustom);
-            this.group2.Items.Add(this.TableOfContents);
-            this.group2.Items.Add(this.SheetsManager);
-            this.group2.Items.Add(this.ShowHiddenSheets);
-            this.group2.Items.Add(this.HideHiddenSheets);
-            this.group2.Label = "Листы";
-            this.group2.Name = "group2";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.InsertDate);
-            this.group3.Label = "Дата";
-            this.group3.Name = "group3";
-            // 
             // RemoveColumns
             // 
             this.RemoveColumns.Image = global::XAdd.Properties.Resources.deletecolumn;
@@ -91,6 +73,16 @@
             this.RemoveColumns.Name = "RemoveColumns";
             this.RemoveColumns.ShowImage = true;
             this.RemoveColumns.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.RemoveColumns_Click);
+            // 
+            // group2
+            // 
+            this.group2.Items.Add(this.AppendSheets);
+            this.group2.Items.Add(this.AppendSheetsCustom);
+            this.group2.Items.Add(this.TableOfContents);
+            this.group2.Items.Add(this.SheetsManager);
+            this.group2.Items.Add(this.toggleButton1);
+            this.group2.Label = "Листы";
+            this.group2.Name = "group2";
             // 
             // AppendSheets
             // 
@@ -129,22 +121,11 @@
             this.SheetsManager.ShowImage = true;
             this.SheetsManager.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SheetsManager_Click);
             // 
-            // ShowHiddenSheets
+            // group3
             // 
-            this.ShowHiddenSheets.Image = global::XAdd.Properties.Resources.eye_icon_png_viewed_accomms_10;
-            this.ShowHiddenSheets.Label = "Показать скрытые листы";
-            this.ShowHiddenSheets.Name = "ShowHiddenSheets";
-            this.ShowHiddenSheets.ShowImage = true;
-            this.ShowHiddenSheets.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ShowHiddenSheets_Click);
-            // 
-            // HideHiddenSheets
-            // 
-            this.HideHiddenSheets.Image = global::XAdd.Properties.Resources.show_hide_password_10_512;
-            this.HideHiddenSheets.Label = "Скрыть листы";
-            this.HideHiddenSheets.Name = "HideHiddenSheets";
-            this.HideHiddenSheets.ShowImage = true;
-            this.HideHiddenSheets.Visible = false;
-            this.HideHiddenSheets.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.HideHiddenSheets_Click);
+            this.group3.Items.Add(this.InsertDate);
+            this.group3.Label = "Дата";
+            this.group3.Name = "group3";
             // 
             // InsertDate
             // 
@@ -154,6 +135,14 @@
             this.InsertDate.ShowImage = true;
             this.InsertDate.SuperTip = "Выделите ячейку или диапозон ячеек для вставки даты";
             this.InsertDate.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.InsertDate_Click);
+            // 
+            // toggleButton1
+            // 
+            this.toggleButton1.Image = global::XAdd.Properties.Resources.eye_icon_png_viewed_accomms_10;
+            this.toggleButton1.Label = "Показать скрытые листы";
+            this.toggleButton1.Name = "toggleButton1";
+            this.toggleButton1.ShowImage = true;
+            this.toggleButton1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.toggleButton1_Click);
             // 
             // Ribbon1
             // 
@@ -185,8 +174,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton AppendSheetsCustom;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton TableOfContents;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton SheetsManager;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton ShowHiddenSheets;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton HideHiddenSheets;
+        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton toggleButton1;
     }
 
     partial class ThisRibbonCollection

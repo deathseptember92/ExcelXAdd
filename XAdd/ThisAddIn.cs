@@ -77,12 +77,6 @@ namespace XAdd
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
 
-        
-
-
-
-
-
 
         #region Удаление столбцов
         private void Ribbon_ButtonRemoveColumns() //удаляет столбцы на активном листе. кнопка нажата

@@ -53,16 +53,21 @@ namespace XAdd
             ButtonSheetsManagerClicked?.Invoke();
         }
 
-        private void ShowHiddenSheets_Click(object sender, RibbonControlEventArgs e)
-        {
-            HideHiddenSheets.Visible = true;
-            ButtonShowHiddenSheetsClicked?.Invoke();
-        }
 
-        private void HideHiddenSheets_Click(object sender, RibbonControlEventArgs e)
+        private void toggleButton1_Click(object sender, RibbonControlEventArgs e)
         {
-            ButtonHideHiddenSheetsClicked?.Invoke();
-            HideHiddenSheets.Visible = false;
+            if (toggleButton1.Checked)
+            {
+                toggleButton1.Image = XAdd.Properties.Resources.show_hide_password_10_512;
+                toggleButton1.Label = "Скрыть листы";
+                ButtonShowHiddenSheetsClicked?.Invoke();
+            }
+            else
+            {
+                toggleButton1.Image = XAdd.Properties.Resources.eye_icon_png_viewed_accomms_10;
+                toggleButton1.Label = "Показать скрытые листы";
+                ButtonHideHiddenSheetsClicked?.Invoke();
+            }
         }
     }
 }
