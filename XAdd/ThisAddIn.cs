@@ -979,6 +979,7 @@ namespace XAdd
         private void Ribbon_ButtonCurrency() // курсы валют кнопка нажата
         {
             form_Currency.Hide();
+            
             form_Currency.Show();
         }
 

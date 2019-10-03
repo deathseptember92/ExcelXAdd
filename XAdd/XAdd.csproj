@@ -320,6 +320,9 @@
   <ItemGroup>
     <None Include="Resources\108-1085479_document-clipart-visitor-book-documents-library-icon-png.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img_202966.png" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

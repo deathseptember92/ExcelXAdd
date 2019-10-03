@@ -89,7 +89,7 @@
             // group4
             // 
             this.group4.Items.Add(this.Currency);
-            this.group4.Label = "group4";
+            this.group4.Label = "Числа";
             this.group4.Name = "group4";
             // 
             // RemoveColumns
@@ -156,8 +156,10 @@
             // 
             // Currency
             // 
+            this.Currency.Image = global::XAdd.Properties.Resources.img_202966;
             this.Currency.Label = "Курсы валют";
             this.Currency.Name = "Currency";
+            this.Currency.ShowImage = true;
             this.Currency.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Currency_Click);
             // 
             // Ribbon1

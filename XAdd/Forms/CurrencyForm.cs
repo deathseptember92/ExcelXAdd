@@ -34,6 +34,7 @@ namespace XAdd
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
+            label1.Text = "Курс на "+ monthCalendar1.SelectionStart.ToString("dd'/'MM'/'yyyy");
             dataGridView1.Rows.Clear();
             dataGridView1.Rows.Add();
             if (monthCalendar1.SelectionStart > DateTime.Now)
