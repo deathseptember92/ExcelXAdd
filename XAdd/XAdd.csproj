@@ -29,8 +29,9 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>опубликовать\</PublishUrl>
+    <PublishUrl>C:\Users\Павел\Desktop\</PublishUrl>
     <InstallUrl />
     <TargetCulture>ru</TargetCulture>
     <ApplicationVersion>1.0.0.0</ApplicationVersion>
@@ -44,7 +45,6 @@
     <FriendlyName>XAdd</FriendlyName>
     <OfficeApplicationDescription />
     <LoadBehavior>3</LoadBehavior>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
