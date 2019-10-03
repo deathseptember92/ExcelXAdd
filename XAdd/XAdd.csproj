@@ -267,6 +267,7 @@
       <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
+    <None Include="XAdd_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\appendtable.png" />
@@ -327,10 +328,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>XAdd_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>XAdd_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>9CD37739E881A75EE003BA7F7423BFC2B659A2A2</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>B6178423A70A7B0569A04440B14C6B207153749D</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
