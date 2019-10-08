@@ -59,7 +59,8 @@
             // 
             // SelectedNodesToFinal
             // 
-            this.SelectedNodesToFinal.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.SelectedNodesToFinal.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.SelectedNodesToFinal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SelectedNodesToFinal.Location = new System.Drawing.Point(451, 175);
             this.SelectedNodesToFinal.Name = "SelectedNodesToFinal";
             this.SelectedNodesToFinal.Size = new System.Drawing.Size(135, 37);
@@ -70,7 +71,8 @@
             // 
             // RemoveNodesFromFinal
             // 
-            this.RemoveNodesFromFinal.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.RemoveNodesFromFinal.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.RemoveNodesFromFinal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.RemoveNodesFromFinal.Location = new System.Drawing.Point(451, 218);
             this.RemoveNodesFromFinal.Name = "RemoveNodesFromFinal";
             this.RemoveNodesFromFinal.Size = new System.Drawing.Size(135, 37);
@@ -81,7 +83,7 @@
             // 
             // AppendSheetsOK
             // 
-            this.AppendSheetsOK.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.AppendSheetsOK.BackColor = System.Drawing.Color.WhiteSmoke;
             this.AppendSheetsOK.Location = new System.Drawing.Point(749, 443);
             this.AppendSheetsOK.Name = "AppendSheetsOK";
             this.AppendSheetsOK.Size = new System.Drawing.Size(135, 37);
@@ -92,7 +94,7 @@
             // 
             // AppendSheetsCancel
             // 
-            this.AppendSheetsCancel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.AppendSheetsCancel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.AppendSheetsCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.AppendSheetsCancel.Location = new System.Drawing.Point(890, 443);
             this.AppendSheetsCancel.Name = "AppendSheetsCancel";

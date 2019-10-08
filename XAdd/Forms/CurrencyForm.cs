@@ -48,13 +48,13 @@ namespace XAdd
             {
                 xDoc.Load(string.Format(@"http://www.cbr.ru/scripts/XML_daily.asp?date_req={0}", dateSelected));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                MessageBox.Show("Нет доступа к интернету или источник недоступен!","XAdd",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Нет доступа к интернету или источник недоступен! "+ex.Message, "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
             XmlElement xRoot = xDoc.DocumentElement;
 
             foreach (XmlNode xnode in xRoot)

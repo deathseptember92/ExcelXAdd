@@ -79,6 +79,7 @@
             this.NewBookButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.NewBookButton.BackgroundImage = global::XAdd.Properties.Resources.newdocument;
             this.NewBookButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.NewBookButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.NewBookButton.Location = new System.Drawing.Point(52, 434);
             this.NewBookButton.Name = "NewBookButton";
             this.NewBookButton.Size = new System.Drawing.Size(40, 40);
@@ -91,6 +92,7 @@
             this.NewSheetButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.NewSheetButton.BackgroundImage = global::XAdd.Properties.Resources.newsheet;
             this.NewSheetButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.NewSheetButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.NewSheetButton.Location = new System.Drawing.Point(178, 434);
             this.NewSheetButton.Name = "NewSheetButton";
             this.NewSheetButton.Size = new System.Drawing.Size(40, 40);
@@ -103,6 +105,7 @@
             this.OpenButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.OpenButton.BackgroundImage = global::XAdd.Properties.Resources.open1;
             this.OpenButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.OpenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.OpenButton.Location = new System.Drawing.Point(6, 434);
             this.OpenButton.Name = "OpenButton";
             this.OpenButton.Size = new System.Drawing.Size(40, 40);
@@ -115,6 +118,7 @@
             this.RemoveButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RemoveButton.BackgroundImage = global::XAdd.Properties.Resources._159_1597907_delete_garbage_remove_trash_trash_can_icon_delete1;
             this.RemoveButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.RemoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.RemoveButton.Location = new System.Drawing.Point(270, 434);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(40, 40);
@@ -127,6 +131,7 @@
             this.RenameButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RenameButton.BackgroundImage = global::XAdd.Properties.Resources.rename;
             this.RenameButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.RenameButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.RenameButton.Location = new System.Drawing.Point(224, 434);
             this.RenameButton.Name = "RenameButton";
             this.RenameButton.Size = new System.Drawing.Size(40, 40);
