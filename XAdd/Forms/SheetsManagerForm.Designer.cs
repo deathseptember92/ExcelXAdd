@@ -31,13 +31,14 @@
             this.components = new System.ComponentModel.Container();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.CreateCopy = new System.Windows.Forms.Button();
             this.NewBookButton = new System.Windows.Forms.Button();
             this.NewSheetButton = new System.Windows.Forms.Button();
             this.OpenButton = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.RenameButton = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
@@ -62,6 +63,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.CreateCopy);
             this.groupBox1.Controls.Add(this.NewBookButton);
             this.groupBox1.Controls.Add(this.NewSheetButton);
             this.groupBox1.Controls.Add(this.OpenButton);
@@ -73,6 +75,39 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Список листов";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.panel1);
+            this.groupBox2.Location = new System.Drawing.Point(334, 12);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(641, 480);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Предпросмотр";
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Location = new System.Drawing.Point(7, 20);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(628, 454);
+            this.panel1.TabIndex = 0;
+            this.panel1.MouseEnter += new System.EventHandler(this.Panel1_MouseEnter);
+            // 
+            // CreateCopy
+            // 
+            this.CreateCopy.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.CreateCopy.BackgroundImage = global::XAdd.Properties.Resources.copysheet;
+            this.CreateCopy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.CreateCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CreateCopy.Location = new System.Drawing.Point(132, 434);
+            this.CreateCopy.Name = "CreateCopy";
+            this.CreateCopy.Size = new System.Drawing.Size(40, 40);
+            this.CreateCopy.TabIndex = 4;
+            this.CreateCopy.UseVisualStyleBackColor = false;
+            this.CreateCopy.Click += new System.EventHandler(this.CreateCopy_Click);
             // 
             // NewBookButton
             // 
@@ -139,26 +174,6 @@
             this.RenameButton.UseVisualStyleBackColor = false;
             this.RenameButton.Click += new System.EventHandler(this.RenameButton_Click);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.panel1);
-            this.groupBox2.Location = new System.Drawing.Point(334, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(641, 480);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Предпросмотр";
-            // 
-            // panel1
-            // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(7, 20);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(628, 454);
-            this.panel1.TabIndex = 0;
-            this.panel1.MouseEnter += new System.EventHandler(this.Panel1_MouseEnter);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(3, 3);
@@ -186,6 +201,7 @@
             this.Activated += new System.EventHandler(this.SheetsManagerForm_Activated);
             this.Deactivate += new System.EventHandler(this.SheetsManagerForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SheetsManagerForm_FormClosing);
+            this.Load += new System.EventHandler(this.SheetsManagerForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -209,5 +225,6 @@
         private System.Windows.Forms.Button RemoveButton;
         private System.Windows.Forms.Button NewBookButton;
         private System.Windows.Forms.Button NewSheetButton;
+        private System.Windows.Forms.Button CreateCopy;
     }
 }

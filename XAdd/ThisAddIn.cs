@@ -50,6 +50,7 @@ namespace XAdd
             form_SheetsManager.SheetsManagerRemoveClicked += Form_SheetsManager_SheetsManagerRemove;
             form_SheetsManager.SheetsManagerNewBookClicked += Form_SheetsManager_SheetsManagerNewBook;
             form_SheetsManager.SheetsManagerNewSheetClicked += Form_SheetsManager_SheetsManagerNewSheet;
+            form_SheetsManager.SheetsManagerCreateCopyClicked += Form_SheetsManager_SheetsManagerCreateCopy;
 
             #endregion
 
@@ -57,7 +58,6 @@ namespace XAdd
 
 
         }
-
 
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
@@ -77,8 +77,15 @@ namespace XAdd
             ribbon.ButtonShowHiddenSheetsClicked += Ribbon_ButtonShowHiddenSheets;
             ribbon.ButtonHideHiddenSheetsClicked += Ribbon_ButtonHideHiddenSheets;
             ribbon.ButtonCurrencyClicked += Ribbon_ButtonCurrency;
+            ribbon.ButtonFormulaFormatEnableClicked += Ribbon_ButtonFormulaFormatEnable;
+            ribbon.ButtonFormulaFormatDisableClicked += Ribbon_ButtonFormulaFormatDisable;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
+
+
+
+
+
 
 
 
@@ -875,6 +882,29 @@ namespace XAdd
 
         }
 
+        private void Form_SheetsManager_SheetsManagerCreateCopy() // кнопка сделать копию листа
+        {
+            if (form_SheetsManager.treeView1.SelectedNode.Nodes.Count==0)
+            {
+                TreeNode selectedNode = form_SheetsManager.treeView1.SelectedNode;
+                Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
+                Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
+                try
+                {
+                    actSheet.Copy(missing, actSheet);
+                    TreeNode addNode = form_SheetsManager.treeView1.SelectedNode.Parent.Nodes.Insert(selectedNode.Index + 1, actWb.Name, Application.ActiveSheet.Name);
+                    form_SheetsManager.treeView1.SelectedNode = addNode;
+                    form_SheetsManager.treeView1.Focus();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
         private void Form_SheetsManager_SheetsManagerNewSheet() //кнопка добавить лист
         { 
 
@@ -891,8 +921,6 @@ namespace XAdd
                     TreeNode addNode = form_SheetsManager.treeView1.SelectedNode.Parent.Nodes.Insert(selectedNode.Index + 1, actWb.Name, newSheet.Name);
                     form_SheetsManager.treeView1.SelectedNode = addNode;
                     form_SheetsManager.treeView1.Focus();
-
-
                 }
                 catch (Exception ex)
                 {
@@ -981,6 +1009,19 @@ namespace XAdd
             form_Currency.Hide();
             
             form_Currency.Show();
+        }
+
+        #endregion
+
+        #region Формат формул
+        private void Ribbon_ButtonFormulaFormatEnable()
+        {
+            Application.ReferenceStyle = Excel.XlReferenceStyle.xlR1C1;
+        }
+
+        private void Ribbon_ButtonFormulaFormatDisable()
+        {
+            Application.ReferenceStyle = Excel.XlReferenceStyle.xlA1;
         }
 
         #endregion

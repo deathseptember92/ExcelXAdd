@@ -17,6 +17,9 @@ namespace XAdd
         public event Action ButtonShowHiddenSheetsClicked;
         public event Action ButtonHideHiddenSheetsClicked;
         public event Action ButtonCurrencyClicked;
+        public event Action ButtonFormulaFormatEnableClicked;
+        public event Action ButtonFormulaFormatDisableClicked;
+
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
 
@@ -71,9 +74,20 @@ namespace XAdd
             }
         }
 
-        private void Currency_Click(object sender, RibbonControlEventArgs e)
+        private void FormulaFormat_Click(object sender, RibbonControlEventArgs e)
         {
-            ButtonCurrencyClicked?.Invoke();
+            if (FormulaFormat.Checked)
+            {
+                ButtonFormulaFormatEnableClicked?.Invoke();
+            }
+            else
+            {
+                ButtonFormulaFormatDisableClicked?.Invoke();
+            }
+            
         }
+
+
+
     }
 }

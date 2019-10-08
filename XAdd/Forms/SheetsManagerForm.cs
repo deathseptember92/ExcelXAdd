@@ -20,6 +20,7 @@ namespace XAdd
         public event Action SheetsManagerRemoveClicked;
         public event Action SheetsManagerNewBookClicked;
         public event Action SheetsManagerNewSheetClicked;
+        public event Action SheetsManagerCreateCopyClicked;
         
 
         public SheetsManagerForm()
@@ -106,6 +107,14 @@ namespace XAdd
             }
         }
 
+        private void SheetsManagerForm_Load(object sender, EventArgs e)
+        {
 
+        }
+
+        private void CreateCopy_Click(object sender, EventArgs e)
+        {
+            SheetsManagerCreateCopyClicked?.Invoke();
+        }
     }
 }
