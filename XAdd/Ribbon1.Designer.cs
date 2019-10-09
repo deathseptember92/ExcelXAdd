@@ -178,6 +178,7 @@
             this.Currency.Label = "Курсы валют";
             this.Currency.Name = "Currency";
             this.Currency.ShowImage = true;
+            this.Currency.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Currency_Click);
             // 
             // Ribbon1
             // 

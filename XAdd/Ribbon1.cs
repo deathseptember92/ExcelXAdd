@@ -87,7 +87,9 @@ namespace XAdd
             
         }
 
-
-
+        private void Currency_Click(object sender, RibbonControlEventArgs e)
+        {
+            ButtonCurrencyClicked?.Invoke();
+        }
     }
 }
