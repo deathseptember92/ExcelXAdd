@@ -34,14 +34,14 @@ namespace XAdd
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
-            label1.Text = "Курс на "+ monthCalendar1.SelectionStart.ToString("dd'/'MM'/'yyyy");
             dataGridView1.Rows.Clear();
             dataGridView1.Rows.Add();
             if (monthCalendar1.SelectionStart > DateTime.Now)
             {
-                monthCalendar1.SelectionStart = DateTime.Now;
-                monthCalendar1.SelectionEnd = DateTime.Now;
+                monthCalendar1.SelectionStart = DateTime.Now.AddDays(1);
+                monthCalendar1.SelectionEnd = monthCalendar1.SelectionStart;
             }
+            label1.Text = "Курс на " + monthCalendar1.SelectionStart.ToString("dd'/'MM'/'yyyy");
             dateSelected = monthCalendar1.SelectionStart.ToString("dd'/'MM'/'yyyy");
             XmlDocument xDoc = new XmlDocument();
             try
