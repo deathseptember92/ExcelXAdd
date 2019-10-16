@@ -50,6 +50,7 @@
             this.group4 = this.Factory.CreateRibbonGroup();
             this.Currency = this.Factory.CreateRibbonButton();
             this.ShowSheetsShortcuts = this.Factory.CreateRibbonToggleButton();
+            this.AutoFill = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -72,6 +73,7 @@
             // group5
             // 
             this.group5.Items.Add(this.FormulaFormat);
+            this.group5.Items.Add(this.AutoFill);
             this.group5.Label = "Общее";
             this.group5.Name = "group5";
             // 
@@ -190,6 +192,15 @@
             this.ShowSheetsShortcuts.ShowImage = true;
             this.ShowSheetsShortcuts.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ShowSheetsShortcuts_Click);
             // 
+            // AutoFill
+            // 
+            this.AutoFill.Label = "Протянуть формулу";
+            this.AutoFill.Name = "AutoFill";
+            this.AutoFill.OfficeImageId = "NameUseInFormula";
+            this.AutoFill.ShowImage = true;
+            this.AutoFill.SuperTip = "Используется при включенном фильтре";
+            this.AutoFill.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AutoFill_Click);
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -230,6 +241,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group5;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton FormulaFormat;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton ShowSheetsShortcuts;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton AutoFill;
     }
 
     partial class ThisRibbonCollection

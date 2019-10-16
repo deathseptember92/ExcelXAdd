@@ -21,6 +21,7 @@ namespace XAdd
         public event Action ButtonFormulaFormatDisableClicked;
         public event Action ButtonShowSheetsShortcutsClicked;
         public event Action ButtonHideSheetsShortcutsClicked;
+        public event Action ButtonAutoFillClicked;
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
@@ -106,5 +107,9 @@ namespace XAdd
             }
         }
 
+        private void AutoFill_Click(object sender, RibbonControlEventArgs e)
+        {
+            ButtonAutoFillClicked?.Invoke();
+        }
     }
 }

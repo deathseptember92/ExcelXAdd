@@ -17,6 +17,8 @@ namespace XAdd
     public partial class ThisAddIn
     {
         #region Переменные
+        Office.CommandBar cb = null;
+        Office.CommandBarButton buttonContext = null;
         DatePickerForm form_DatePicker = new DatePickerForm();
         AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
         SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
@@ -28,7 +30,7 @@ namespace XAdd
         bool answer = false;
         Excel.Range area;
         string shName;
-
+        
 
         #endregion
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
@@ -54,10 +56,19 @@ namespace XAdd
 
             #endregion
 
+
             form_DatePicker.DateSelected += DatePicker_dateSelected;// обработчик выбор даты
 
-
+            cb = Application.CommandBars["Cell"]; // добавление кнопки в контекстное меню
+            buttonContext = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
+            buttonContext.Caption = "Протянуть формулу";
+            buttonContext.Tag = "FormulaFil";
+            buttonContext.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContext.Click += ButtonContext_Click;
+            buttonContext.Visible = true;
+         
         }
+
 
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
@@ -81,8 +92,11 @@ namespace XAdd
             ribbon.ButtonFormulaFormatDisableClicked += Ribbon_ButtonFormulaFormatDisable;
             ribbon.ButtonShowSheetsShortcutsClicked += Ribbon_ButtonShowSheetsShortcuts;
             ribbon.ButtonHideSheetsShortcutsClicked += Ribbon_ButtonHideSheetsShortcuts;
+            ribbon.ButtonAutoFillClicked += Ribbon_ButtonAutoFill;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
+
+
 
 
 
@@ -1036,6 +1050,46 @@ namespace XAdd
             Application.ActiveWindow.DisplayWorkbookTabs = true;
         }
 
+        #endregion
+        #region Тестовая функция умное автозаполнение
+        private void Ribbon_ButtonAutoFill()
+        {
+            Excel.Range activeCell = Application.ActiveCell;
+
+            try
+            {
+                lastRow = Application.ActiveSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+            }
+            catch (Exception)
+            {
+
+                return;
+            }
+
+            Application.ActiveSheet.Cells[lastRow, activeCell.Column].Value = 1;
+
+            
+
+            Excel.Range wRange = Application.Range[Application.ActiveCell,Application.ActiveCell.EntireColumn.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Cells] 
+                .SpecialCells(Excel.XlCellType.xlCellTypeVisible, missing);
+
+            wRange.Cells.Value = activeCell.FormulaR1C1;
+
+            //foreach (Excel.Range cell in wRange)
+            //{
+            //    cell.FormulaR1C1 = activeCell.FormulaR1C1;
+            //}
+
+        }
+
+        private void ButtonContext_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Ribbon_ButtonAutoFill();
+        }
         #endregion
 
         #region Код, автоматически созданный VSTO
