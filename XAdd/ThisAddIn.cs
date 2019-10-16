@@ -79,11 +79,10 @@ namespace XAdd
             ribbon.ButtonCurrencyClicked += Ribbon_ButtonCurrency;
             ribbon.ButtonFormulaFormatEnableClicked += Ribbon_ButtonFormulaFormatEnable;
             ribbon.ButtonFormulaFormatDisableClicked += Ribbon_ButtonFormulaFormatDisable;
+            ribbon.ButtonShowSheetsShortcutsClicked += Ribbon_ButtonShowSheetsShortcuts;
+            ribbon.ButtonHideSheetsShortcutsClicked += Ribbon_ButtonHideSheetsShortcuts;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
-
-
-
 
 
 
@@ -1026,6 +1025,18 @@ namespace XAdd
 
         #endregion
 
+        #region Показывать панель листов
+        private void Ribbon_ButtonHideSheetsShortcuts()
+        {
+            Application.ActiveWindow.DisplayWorkbookTabs = false;
+        }
+
+        private void Ribbon_ButtonShowSheetsShortcuts()
+        {
+            Application.ActiveWindow.DisplayWorkbookTabs = true;
+        }
+
+        #endregion
 
         #region Код, автоматически созданный VSTO
 

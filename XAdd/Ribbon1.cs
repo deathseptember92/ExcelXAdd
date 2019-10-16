@@ -19,10 +19,12 @@ namespace XAdd
         public event Action ButtonCurrencyClicked;
         public event Action ButtonFormulaFormatEnableClicked;
         public event Action ButtonFormulaFormatDisableClicked;
+        public event Action ButtonShowSheetsShortcutsClicked;
+        public event Action ButtonHideSheetsShortcutsClicked;
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
-
+            ShowSheetsShortcuts.Checked=true;
         }
 
         private void RemoveColumns_Click(object sender, RibbonControlEventArgs e)
@@ -91,5 +93,18 @@ namespace XAdd
         {
             ButtonCurrencyClicked?.Invoke();
         }
+
+        private void ShowSheetsShortcuts_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (ShowSheetsShortcuts.Checked)
+            {
+                ButtonShowSheetsShortcutsClicked?.Invoke();
+            }
+            else
+            {
+                ButtonHideSheetsShortcutsClicked?.Invoke();
+            }
+        }
+
     }
 }

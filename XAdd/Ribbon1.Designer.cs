@@ -49,6 +49,7 @@
             this.InsertDate = this.Factory.CreateRibbonButton();
             this.group4 = this.Factory.CreateRibbonGroup();
             this.Currency = this.Factory.CreateRibbonButton();
+            this.ShowSheetsShortcuts = this.Factory.CreateRibbonToggleButton();
             this.tab1.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -103,6 +104,7 @@
             this.group2.Items.Add(this.TableOfContents);
             this.group2.Items.Add(this.SheetsManager);
             this.group2.Items.Add(this.toggleButton1);
+            this.group2.Items.Add(this.ShowSheetsShortcuts);
             this.group2.Label = "Листы";
             this.group2.Name = "group2";
             // 
@@ -180,6 +182,14 @@
             this.Currency.ShowImage = true;
             this.Currency.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Currency_Click);
             // 
+            // ShowSheetsShortcuts
+            // 
+            this.ShowSheetsShortcuts.Label = "Показывать ярлыки листов";
+            this.ShowSheetsShortcuts.Name = "ShowSheetsShortcuts";
+            this.ShowSheetsShortcuts.OfficeImageId = "AccessRelinkLists";
+            this.ShowSheetsShortcuts.ShowImage = true;
+            this.ShowSheetsShortcuts.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ShowSheetsShortcuts_Click);
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -219,6 +229,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton Currency;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group5;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton FormulaFormat;
+        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton ShowSheetsShortcuts;
     }
 
     partial class ThisRibbonCollection
