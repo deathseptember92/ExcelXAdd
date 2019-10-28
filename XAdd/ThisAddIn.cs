@@ -323,10 +323,12 @@ namespace XAdd
 
             DateTime datePicked = form_DatePicker.DateSelect;
 
+            Application.ActiveWindow.RangeSelection.Cells.NumberFormat = "m/d/yyyy";
+
             foreach (Excel.Range cell in Application.ActiveWindow.RangeSelection.Cells)
             {
                 cell.Value = datePicked;
-                cell.NumberFormat = "m/d/yyyy";
+                
                 datePicked = datePicked.AddDays(1);
             }
 
