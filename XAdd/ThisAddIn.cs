@@ -93,8 +93,11 @@ namespace XAdd
             ribbon.ButtonShowSheetsShortcutsClicked += Ribbon_ButtonShowSheetsShortcuts;
             ribbon.ButtonHideSheetsShortcutsClicked += Ribbon_ButtonHideSheetsShortcuts;
             ribbon.ButtonAutoFillClicked += Ribbon_ButtonAutoFill;
+            ribbon.ButtonCalculatorClicked += Ribbon_ButtonCalculator;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
+
+
 
 
 
@@ -333,6 +336,9 @@ namespace XAdd
             }
 
             form_DatePicker.Hide();
+
+            
+            
         }
 
 
@@ -1053,6 +1059,7 @@ namespace XAdd
         }
 
         #endregion
+
         #region Тестовая функция умное автозаполнение
         private void Ribbon_ButtonAutoFill()
         {
@@ -1092,6 +1099,15 @@ namespace XAdd
         {
             Ribbon_ButtonAutoFill();
         }
+        #endregion
+
+        #region Калькулятор
+
+        private void Ribbon_ButtonCalculator()
+        {
+            Application.ActivateMicrosoftApp(Index: 0);
+        }
+
         #endregion
 
         #region Код, автоматически созданный VSTO

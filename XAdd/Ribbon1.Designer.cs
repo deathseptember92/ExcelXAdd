@@ -37,6 +37,7 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group5 = this.Factory.CreateRibbonGroup();
             this.FormulaFormat = this.Factory.CreateRibbonToggleButton();
+            this.AutoFill = this.Factory.CreateRibbonButton();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.RemoveColumns = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
@@ -45,12 +46,12 @@
             this.TableOfContents = this.Factory.CreateRibbonButton();
             this.SheetsManager = this.Factory.CreateRibbonButton();
             this.toggleButton1 = this.Factory.CreateRibbonToggleButton();
+            this.ShowSheetsShortcuts = this.Factory.CreateRibbonToggleButton();
             this.group3 = this.Factory.CreateRibbonGroup();
             this.InsertDate = this.Factory.CreateRibbonButton();
             this.group4 = this.Factory.CreateRibbonGroup();
             this.Currency = this.Factory.CreateRibbonButton();
-            this.ShowSheetsShortcuts = this.Factory.CreateRibbonToggleButton();
-            this.AutoFill = this.Factory.CreateRibbonButton();
+            this.Calculator = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -84,6 +85,15 @@
             this.FormulaFormat.OfficeImageId = "WordCountList";
             this.FormulaFormat.ShowImage = true;
             this.FormulaFormat.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.FormulaFormat_Click);
+            // 
+            // AutoFill
+            // 
+            this.AutoFill.Label = "Протянуть формулу";
+            this.AutoFill.Name = "AutoFill";
+            this.AutoFill.OfficeImageId = "NameUseInFormula";
+            this.AutoFill.ShowImage = true;
+            this.AutoFill.SuperTip = "Используется при включенном фильтре";
+            this.AutoFill.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AutoFill_Click);
             // 
             // group1
             // 
@@ -155,6 +165,14 @@
             this.toggleButton1.ShowImage = true;
             this.toggleButton1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.toggleButton1_Click);
             // 
+            // ShowSheetsShortcuts
+            // 
+            this.ShowSheetsShortcuts.Label = "Показывать ярлыки листов";
+            this.ShowSheetsShortcuts.Name = "ShowSheetsShortcuts";
+            this.ShowSheetsShortcuts.OfficeImageId = "AccessRelinkLists";
+            this.ShowSheetsShortcuts.ShowImage = true;
+            this.ShowSheetsShortcuts.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ShowSheetsShortcuts_Click);
+            // 
             // group3
             // 
             this.group3.Items.Add(this.InsertDate);
@@ -173,6 +191,7 @@
             // group4
             // 
             this.group4.Items.Add(this.Currency);
+            this.group4.Items.Add(this.Calculator);
             this.group4.Label = "Числа";
             this.group4.Name = "group4";
             // 
@@ -184,22 +203,13 @@
             this.Currency.ShowImage = true;
             this.Currency.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Currency_Click);
             // 
-            // ShowSheetsShortcuts
+            // Calculator
             // 
-            this.ShowSheetsShortcuts.Label = "Показывать ярлыки листов";
-            this.ShowSheetsShortcuts.Name = "ShowSheetsShortcuts";
-            this.ShowSheetsShortcuts.OfficeImageId = "AccessRelinkLists";
-            this.ShowSheetsShortcuts.ShowImage = true;
-            this.ShowSheetsShortcuts.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ShowSheetsShortcuts_Click);
-            // 
-            // AutoFill
-            // 
-            this.AutoFill.Label = "Протянуть формулу";
-            this.AutoFill.Name = "AutoFill";
-            this.AutoFill.OfficeImageId = "NameUseInFormula";
-            this.AutoFill.ShowImage = true;
-            this.AutoFill.SuperTip = "Используется при включенном фильтре";
-            this.AutoFill.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AutoFill_Click);
+            this.Calculator.Label = "Калькулятор";
+            this.Calculator.Name = "Calculator";
+            this.Calculator.OfficeImageId = "Calculator";
+            this.Calculator.ShowImage = true;
+            this.Calculator.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Calculator_Click);
             // 
             // Ribbon1
             // 
@@ -242,6 +252,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton FormulaFormat;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton ShowSheetsShortcuts;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton AutoFill;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton Calculator;
     }
 
     partial class ThisRibbonCollection
