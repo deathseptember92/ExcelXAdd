@@ -21,8 +21,10 @@ namespace XAdd
 
         private void CurrencyForm_Load(object sender, EventArgs e)
         {
+            WebBrowser wb = new WebBrowser();
+            wb.Navigate(@"http://www.cbr.ru/scripts/XML_daily.asp?date_req=07/10/2019");
+            wb.Dispose();
             monthCalendar1.SelectionStart = DateTime.Now;
-
         }
 
         private void CurrencyForm_FormClosing(object sender, FormClosingEventArgs e)

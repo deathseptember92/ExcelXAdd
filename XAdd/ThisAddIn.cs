@@ -10,7 +10,7 @@ using Office = Microsoft.Office.Core;
 using Microsoft.Office.Tools.Excel;
 using System.Windows.Forms;
 using System.Drawing;
-
+using System.Threading.Tasks;
 
 namespace XAdd
 {
@@ -321,19 +321,33 @@ namespace XAdd
         //    form_DatePicker.Show();
         //}
 
+
+
         private void DatePicker_dateSelected() // вставляет дату, выбранную в календаре
         {
-
+            
             DateTime datePicked = form_DatePicker.DateSelect;
 
-            Application.ActiveWindow.RangeSelection.Cells.NumberFormat = "m/d/yyyy";
 
-            foreach (Excel.Range cell in Application.ActiveWindow.RangeSelection.Cells)
+            Application.ActiveWindow.RangeSelection.Cells.NumberFormat = "m/d/yyyy";
+            Excel.Range selectedRange = Application.ActiveWindow.RangeSelection.Cells;
+            if (selectedRange?.Columns.Count>1)
             {
-                cell.Value = datePicked;
-                
-                datePicked = datePicked.AddDays(1);
+                foreach (Excel.Range cell in Application.ActiveWindow.RangeSelection.Cells)
+                {
+                    cell.Value = datePicked;
+
+                    datePicked = datePicked.AddDays(1);
+
+                }
             }
+            else
+            {
+                selectedRange[1].Value = datePicked;
+                selectedRange[1].AutoFill(selectedRange, Excel.XlAutoFillType.xlFillDefault);
+            }
+            
+            
 
             form_DatePicker.Hide();
 
