@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,10 +22,19 @@ namespace XAdd
 
         private void CurrencyForm_Load(object sender, EventArgs e)
         {
-            WebBrowser wb = new WebBrowser();
-            wb.Navigate(@"http://www.cbr.ru/scripts/XML_daily.asp?date_req=07/10/2019");
-            wb.Dispose();
-            monthCalendar1.SelectionStart = DateTime.Now;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://www.cbr.ru/scripts/XML_daily.asp?date_req=07/10/2019");
+
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            }
+            catch (Exception)
+            {
+                
+            }
+            
+            
+
         }
 
         private void CurrencyForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -108,5 +118,7 @@ namespace XAdd
         {
             System.Diagnostics.Process.Start("http://www.cbr.ru");
         }
+
+
     }
 }

@@ -10,7 +10,6 @@ using Office = Microsoft.Office.Core;
 using Microsoft.Office.Tools.Excel;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Threading.Tasks;
 
 namespace XAdd
 {
@@ -306,7 +305,7 @@ namespace XAdd
         #endregion
 
         #region Выбор даты
-        private void Ribbon_ButtonInsertDate() // показывает пользователю форму с календарем. нажата кнопка на риббоне
+        private void Ribbon_ButtonInsertDate() // показывает пользователю форму с календарем. нажата кнопка на риббоне ( см. форму DatePickerForm )
         {
             
             form_DatePicker.StartPosition = FormStartPosition.CenterScreen;
@@ -323,7 +322,7 @@ namespace XAdd
 
 
 
-        private void DatePicker_dateSelected() // вставляет дату, выбранную в календаре
+        private void DatePicker_dateSelected() // вставляет дату, выбранную в календаре( см. форму DatePickerForm )
         {
             
             DateTime datePicked = form_DatePicker.DateSelect;
@@ -338,7 +337,6 @@ namespace XAdd
                     cell.Value = datePicked;
 
                     datePicked = datePicked.AddDays(1);
-
                 }
             }
             else
