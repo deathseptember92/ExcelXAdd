@@ -345,6 +345,8 @@ namespace XAdd
                 }
             }
 
+            selectedRange.Columns.AutoFit();
+
             form_DatePicker.Hide();
             
         }
