@@ -44,7 +44,7 @@ namespace XAdd
         }
 
 
-        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Rows.Add();

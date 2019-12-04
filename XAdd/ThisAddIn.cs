@@ -330,22 +330,22 @@ namespace XAdd
 
             Application.ActiveWindow.RangeSelection.Cells.NumberFormat = "m/d/yyyy";
             Excel.Range selectedRange = Application.ActiveWindow.RangeSelection.Cells;
-            if (selectedRange?.Columns.Count>1)
-            {
-                foreach (Excel.Range cell in Application.ActiveWindow.RangeSelection.Cells)
-                {
-                    cell.Value = datePicked;
-
-                    datePicked = datePicked.AddDays(1);
-                }
-            }
-            else
+            
+            if(selectedRange?.Columns.Count==1&&selectedRange?.Count>1)
             {
                 selectedRange[1].Value = datePicked;
                 selectedRange[1].AutoFill(selectedRange, Excel.XlAutoFillType.xlFillDefault);
             }
-            
-            
+            else
+            {
+                foreach (Excel.Range cell in Application.ActiveWindow.RangeSelection.Cells)
+                {
+                    cell.Value = datePicked;
+                    datePicked = datePicked.AddDays(1);
+                }
+            }
+
+            selectedRange.Clear();
 
             form_DatePicker.Hide();
 
