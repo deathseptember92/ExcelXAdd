@@ -345,11 +345,7 @@ namespace XAdd
                 }
             }
 
-            selectedRange.Clear();
-
             form_DatePicker.Hide();
-
-            
             
         }
 
