@@ -48,7 +48,7 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(367, 399);
             this.treeView1.TabIndex = 2;
-            this.treeView1.DoubleClick += new System.EventHandler(this.TreeView1_DoubleClick);
+            //this.treeView1.DoubleClick += new System.EventHandler(this.TreeView1_DoubleClick);
             // 
             // treeView2
             // 
@@ -68,7 +68,7 @@
             this.SelectedNodesToFinal.TabIndex = 4;
             this.SelectedNodesToFinal.Text = "=>";
             this.SelectedNodesToFinal.UseVisualStyleBackColor = false;
-            this.SelectedNodesToFinal.Click += new System.EventHandler(this.SelectedNodesToFinal_Click);
+            //this.SelectedNodesToFinal.Click += new System.EventHandler(this.SelectedNodesToFinal_Click);
             // 
             // RemoveNodesFromFinal
             // 
@@ -178,14 +178,14 @@
 
         #endregion
         internal System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.Button SelectedNodesToFinal;
-        private System.Windows.Forms.Button RemoveNodesFromFinal;
         internal System.Windows.Forms.TreeView treeView2;
-        private System.Windows.Forms.Button AppendSheetsOK;
-        private System.Windows.Forms.Button AppendSheetsCancel;
         internal System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         internal System.Windows.Forms.CheckBox checkBox2;
+        internal System.Windows.Forms.Button SelectedNodesToFinal;
+        internal System.Windows.Forms.Button RemoveNodesFromFinal;
+        internal System.Windows.Forms.Button AppendSheetsOK;
+        internal System.Windows.Forms.Button AppendSheetsCancel;
     }
 }

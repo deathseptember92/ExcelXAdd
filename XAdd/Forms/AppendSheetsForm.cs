@@ -13,7 +13,6 @@ namespace XAdd
 {
     public partial class AppendSheetsForm : Form
     {
-        public event Action SelectedNodesToFinalList;
         public event Action RemoveNodesFromFinalList;
         public event Action AppendSheetsClicked;
         public AppendSheetsForm()
@@ -21,10 +20,6 @@ namespace XAdd
             InitializeComponent();
         }
 
-        private void SelectedNodesToFinal_Click(object sender, EventArgs e)
-        {
-            SelectedNodesToFinalList?.Invoke();
-        }
 
         private void AppendSheetsForm_Deactivate(object sender, EventArgs e)
         {
@@ -44,11 +39,6 @@ namespace XAdd
         private void AppendSheetsOK_Click(object sender, EventArgs e)
         {
             AppendSheetsClicked?.Invoke();
-        }
-
-        private void TreeView1_DoubleClick(object sender, EventArgs e)
-        {
-            SelectedNodesToFinalList?.Invoke();
         }
 
         private void TreeView2_DoubleClick(object sender, EventArgs e)

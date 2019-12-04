@@ -36,7 +36,8 @@ namespace XAdd
         {
             #region Обработчики_ОбъединениеЛистов
             form_AppendSheetsCustom.checkBox2.CheckedChanged += form_AppendSheetsCustomCheckBox2_CheckedChanged;
-            form_AppendSheetsCustom.SelectedNodesToFinalList += AppendSheetsCustom_SelectedNodesToList;
+            form_AppendSheetsCustom.SelectedNodesToFinal.Click+=AppendSheetsCustom_SelectedNodesToList;
+            form_AppendSheetsCustom.treeView1.DoubleClick+=AppendSheetsCustom_SelectedNodesToList;
             form_AppendSheetsCustom.RemoveNodesFromFinalList += AppendSheetsCustom_RemoveNodesFromList;
             form_AppendSheetsCustom.AppendSheetsClicked += AppendSheetsCustom_Append;
 
@@ -408,7 +409,7 @@ namespace XAdd
 
         }
 
-        private void AppendSheetsCustom_SelectedNodesToList() // клонирование выбранных книг/листов из Treeview1  в Treeview2
+        private void AppendSheetsCustom_SelectedNodesToList(object sender, System.EventArgs e) // клонирование выбранных книг/листов из Treeview1  в Treeview2
         { 
             try
             {
