@@ -37,6 +37,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -84,7 +85,7 @@
             // AppendSheetsOK
             // 
             this.AppendSheetsOK.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.AppendSheetsOK.Location = new System.Drawing.Point(693, 443);
+            this.AppendSheetsOK.Location = new System.Drawing.Point(690, 460);
             this.AppendSheetsOK.Name = "AppendSheetsOK";
             this.AppendSheetsOK.Size = new System.Drawing.Size(135, 37);
             this.AppendSheetsOK.TabIndex = 6;
@@ -96,7 +97,7 @@
             // 
             this.AppendSheetsCancel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.AppendSheetsCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.AppendSheetsCancel.Location = new System.Drawing.Point(831, 443);
+            this.AppendSheetsCancel.Location = new System.Drawing.Point(831, 460);
             this.AppendSheetsCancel.Name = "AppendSheetsCancel";
             this.AppendSheetsCancel.Size = new System.Drawing.Size(135, 37);
             this.AppendSheetsCancel.TabIndex = 7;
@@ -107,11 +108,11 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(19, 443);
+            this.checkBox1.Location = new System.Drawing.Point(599, 437);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(287, 17);
+            this.checkBox1.Size = new System.Drawing.Size(283, 17);
             this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "У листов одинаковые поля. Свести в одну таблицу.";
+            this.checkBox1.Text = "У листов одинаковые поля, свести в одну таблицу";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -134,6 +135,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Добавленные листы/книги";
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(19, 437);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(170, 17);
+            this.checkBox2.TabIndex = 11;
+            this.checkBox2.Text = "Отображать скрытые листы";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // AppendSheetsForm
             // 
             this.AcceptButton = this.AppendSheetsOK;
@@ -142,6 +153,7 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.CancelButton = this.AppendSheetsCancel;
             this.ClientSize = new System.Drawing.Size(982, 504);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.AppendSheetsCancel);
@@ -174,5 +186,6 @@
         internal System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        internal System.Windows.Forms.CheckBox checkBox2;
     }
 }

@@ -29,13 +29,13 @@ namespace XAdd
         bool answer = false;
         Excel.Range area;
         string shName;
-        
+        Random rnd = new Random();
 
         #endregion
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             #region Обработчики_ОбъединениеЛистов
-
+            form_AppendSheetsCustom.checkBox2.CheckedChanged += form_AppendSheetsCustomCheckBox2_CheckedChanged;
             form_AppendSheetsCustom.SelectedNodesToFinalList += AppendSheetsCustom_SelectedNodesToList;
             form_AppendSheetsCustom.RemoveNodesFromFinalList += AppendSheetsCustom_RemoveNodesFromList;
             form_AppendSheetsCustom.AppendSheetsClicked += AppendSheetsCustom_Append;
@@ -354,24 +354,54 @@ namespace XAdd
 
         #region Кастомное объединение листов
 
+        private void form_AppendSheetsCustomCheckBox2_CheckedChanged(object sender, EventArgs e) // обработчик события: нажат чекбокс отображать скрытые листы
+        {
+            form_AppendSheetsCustomFillNode();
+        }
+
+        private void form_AppendSheetsCustomFillNode() // заполняет список книг/листов
+        {
+            form_AppendSheetsCustom.treeView1.Nodes.Clear();
+            if (form_AppendSheetsCustom.checkBox2.Checked)
+            {
+                foreach (Excel.Workbook wb in Application.Workbooks)
+                {
+                    TreeNode tempWorkbookNode = form_AppendSheetsCustom.treeView1.Nodes.Add(wb.Name, wb.Name);
+                    tempWorkbookNode.BackColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                    TreeNode[] tnd = form_AppendSheetsCustom.treeView1.Nodes.Find(wb.Name, false);
+                    form_AppendSheetsCustom.treeView1.SelectedNode = tnd[0];
+                    foreach (Excel.Worksheet ws in wb.Sheets)
+                    {
+                        TreeNode tempSheetNode = form_AppendSheetsCustom.treeView1.SelectedNode.Nodes.Add(wb.Name, ws.Name);
+                        tempSheetNode.BackColor = tempWorkbookNode.BackColor;
+                    }
+                }
+            }
+            else
+            {
+                foreach (Excel.Workbook wb in Application.Workbooks)
+                {
+                    TreeNode tempWorkbookNode = form_AppendSheetsCustom.treeView1.Nodes.Add(wb.Name, wb.Name);
+                    tempWorkbookNode.BackColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                    TreeNode[] tnd = form_AppendSheetsCustom.treeView1.Nodes.Find(wb.Name, false);
+                    form_AppendSheetsCustom.treeView1.SelectedNode = tnd[0];
+                    foreach (Excel.Worksheet ws in wb.Sheets)
+                    {
+                        if (ws.Visible==Excel.XlSheetVisibility.xlSheetVisible)
+                        {
+                            TreeNode tempSheetNode = form_AppendSheetsCustom.treeView1.SelectedNode.Nodes.Add(wb.Name, ws.Name);
+                            tempSheetNode.BackColor = tempWorkbookNode.BackColor;
+                        }
+                    }
+                }
+            }
+        }
+
         private void Ribbon_ButtonAppendSheetsCustom() // наполнение Treeview1 из списка открытых книг
         {
             form_AppendSheetsCustom.treeView1.Nodes.Clear();
             form_AppendSheetsCustom.treeView2.Nodes.Clear();
-
-            foreach (Excel.Workbook wb in Application.Workbooks)
-            {
-                form_AppendSheetsCustom.treeView1.Nodes.Add(wb.Name,wb.Name);
-                TreeNode[] tnd = form_AppendSheetsCustom.treeView1.Nodes.Find(wb.Name, false);
-                form_AppendSheetsCustom.treeView1.SelectedNode = tnd[0];
-                foreach (Excel.Worksheet ws in wb.Sheets)
-                {
-
-                    form_AppendSheetsCustom.treeView1.SelectedNode.Nodes.Add(wb.Name, ws.Name);
-
-                }
-            }
-
+            form_AppendSheetsCustomFillNode();
             form_AppendSheetsCustom.Show();
 
         }
