@@ -56,7 +56,6 @@
             this.treeView2.Name = "treeView2";
             this.treeView2.Size = new System.Drawing.Size(367, 399);
             this.treeView2.TabIndex = 3;
-            this.treeView2.DoubleClick += new System.EventHandler(this.TreeView2_DoubleClick);
             // 
             // SelectedNodesToFinal
             // 
@@ -80,7 +79,6 @@
             this.RemoveNodesFromFinal.TabIndex = 5;
             this.RemoveNodesFromFinal.Text = "<=";
             this.RemoveNodesFromFinal.UseVisualStyleBackColor = false;
-            this.RemoveNodesFromFinal.Click += new System.EventHandler(this.RemoveNodesFromFinal_Click);
             // 
             // AppendSheetsOK
             // 
@@ -91,7 +89,6 @@
             this.AppendSheetsOK.TabIndex = 6;
             this.AppendSheetsOK.Text = "ОК";
             this.AppendSheetsOK.UseVisualStyleBackColor = false;
-            this.AppendSheetsOK.Click += new System.EventHandler(this.AppendSheetsOK_Click);
             // 
             // AppendSheetsCancel
             // 

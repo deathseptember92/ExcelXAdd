@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Data;
-using System.Data.OleDb;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using System.Drawing;
+using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
-using Microsoft.Office.Tools.Excel;
-using System.Windows.Forms;
-using System.Drawing;
 
 namespace XAdd
 {
@@ -36,10 +30,11 @@ namespace XAdd
         {
             #region Обработчики_ОбъединениеЛистов
             form_AppendSheetsCustom.checkBox2.CheckedChanged += form_AppendSheetsCustomCheckBox2_CheckedChanged;
-            form_AppendSheetsCustom.SelectedNodesToFinal.Click+=AppendSheetsCustom_SelectedNodesToList;
-            form_AppendSheetsCustom.treeView1.DoubleClick+=AppendSheetsCustom_SelectedNodesToList;
-            form_AppendSheetsCustom.RemoveNodesFromFinalList += AppendSheetsCustom_RemoveNodesFromList;
-            form_AppendSheetsCustom.AppendSheetsClicked += AppendSheetsCustom_Append;
+            form_AppendSheetsCustom.SelectedNodesToFinal.Click += AppendSheetsCustom_SelectedNodesToList;
+            form_AppendSheetsCustom.treeView1.DoubleClick += AppendSheetsCustom_SelectedNodesToList;
+            form_AppendSheetsCustom.RemoveNodesFromFinal.Click += AppendSheetsCustom_RemoveNodesFromList;
+            form_AppendSheetsCustom.treeView2.DoubleClick += AppendSheetsCustom_RemoveNodesFromList;
+            form_AppendSheetsCustom.AppendSheetsOK.Click += AppendSheetsCustom_Append;
 
             #endregion
 
@@ -59,14 +54,22 @@ namespace XAdd
 
             form_DatePicker.DateSelected += DatePicker_dateSelected;// обработчик выбор даты
 
-            cb = Application.CommandBars["Cell"]; // добавление кнопки в контекстное меню
-            buttonContext = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
-            buttonContext.Caption = "Протянуть формулу";
+            cb = Application.CommandBars["Cell"]; 
+            buttonContext = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton; // Кнопка "Протянуть формулу"
+            buttonContext.Caption = "Протянуть формулу (XAdd)";
             buttonContext.Tag = "FormulaFil";
             buttonContext.Style = Office.MsoButtonStyle.msoButtonCaption;
             buttonContext.Click += ButtonContext_Click;
             buttonContext.Visible = true;
-         
+            
+
+            buttonContext = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton; // Кнопка "Заменить формулы на значения"
+            buttonContext.Caption = "Заменить формулы на значения (XAdd)";
+            buttonContext.Tag = "ReplaceFormulasWithValues";
+            buttonContext.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContext.Click += ReplaceFormulasWithValues;
+            buttonContext.Visible = true;
+
         }
 
 
@@ -77,7 +80,7 @@ namespace XAdd
 
         protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
         {
-            
+
             var ribbon = new Ribbon1();
             ribbon.ButtonRemoveColumnsClicked += Ribbon_ButtonRemoveColumns;
             ribbon.ButtonAppendSheetsClicked += Ribbon_ButtonAppendSheets;
@@ -223,12 +226,12 @@ namespace XAdd
                 case DialogResult.None:
                     return;
                 case DialogResult.OK:
-                    answer=true;
+                    answer = true;
                     break;
                 case DialogResult.Cancel:
                     return;
                 case DialogResult.Yes:
-                    answer=true;
+                    answer = true;
                     break;
                 case DialogResult.No:
                     answer = false;
@@ -266,16 +269,16 @@ namespace XAdd
 
                         continue;
                     }
-                    
+
                     lastRow = ws.Cells.Find("*", System.Reflection.Missing.Value,
-                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows, 
+                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
                     Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
 
                     shName = "*********************** " + ws.Name + " ******************************";
                     ws.Range[ws.Cells[1, 1], ws.Cells[lastRow, lastCol]].Copy();
                     lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
                     area = Application.Cells[lastRow, 1].MergeArea;
-                    if (area.Cells.Count>1)
+                    if (area.Cells.Count > 1)
                     {
                         lastRow += area.Cells.Count;
                     }
@@ -294,8 +297,8 @@ namespace XAdd
                         jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
                         jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
                     }
-                    
-                    
+
+
                 }
 
             }
@@ -308,7 +311,7 @@ namespace XAdd
         #region Выбор даты
         private void Ribbon_ButtonInsertDate() // показывает пользователю форму с календарем. нажата кнопка на риббоне ( см. форму DatePickerForm )
         {
-            
+
             form_DatePicker.StartPosition = FormStartPosition.CenterScreen;
             form_DatePicker.Show();
         }
@@ -325,14 +328,14 @@ namespace XAdd
 
         private void DatePicker_dateSelected() // вставляет дату, выбранную в календаре( см. форму DatePickerForm )
         {
-            
+
             DateTime datePicked = form_DatePicker.DateSelect;
 
 
             Application.ActiveWindow.RangeSelection.Cells.NumberFormat = "m/d/yyyy";
             Excel.Range selectedRange = Application.ActiveWindow.RangeSelection.Cells;
-            
-            if(selectedRange?.Columns.Count==1&&selectedRange?.Count>1)
+
+            if (selectedRange?.Columns.Count == 1 && selectedRange?.Count > 1)
             {
                 selectedRange[1].Value = datePicked;
                 selectedRange[1].AutoFill(selectedRange, Excel.XlAutoFillType.xlFillDefault);
@@ -349,7 +352,7 @@ namespace XAdd
             selectedRange.Columns.AutoFit();
 
             form_DatePicker.Hide();
-            
+
         }
 
 
@@ -390,7 +393,7 @@ namespace XAdd
                     form_AppendSheetsCustom.treeView1.SelectedNode = tnd[0];
                     foreach (Excel.Worksheet ws in wb.Sheets)
                     {
-                        if (ws.Visible==Excel.XlSheetVisibility.xlSheetVisible)
+                        if (ws.Visible == Excel.XlSheetVisibility.xlSheetVisible)
                         {
                             TreeNode tempSheetNode = form_AppendSheetsCustom.treeView1.SelectedNode.Nodes.Add(wb.Name, ws.Name);
                             tempSheetNode.BackColor = tempWorkbookNode.BackColor;
@@ -410,7 +413,7 @@ namespace XAdd
         }
 
         private void AppendSheetsCustom_SelectedNodesToList(object sender, System.EventArgs e) // клонирование выбранных книг/листов из Treeview1  в Treeview2
-        { 
+        {
             try
             {
                 TreeNode clonedNode = (TreeNode)form_AppendSheetsCustom.treeView1.SelectedNode.Clone();
@@ -424,7 +427,7 @@ namespace XAdd
 
         }
 
-        private void AppendSheetsCustom_RemoveNodesFromList() // удаление выбранных книг/листов из Treeview2
+        private void AppendSheetsCustom_RemoveNodesFromList(object sender, System.EventArgs e) // удаление выбранных книг/листов из Treeview2
         {
             try
             {
@@ -435,10 +438,10 @@ namespace XAdd
 
                 return;
             }
-            
+
         }
 
-        private void AppendSheetsCustom_Append() // объединение листов (кнопка нажата)
+        private void AppendSheetsCustom_Append(object sender, System.EventArgs e) // объединение листов (кнопка нажата)
         {
             if (form_AppendSheetsCustom.checkBox1.Checked)
             { // объединение с учетом заголовков
@@ -472,12 +475,12 @@ namespace XAdd
                     form_AppendSheetsCustom.treeView2.SelectedNode = form_AppendSheetsCustom.treeView2.SelectedNode.FirstNode;
                 }
                 Excel.Workbook actWb = Application.Workbooks.Item[form_AppendSheetsCustom.treeView2.SelectedNode.Name];
-                Excel.Worksheet actSheet= actWb.Sheets[form_AppendSheetsCustom.treeView2.SelectedNode.Text];
+                Excel.Worksheet actSheet = actWb.Sheets[form_AppendSheetsCustom.treeView2.SelectedNode.Text];
                 lastCol = actSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
-                actSheet.Range[actSheet.Cells[1, 1],actSheet.Cells[1, lastCol]].Copy();
+                actSheet.Range[actSheet.Cells[1, 1], actSheet.Cells[1, lastCol]].Copy();
                 Excel.Workbook jobWb = Application.Workbooks.Item[jobWbString];
                 Excel.Worksheet jobSheet = jobWb.Sheets["Job"];
-                jobSheet.Paste(jobSheet.Cells[1,1]);
+                jobSheet.Paste(jobSheet.Cells[1, 1]);
                 foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
                 {
 
@@ -490,16 +493,16 @@ namespace XAdd
 
                             try
                             {
-                            lastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
-                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
-                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                                lastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                                System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                                Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
                             }
                             catch (Exception)
                             {
 
                                 continue;
                             }
-                            
+
 
                             lastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
                             System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
@@ -613,16 +616,16 @@ namespace XAdd
 
                             try
                             {
-                            lastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
-                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
-                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                                lastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                                System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                                Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
                             }
                             catch (Exception)
                             {
 
                                 continue;
                             }
-                            
+
 
                             lastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
                             System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
@@ -695,17 +698,33 @@ namespace XAdd
                         jobSheet.Cells[lastRow, 1].Value = shName;
                         if (answer)
                         {
-                            jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                            try
+                            {
+                                jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message,"XAdd");
+                            }
+                            
                         }
                         else
                         {
-                            jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                            jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                            try
+                            {
+                                jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message,"XAdd");
+                            }
+                            
                         }
                     }
                 }
                 Excel.Worksheet finishSheet = Application.Sheets["Job"];
-                finishSheet.Cells[1,1].EntireRow.Delete();
+                finishSheet.Cells[1, 1].EntireRow.Delete();
 
             }
             Clipboard.Clear();
@@ -743,10 +762,10 @@ namespace XAdd
 
             foreach (Excel.Worksheet ws in Application.Worksheets)
             {
-                if (ws.Index!=1)
+                if (ws.Index != 1)
                 {
-                    jobSheet.Hyperlinks.Add(startCell, "", ws.Name+"!A1", missing, ws.Name);
-                    startCell = startCell.Offset[1,0];
+                    jobSheet.Hyperlinks.Add(startCell, "", ws.Name + "!A1", missing, ws.Name);
+                    startCell = startCell.Offset[1, 0];
                     // превью листов
                     //try
                     //{
@@ -801,19 +820,19 @@ namespace XAdd
                 Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
                 Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
                 actSheet.Activate();
-                
+
             }
         }
 
         private void SheetsManagerClickNode() //клик по листу из Treeview1
         {
-            int lastCol=1;
+            int lastCol = 1;
 
             if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
             {
                 Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
                 Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
-                
+
 
                 try
                 {
@@ -832,15 +851,15 @@ namespace XAdd
         }
 
         private void Form_SheetsManager_SheetsManagerRemove() // кнопка удаление листа
-        { 
-            if (form_SheetsManager.treeView1.SelectedNode.Parent!=null)
+        {
+            if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
             {
 
                 try
                 {
                     Excel.Workbook actWb;
                     Excel.Worksheet actSheet;
-                    
+
                     foreach (TreeNode node in form_SheetsManager.treeView1.Nodes)
                     {
                         foreach (TreeNode childNode in node.Nodes)
@@ -851,7 +870,7 @@ namespace XAdd
                                 actSheet = actWb.Sheets.Item[childNode.Text];
                                 actSheet.Delete();
                             }
-                            else if (childNode==form_SheetsManager.treeView1.SelectedNode)
+                            else if (childNode == form_SheetsManager.treeView1.SelectedNode)
                             {
                                 actWb = Application.Workbooks.Item[childNode.Name];
                                 actSheet = actWb.Sheets.Item[childNode.Text];
@@ -859,7 +878,7 @@ namespace XAdd
                             }
 
                         }
-                        
+
                     }
 
                     Form_SheetsManager_Refresh();
@@ -872,12 +891,12 @@ namespace XAdd
                     MessageBox.Show(ex.Message, "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
-                
+
             }
         }
 
         private void Form_SheetsManager_SheetsManagerRename() // кнопка переименовать лист
-        { 
+        {
 
             int countChecked = 0;
 
@@ -889,7 +908,7 @@ namespace XAdd
                     {
                         countChecked++;
                     }
-                    if (countChecked>1)
+                    if (countChecked > 1)
                     {
                         break;
                     }
@@ -897,15 +916,15 @@ namespace XAdd
             }
 
 
-            if (form_SheetsManager.treeView1.SelectedNode.Parent != null && countChecked<2)
+            if (form_SheetsManager.treeView1.SelectedNode.Parent != null && countChecked < 2)
             {
 
                 Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
                 Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
                 form_SheetRename.SetSheetName(actSheet.Name);
                 DialogResult dr = form_SheetRename.ShowDialog();
-                
-                if (dr==DialogResult.OK)
+
+                if (dr == DialogResult.OK)
                 {
                     try
                     {
@@ -916,7 +935,7 @@ namespace XAdd
                     catch (Exception ex)
                     {
 
-                        MessageBox.Show(ex.Message,"XAdd",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
 
@@ -934,19 +953,19 @@ namespace XAdd
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Excel Files (*.xls,*.xls,*.xlsm,*.xla,*.xlsb,*.xlam)|*.xl*";
-            if (ofd.ShowDialog()==DialogResult.OK)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
                 Application.Workbooks.Open(ofd.FileName);
                 Form_SheetsManager_Refresh();
                 form_SheetsManager.Activate();
             }
-            
+
 
         }
 
         private void Form_SheetsManager_SheetsManagerCreateCopy() // кнопка сделать копию листа
         {
-            if (form_SheetsManager.treeView1.SelectedNode.Nodes.Count==0)
+            if (form_SheetsManager.treeView1.SelectedNode.Nodes.Count == 0)
             {
                 TreeNode selectedNode = form_SheetsManager.treeView1.SelectedNode;
                 Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
@@ -968,9 +987,9 @@ namespace XAdd
 
 
         private void Form_SheetsManager_SheetsManagerNewSheet() //кнопка добавить лист
-        { 
+        {
 
-            
+
             if (form_SheetsManager.treeView1.SelectedNode.Parent != null)
             {
                 TreeNode selectedNode = form_SheetsManager.treeView1.SelectedNode;
@@ -979,7 +998,7 @@ namespace XAdd
 
                 try
                 {
-                    Excel.Worksheet newSheet =  actWb.Worksheets.Add(missing, actSheet, 1, Excel.XlSheetType.xlWorksheet);
+                    Excel.Worksheet newSheet = actWb.Worksheets.Add(missing, actSheet, 1, Excel.XlSheetType.xlWorksheet);
                     TreeNode addNode = form_SheetsManager.treeView1.SelectedNode.Parent.Nodes.Insert(selectedNode.Index + 1, actWb.Name, newSheet.Name);
                     form_SheetsManager.treeView1.SelectedNode = addNode;
                     form_SheetsManager.treeView1.Focus();
@@ -1020,7 +1039,7 @@ namespace XAdd
         private void Form_SheetsManager_Refresh()// обновление Treeview книг и листов
         {
 
-            form_SheetsManager.treeView1.Nodes.Clear(); 
+            form_SheetsManager.treeView1.Nodes.Clear();
 
             foreach (Excel.Workbook wb in Application.Workbooks)
             {
@@ -1040,17 +1059,17 @@ namespace XAdd
         #region Показать/скрыть скрытые листы
         private void Ribbon_ButtonShowHiddenSheets()
         {
-            
+
 
             foreach (Excel.Worksheet ws in Application.ActiveWorkbook.Sheets)
             {
-                if (ws.Visible==Excel.XlSheetVisibility.xlSheetHidden||ws.Visible==Excel.XlSheetVisibility.xlSheetVeryHidden)
+                if (ws.Visible == Excel.XlSheetVisibility.xlSheetHidden || ws.Visible == Excel.XlSheetVisibility.xlSheetVeryHidden)
                 {
                     sheetsName.Add(ws.Name);
                     ws.Tab.Color = Color.PaleVioletRed;
                     ws.Visible = Excel.XlSheetVisibility.xlSheetVisible;
                 }
-                
+
             }
         }
 
@@ -1069,7 +1088,7 @@ namespace XAdd
         private void Ribbon_ButtonCurrency() // курсы валют кнопка нажата
         {
             form_Currency.Hide();
-            
+
             form_Currency.Show();
         }
 
@@ -1120,11 +1139,11 @@ namespace XAdd
 
             Application.ActiveSheet.Cells[lastRow, activeCell.Column].Value = 1;
 
-            
 
-            Excel.Range wRange = Application.Range[Application.ActiveCell,Application.ActiveCell.EntireColumn.Find("*", System.Reflection.Missing.Value,
+
+            Excel.Range wRange = Application.Range[Application.ActiveCell, Application.ActiveCell.EntireColumn.Find("*", System.Reflection.Missing.Value,
                         System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
-                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Cells] 
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Cells]
                 .SpecialCells(Excel.XlCellType.xlCellTypeVisible, missing);
 
             wRange.Cells.Value = activeCell.FormulaR1C1;
@@ -1158,14 +1177,24 @@ namespace XAdd
         /// содержимое этого метода с помощью редактора кода.
         /// </summary>
         private void InternalStartup()
-            {
-                this.Startup += new System.EventHandler(ThisAddIn_Startup);
-                this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
-            }
+        {
+            this.Startup += new System.EventHandler(ThisAddIn_Startup);
+            this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
+        }
 
-            #endregion
+        #endregion
 
+        #region Замена формул на значения
 
-      
+        private void ReplaceFormulasWithValues(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Excel.Range selRange = Application.ActiveWindow.RangeSelection.Cells;
+            selRange.Copy();
+            selRange.PasteSpecial(Excel.XlPasteType.xlPasteValues, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, false, false);
+            Clipboard.Clear();
+        }
+
+        #endregion
+
     }
 }
