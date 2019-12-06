@@ -21,6 +21,7 @@ namespace XAdd
         long lastRow;
         long lastCol;
         bool answer = false;
+        bool answerFilters = false;
         Excel.Range area;
         string shName;
         Random rnd = new Random();
@@ -54,14 +55,14 @@ namespace XAdd
 
             form_DatePicker.DateSelected += DatePicker_dateSelected;// обработчик выбор даты
 
-            cb = Application.CommandBars["Cell"]; 
+            cb = Application.CommandBars["Cell"];
             buttonContext = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton; // Кнопка "Протянуть формулу"
             buttonContext.Caption = "Протянуть формулу (XAdd)";
             buttonContext.Tag = "FormulaFil";
             buttonContext.Style = Office.MsoButtonStyle.msoButtonCaption;
             buttonContext.Click += ButtonContext_Click;
             buttonContext.Visible = true;
-            
+
 
             buttonContext = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton; // Кнопка "Заменить формулы на значения"
             buttonContext.Caption = "Заменить формулы на значения (XAdd)";
@@ -218,9 +219,10 @@ namespace XAdd
         #region Объединение листов
         private void Ribbon_ButtonAppendSheets() // объединяет все листы в активной книге. кнопка нажата
         {
+            
             Application.DisplayAlerts = false;
 
-            DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
+            DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа, будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
             switch (dr)
             {
                 case DialogResult.None:
@@ -235,6 +237,26 @@ namespace XAdd
                     break;
                 case DialogResult.No:
                     answer = false;
+                    break;
+                default:
+                    break;
+            }
+
+            dr = MessageBox.Show("Нужно ли учитывать фильтры в листах? (в случае отрицательного ответа, листы будут скопированы с отключенными фильтрами)", "XAdd", MessageBoxButtons.YesNoCancel);
+            switch (dr)
+            {
+                case DialogResult.None:
+                    return;
+                case DialogResult.OK:
+                    answerFilters = true;
+                    break;
+                case DialogResult.Cancel:
+                    return;
+                case DialogResult.Yes:
+                    answerFilters = true;
+                    break;
+                case DialogResult.No:
+                    answerFilters = false;
                     break;
                 default:
                     break;
@@ -256,53 +278,126 @@ namespace XAdd
 
             foreach (Excel.Worksheet ws in Application.Sheets)
             {
-                if (ws.Index != 1)
+                if (answerFilters)
                 {
-                    try
+                    if (ws.Index != 1)
                     {
-                        lastCol = ws.Cells.Find("*", System.Reflection.Missing.Value,
-                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
-                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
-                    }
-                    catch (Exception)
-                    {
+                        Excel.Range usedRange = ws.UsedRange.SpecialCells(Excel.XlCellType.xlCellTypeVisible);
+                        try
+                        {
+                            lastCol = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
 
-                        continue;
-                    }
+                        lastRow = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
 
-                    lastRow = ws.Cells.Find("*", System.Reflection.Missing.Value,
-                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
-                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
-
-                    shName = "*********************** " + ws.Name + " ******************************";
-                    ws.Range[ws.Cells[1, 1], ws.Cells[lastRow, lastCol]].Copy();
-                    lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
-                    area = Application.Cells[lastRow, 1].MergeArea;
-                    if (area.Cells.Count > 1)
-                    {
-                        lastRow += area.Cells.Count;
-                    }
-                    else
-                    {
-                        lastRow += 1;
-                    }
-                    jobSheet.Cells[lastRow, 1].EntireRow.Interior.ColorIndex = 6;
-                    jobSheet.Cells[lastRow, 1].Value = shName;
-                    if (answer)
-                    {
-                        jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
-                    }
-                    else
-                    {
-                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                    }
+                        shName = "*********************** " + ws.Name + " ******************************";
+                        ws.Range[ws.Cells[1, 1], ws.Cells[lastRow, lastCol]].Copy();
+                        lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+                        area = Application.Cells[lastRow, 1].MergeArea;
+                        if (area.Cells.Count > 1)
+                        {
+                            lastRow += area.Cells.Count;
+                        }
+                        else
+                        {
+                            lastRow += 1;
+                        }
+                        jobSheet.Cells[lastRow, 1].EntireRow.Interior.ColorIndex = 6;
+                        jobSheet.Cells[lastRow, 1].Value = shName;
+                        if (answer)
+                        {
+                            jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                        }
+                        else
+                        {
+                            jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                            jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                        }
 
 
+                    } //учитывать фильтры
+                }
+                else
+                {
+                    if (ws.Index != 1)
+                    {
+                        Excel.Worksheet actSheetCopy;
+                        if (ws.AutoFilter!=null)
+                        {
+                            ws.Copy(ws, missing);
+                            actSheetCopy = Application.ActiveWorkbook.Worksheets[ws.Index - 1];
+                            actSheetCopy.AutoFilter.ShowAllData();
+                        }
+                        else
+                        {
+                            actSheetCopy = ws;
+                        }
+                        try
+                        {
+                            lastCol = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                        }
+                        catch (Exception)
+                        {
+                            if (ws.AutoFilter!=null)
+                            {
+                                actSheetCopy.Delete();
+                            }
+                            continue;
+                        }
+
+                        lastRow = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
+                        shName = "*********************** " + ws.Name + " ******************************";
+                        actSheetCopy.Range[actSheetCopy.Cells[1, 1], actSheetCopy.Cells[lastRow, lastCol]].Copy();
+                        lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+                        area = Application.Cells[lastRow, 1].MergeArea;
+                        if (area.Cells.Count > 1)
+                        {
+                            lastRow += area.Cells.Count;
+                        }
+                        else
+                        {
+                            lastRow += 1;
+                        }
+                        jobSheet.Cells[lastRow, 1].EntireRow.Interior.ColorIndex = 6;
+                        jobSheet.Cells[lastRow, 1].Value = shName;
+                        if (answer)
+                        {
+                            jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                            if (ws.AutoFilter != null)
+                            {
+                                actSheetCopy.Delete();
+                            }
+                        }
+                        else
+                        {
+                            jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                            jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                            if (ws.AutoFilter != null)
+                            {
+                                actSheetCopy.Delete();
+                            }
+                        }
+
+
+                    } // не учитывать фильтры
                 }
 
             }
             jobSheet.Cells[1, 1].EntireRow.Delete();
+            jobSheet.Activate();
             Application.DisplayAlerts = true;
         }
 
@@ -482,7 +577,7 @@ namespace XAdd
                 Excel.Worksheet jobSheet = jobWb.Sheets["Job"];
                 jobSheet.Paste(jobSheet.Cells[1, 1]);
                 Application.DisplayAlerts = false;
-                if (form_AppendSheetsCustom.checkBox3.Checked==false)
+                if (form_AppendSheetsCustom.checkBox3.Checked == false)
                 {
                     foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
                     {
@@ -517,7 +612,7 @@ namespace XAdd
                                     {
                                         actSheetCopy.Delete();
                                     }
-                                    
+
                                     continue;
                                 }
 
@@ -581,11 +676,11 @@ namespace XAdd
                             }
                             catch (Exception)
                             {
-                                if (actSheet.AutoFilter!=null)
+                                if (actSheet.AutoFilter != null)
                                 {
                                     actSheetCopy.Delete();
                                 }
-                                
+
                                 continue;
                             }
 
@@ -724,7 +819,7 @@ namespace XAdd
                         }
                     } // Учитывая фильтры
                 }
-                
+
                 Application.DisplayAlerts = true;
             }
             else //Полное объединение (checkbox не отмечен)
@@ -909,11 +1004,11 @@ namespace XAdd
                                 }
                                 catch (Exception)
                                 {
-                                    if (actSheet.AutoFilter!=null)
+                                    if (actSheet.AutoFilter != null)
                                     {
                                         actSheetCopy.Delete();
                                     }
-                                    
+
                                     continue;
                                 }
 
@@ -963,7 +1058,7 @@ namespace XAdd
                             Excel.Workbook actWb = Application.Workbooks.Item[node.Name];
                             Excel.Worksheet actSheet = actWb.Sheets[node.Text];
                             Excel.Worksheet actSheetCopy;
-                            if (actSheet.AutoFilter!=null)
+                            if (actSheet.AutoFilter != null)
                             {
                                 actSheet.Copy(actSheet, missing);
                                 actSheetCopy = actWb.Worksheets[actSheet.Index - 1];
@@ -973,7 +1068,7 @@ namespace XAdd
                             {
                                 actSheetCopy = actSheet;
                             }
-                             
+
                             try
                             {
                                 lastCol = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
@@ -982,11 +1077,11 @@ namespace XAdd
                             }
                             catch (Exception)
                             {
-                                if (actSheet.AutoFilter!=null)
+                                if (actSheet.AutoFilter != null)
                                 {
                                     actSheetCopy.Delete();
                                 }
-                                
+
                                 continue;
                             }
 
@@ -1503,6 +1598,18 @@ namespace XAdd
 
         #endregion
 
+        #region Замена формул на значения
+
+        private void ReplaceFormulasWithValues(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Excel.Range selRange = Application.ActiveWindow.RangeSelection.Cells;
+            selRange.Copy();
+            selRange.PasteSpecial(Excel.XlPasteType.xlPasteValues, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, false, false);
+            Clipboard.Clear();
+        }
+
+        #endregion
+
         #region Код, автоматически созданный VSTO
 
         /// <summary>
@@ -1517,17 +1624,7 @@ namespace XAdd
 
         #endregion
 
-        #region Замена формул на значения
 
-        private void ReplaceFormulasWithValues(Office.CommandBarButton Ctrl, ref bool CancelDefault)
-        {
-            Excel.Range selRange = Application.ActiveWindow.RangeSelection.Cells;
-            selRange.Copy();
-            selRange.PasteSpecial(Excel.XlPasteType.xlPasteValues, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, false, false);
-            Clipboard.Clear();
-        }
-
-        #endregion
 
     }
 }
