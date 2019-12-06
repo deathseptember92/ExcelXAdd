@@ -38,6 +38,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +49,6 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(367, 399);
             this.treeView1.TabIndex = 2;
-            //this.treeView1.DoubleClick += new System.EventHandler(this.TreeView1_DoubleClick);
             // 
             // treeView2
             // 
@@ -67,7 +67,6 @@
             this.SelectedNodesToFinal.TabIndex = 4;
             this.SelectedNodesToFinal.Text = "=>";
             this.SelectedNodesToFinal.UseVisualStyleBackColor = false;
-            //this.SelectedNodesToFinal.Click += new System.EventHandler(this.SelectedNodesToFinal_Click);
             // 
             // RemoveNodesFromFinal
             // 
@@ -107,9 +106,9 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(599, 437);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(283, 17);
+            this.checkBox1.Size = new System.Drawing.Size(164, 17);
             this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "У листов одинаковые поля, свести в одну таблицу";
+            this.checkBox1.Text = "У листов одинаковые поля";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -142,6 +141,16 @@
             this.checkBox2.Text = "Отображать скрытые листы";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(769, 437);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(129, 17);
+            this.checkBox3.TabIndex = 12;
+            this.checkBox3.Text = "Учитывать фильтры";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
             // AppendSheetsForm
             // 
             this.AcceptButton = this.AppendSheetsOK;
@@ -150,6 +159,7 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.CancelButton = this.AppendSheetsCancel;
             this.ClientSize = new System.Drawing.Size(982, 504);
+            this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.checkBox1);
@@ -184,5 +194,6 @@
         internal System.Windows.Forms.Button RemoveNodesFromFinal;
         internal System.Windows.Forms.Button AppendSheetsOK;
         internal System.Windows.Forms.Button AppendSheetsCancel;
+        internal System.Windows.Forms.CheckBox checkBox3;
     }
 }

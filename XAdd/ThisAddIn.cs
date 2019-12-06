@@ -481,19 +481,212 @@ namespace XAdd
                 Excel.Workbook jobWb = Application.Workbooks.Item[jobWbString];
                 Excel.Worksheet jobSheet = jobWb.Sheets["Job"];
                 jobSheet.Paste(jobSheet.Cells[1, 1]);
-                foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
+                Application.DisplayAlerts = false;
+                if (form_AppendSheetsCustom.checkBox3.Checked==false)
                 {
-
-                    if (node.Nodes.Count > 0)
+                    foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
                     {
-                        foreach (TreeNode childNode in node.Nodes)
+
+                        if (node.Nodes.Count > 0)
                         {
-                            actWb = Application.Workbooks.Item[childNode.Name];
-                            actSheet = actWb.Sheets[childNode.Text];
+                            foreach (TreeNode childNode in node.Nodes)
+                            {
+                                actWb = Application.Workbooks.Item[childNode.Name];
+                                actSheet = actWb.Sheets[childNode.Text];
+                                Excel.Worksheet actSheetCopy;
+                                if (actSheet.AutoFilter != null)
+                                {
+                                    actSheet.Copy(actSheet, missing);
+                                    actSheetCopy = actWb.Worksheets[actSheet.Index - 1];
+                                    actSheetCopy.AutoFilter?.ShowAllData();
+                                }
+                                else
+                                {
+                                    actSheetCopy = actSheet;
+                                }
+
+                                try
+                                {
+                                    lastCol = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                                }
+                                catch (Exception)
+                                {
+                                    if (actSheet.AutoFilter != null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                    
+                                    continue;
+                                }
+
+
+                                lastRow = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                                System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                                Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
+                                actSheetCopy.Range[actSheetCopy.Cells[2, 1], actSheetCopy.Cells[lastRow, lastCol]].Copy();
+                                lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+                                area = Application.Cells[lastRow, 1].MergeArea;
+                                if (area.Cells.Count > 1)
+                                {
+                                    lastRow += area.Cells.Count;
+                                }
+                                else
+                                {
+                                    lastRow += 1;
+                                }
+                                if (answer)
+                                {
+                                    jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                    if (actSheet.AutoFilter != null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                }
+                                else
+                                {
+                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    if (actSheet.AutoFilter != null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            actWb = Application.Workbooks.Item[node.Name];
+                            actSheet = actWb.Sheets[node.Text];
+                            Excel.Worksheet actSheetCopy;
+                            if (actSheet.AutoFilter != null)
+                            {
+                                actSheet.Copy(actSheet, missing);
+                                actSheetCopy = actWb.Worksheets[actSheet.Index - 1];
+                                actSheetCopy.AutoFilter?.ShowAllData();
+                            }
+                            else
+                            {
+                                actSheetCopy = actSheet;
+                            }
 
                             try
                             {
-                                lastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                                lastCol = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                                System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                                Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                            }
+                            catch (Exception)
+                            {
+                                if (actSheet.AutoFilter!=null)
+                                {
+                                    actSheetCopy.Delete();
+                                }
+                                
+                                continue;
+                            }
+
+
+                            lastRow = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
+                            actSheetCopy.Range[actSheetCopy.Cells[2, 1], actSheetCopy.Cells[lastRow, lastCol]].Copy();
+                            lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+                            area = Application.Cells[lastRow, 1].MergeArea;
+                            if (area.Cells.Count > 1)
+                            {
+                                lastRow += area.Cells.Count;
+                            }
+                            else
+                            {
+                                lastRow += 1;
+                            }
+                            if (answer)
+                            {
+                                jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                if (actSheet.AutoFilter != null)
+                                {
+                                    actSheetCopy.Delete();
+                                }
+                            }
+                            else
+                            {
+                                jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                if (actSheet.AutoFilter != null)
+                                {
+                                    actSheetCopy.Delete();
+                                }
+                            }
+                        }
+                    } // Не учитывая фильтры
+                }
+                else
+                {
+                    foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
+                    {
+
+                        if (node.Nodes.Count > 0)
+                        {
+                            foreach (TreeNode childNode in node.Nodes)
+                            {
+                                actWb = Application.Workbooks.Item[childNode.Name];
+                                actSheet = actWb.Sheets[childNode.Text];
+                                Excel.Range usedRange = actSheet.UsedRange.SpecialCells(Excel.XlCellType.xlCellTypeVisible);
+
+                                try
+                                {
+                                    lastCol = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
+                                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                                }
+                                catch (Exception)
+                                {
+                                    actSheet.Delete();
+                                    continue;
+                                }
+
+
+                                lastRow = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
+                                System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                                Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
+                                actSheet.Range[actSheet.Cells[2, 1], actSheet.Cells[lastRow, lastCol]].Copy();
+                                lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+                                area = Application.Cells[lastRow, 1].MergeArea;
+                                if (area.Cells.Count > 1)
+                                {
+                                    lastRow += area.Cells.Count;
+                                }
+                                else
+                                {
+                                    lastRow += 1;
+                                }
+                                if (answer)
+                                {
+                                    jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                }
+                                else
+                                {
+                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            actWb = Application.Workbooks.Item[node.Name];
+                            actSheet = actWb.Sheets[node.Text];
+                            Excel.Range usedRange = actSheet.UsedRange.SpecialCells(Excel.XlCellType.xlCellTypeVisible);
+
+                            try
+                            {
+                                lastCol = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
                                 System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
                                 Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
                             }
@@ -504,7 +697,7 @@ namespace XAdd
                             }
 
 
-                            lastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                            lastRow = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
                             System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
                             Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
 
@@ -529,56 +722,13 @@ namespace XAdd
                                 jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
                             }
                         }
-
-                    }
-                    else
-                    {
-                        actWb = Application.Workbooks.Item[node.Name];
-                        actSheet = actWb.Sheets[node.Text];
-
-                        try
-                        {
-                            lastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
-                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
-                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
-                        }
-                        catch (Exception)
-                        {
-
-                            continue;
-                        }
-
-
-                        lastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
-                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
-                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
-
-                        actSheet.Range[actSheet.Cells[2, 1], actSheet.Cells[lastRow, lastCol]].Copy();
-                        lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
-                        area = Application.Cells[lastRow, 1].MergeArea;
-                        if (area.Cells.Count > 1)
-                        {
-                            lastRow += area.Cells.Count;
-                        }
-                        else
-                        {
-                            lastRow += 1;
-                        }
-                        if (answer)
-                        {
-                            jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
-                        }
-                        else
-                        {
-                            jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                            jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                        }
-                    }
+                    } // Учитывая фильтры
                 }
+                
+                Application.DisplayAlerts = true;
             }
             else //Полное объединение (checkbox не отмечен)
             {
-
 
                 DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
                 switch (dr)
@@ -603,20 +753,74 @@ namespace XAdd
                 Application.Workbooks.Add();
                 string JobWb = Application.ActiveWorkbook.Name;
                 Application.ActiveSheet.Name = "Job";
+                Application.DisplayAlerts = false;
 
-                foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
+                if (form_AppendSheetsCustom.checkBox3.Checked)
                 {
-
-                    if (node.Nodes.Count > 0)
+                    foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
                     {
-                        foreach (TreeNode childNode in node.Nodes)
+
+                        if (node.Nodes.Count > 0)
                         {
-                            Excel.Workbook actWb = Application.Workbooks.Item[childNode.Name];
-                            Excel.Worksheet actSheet = actWb.Sheets[childNode.Text];
+                            foreach (TreeNode childNode in node.Nodes)
+                            {
+                                Excel.Workbook actWb = Application.Workbooks.Item[childNode.Name];
+                                Excel.Worksheet actSheet = actWb.Sheets[childNode.Text];
+                                Excel.Range usedRange = actSheet.UsedRange.SpecialCells(Excel.XlCellType.xlCellTypeVisible);
+                                try
+                                {
+                                    lastCol = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
+                                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                                }
+                                catch (Exception)
+                                {
+
+                                    continue;
+                                }
+
+
+                                lastRow = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
+                                System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                                Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
+                                shName = "*********************** " + actWb.Name + "\\" + actSheet.Name + " ******************************";
+                                actSheet.Range[actSheet.Cells[1, 1], actSheet.Cells[lastRow, lastCol]].Copy();
+                                Excel.Workbook jobWb = Application.Workbooks.Item[JobWb];
+                                Excel.Worksheet jobSheet = jobWb.Sheets["Job"];
+                                lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+                                area = Application.Cells[lastRow, 1].MergeArea;
+                                if (area.Cells.Count > 1)
+                                {
+                                    lastRow += area.Cells.Count;
+                                }
+                                else
+                                {
+                                    lastRow += 1;
+                                }
+                                jobSheet.Cells[lastRow, 1].EntireRow.Interior.ColorIndex = 6;
+                                jobSheet.Cells[lastRow, 1].Value = shName;
+                                if (answer)
+                                {
+                                    jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                }
+                                else
+                                {
+                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            Excel.Workbook actWb = Application.Workbooks.Item[node.Name];
+                            Excel.Worksheet actSheet = actWb.Sheets[node.Text];
+                            Excel.Range usedRange = actSheet.UsedRange.SpecialCells(Excel.XlCellType.xlCellTypeVisible);
 
                             try
                             {
-                                lastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                                lastCol = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
                                 System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
                                 Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
                             }
@@ -626,8 +830,7 @@ namespace XAdd
                                 continue;
                             }
 
-
-                            lastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
+                            lastRow = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
                             System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
                             Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
 
@@ -649,83 +852,213 @@ namespace XAdd
                             jobSheet.Cells[lastRow, 1].Value = shName;
                             if (answer)
                             {
-                                jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                try
+                                {
+                                    jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "XAdd");
+                                }
+
                             }
                             else
                             {
-                                jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                try
+                                {
+                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "XAdd");
+                                }
+
                             }
                         }
-
-                    }
-                    else
-                    {
-                        Excel.Workbook actWb = Application.Workbooks.Item[node.Name];
-                        Excel.Worksheet actSheet = actWb.Sheets[node.Text];
-
-                        try
-                        {
-                            lastCol = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
-                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
-                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
-                        }
-                        catch (Exception)
-                        {
-
-                            continue;
-                        }
-
-                        lastRow = actSheet.Cells.Find("*", System.Reflection.Missing.Value,
-                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
-                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
-
-                        shName = "*********************** " + actWb.Name + "\\" + actSheet.Name + " ******************************";
-                        actSheet.Range[actSheet.Cells[1, 1], actSheet.Cells[lastRow, lastCol]].Copy();
-                        Excel.Workbook jobWb = Application.Workbooks.Item[JobWb];
-                        Excel.Worksheet jobSheet = jobWb.Sheets["Job"];
-                        lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
-                        area = Application.Cells[lastRow, 1].MergeArea;
-                        if (area.Cells.Count > 1)
-                        {
-                            lastRow += area.Cells.Count;
-                        }
-                        else
-                        {
-                            lastRow += 1;
-                        }
-                        jobSheet.Cells[lastRow, 1].EntireRow.Interior.ColorIndex = 6;
-                        jobSheet.Cells[lastRow, 1].Value = shName;
-                        if (answer)
-                        {
-                            try
-                            {
-                                jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message,"XAdd");
-                            }
-                            
-                        }
-                        else
-                        {
-                            try
-                            {
-                                jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message,"XAdd");
-                            }
-                            
-                        }
-                    }
+                    } // Учитывая фильтры
                 }
-                Excel.Worksheet finishSheet = Application.Sheets["Job"];
-                finishSheet.Cells[1, 1].EntireRow.Delete();
+                else
+                {
+                    foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
+                    {
 
+                        if (node.Nodes.Count > 0)
+                        {
+                            foreach (TreeNode childNode in node.Nodes)
+                            {
+                                Excel.Workbook actWb = Application.Workbooks.Item[childNode.Name];
+                                Excel.Worksheet actSheet = actWb.Sheets[childNode.Text];
+                                Excel.Worksheet actSheetCopy;
+                                if (actSheet.AutoFilter != null)
+                                {
+                                    actSheet.Copy(actSheet, missing);
+                                    actSheetCopy = actWb.Worksheets[actSheet.Index - 1];
+                                    actSheetCopy.AutoFilter?.ShowAllData();
+                                }
+                                else
+                                {
+                                    actSheetCopy = actSheet;
+                                }
+
+                                try
+                                {
+                                    lastCol = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                                }
+                                catch (Exception)
+                                {
+                                    if (actSheet.AutoFilter!=null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                    
+                                    continue;
+                                }
+
+
+                                lastRow = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                                System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                                Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
+                                shName = "*********************** " + actWb.Name + "\\" + actSheet.Name + " ******************************";
+                                actSheetCopy.Range[actSheetCopy.Cells[1, 1], actSheetCopy.Cells[lastRow, lastCol]].Copy();
+                                Excel.Workbook jobWb = Application.Workbooks.Item[JobWb];
+                                Excel.Worksheet jobSheet = jobWb.Sheets["Job"];
+                                lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+                                area = Application.Cells[lastRow, 1].MergeArea;
+                                if (area.Cells.Count > 1)
+                                {
+                                    lastRow += area.Cells.Count;
+                                }
+                                else
+                                {
+                                    lastRow += 1;
+                                }
+                                jobSheet.Cells[lastRow, 1].EntireRow.Interior.ColorIndex = 6;
+                                jobSheet.Cells[lastRow, 1].Value = shName;
+                                if (answer)
+                                {
+                                    jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    if (actSheet.AutoFilter != null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                }
+                                else
+                                {
+                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    if (actSheet.AutoFilter != null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            Excel.Workbook actWb = Application.Workbooks.Item[node.Name];
+                            Excel.Worksheet actSheet = actWb.Sheets[node.Text];
+                            Excel.Worksheet actSheetCopy;
+                            if (actSheet.AutoFilter!=null)
+                            {
+                                actSheet.Copy(actSheet, missing);
+                                actSheetCopy = actWb.Worksheets[actSheet.Index - 1];
+                                actSheetCopy.AutoFilter?.ShowAllData();
+                            }
+                            else
+                            {
+                                actSheetCopy = actSheet;
+                            }
+                             
+                            try
+                            {
+                                lastCol = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                                System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
+                                Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+                            }
+                            catch (Exception)
+                            {
+                                if (actSheet.AutoFilter!=null)
+                                {
+                                    actSheetCopy.Delete();
+                                }
+                                
+                                continue;
+                            }
+
+                            lastRow = actSheetCopy.Cells.Find("*", System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                            Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
+                            shName = "*********************** " + actWb.Name + "\\" + actSheet.Name + " ******************************";
+                            actSheetCopy.Range[actSheet.Cells[1, 1], actSheetCopy.Cells[lastRow, lastCol]].Copy();
+                            Excel.Workbook jobWb = Application.Workbooks.Item[JobWb];
+                            Excel.Worksheet jobSheet = jobWb.Sheets["Job"];
+                            lastRow = jobSheet.Range["A1"].SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+                            area = Application.Cells[lastRow, 1].MergeArea;
+                            if (area.Cells.Count > 1)
+                            {
+                                lastRow += area.Cells.Count;
+                            }
+                            else
+                            {
+                                lastRow += 1;
+                            }
+                            jobSheet.Cells[lastRow, 1].EntireRow.Interior.ColorIndex = 6;
+                            jobSheet.Cells[lastRow, 1].Value = shName;
+                            if (answer)
+                            {
+                                try
+                                {
+                                    jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    if (actSheet.AutoFilter != null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "XAdd");
+                                    if (actSheet.AutoFilter != null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    if (actSheet.AutoFilter != null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "XAdd");
+                                    if (actSheet.AutoFilter != null)
+                                    {
+                                        actSheetCopy.Delete();
+                                    }
+                                }
+
+                            }
+                        }
+                    } // Не учитывая фильтры
+                }
+                Excel.Workbook jobWbFinal = Application.Workbooks.Item[JobWb];
+                Excel.Worksheet finishSheet = jobWbFinal.Worksheets["Job"];
+                finishSheet.Activate();
+                finishSheet.Cells[1, 1].EntireRow.Delete();
+                Application.DisplayAlerts = true;
             }
             Clipboard.Clear();
         }

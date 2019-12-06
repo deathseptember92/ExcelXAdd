@@ -34,6 +34,7 @@ namespace XAdd
         private void AppendSheetsForm_Load(object sender, EventArgs e)
         {
             checkBox2.Checked = true;
+            checkBox3.Checked = true;
         }
 
         private void AppendSheetsForm_FormClosing(object sender, FormClosingEventArgs e)
