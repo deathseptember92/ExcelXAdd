@@ -125,6 +125,9 @@
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="ProgressBar, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ProgressBar.1.0.10\lib\ProgressBar.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -199,6 +202,12 @@
     <Compile Include="Forms\DatePickerForm.Designer.cs">
       <DependentUpon>DatePickerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ProgressBarForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProgressBarForm.Designer.cs">
+      <DependentUpon>ProgressBarForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SheetRenameForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -223,6 +232,9 @@
     <EmbeddedResource Include="Forms\DatePickerForm.resx">
       <DependentUpon>DatePickerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProgressBarForm.resx">
+      <DependentUpon>ProgressBarForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SheetRenameForm.resx">
       <DependentUpon>SheetRenameForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -237,6 +249,7 @@
     <EmbeddedResource Include="Ribbon1.resx">
       <DependentUpon>Ribbon1.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

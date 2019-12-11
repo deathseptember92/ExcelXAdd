@@ -17,6 +17,7 @@ namespace XAdd
         SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
         SheetRenameForm form_SheetRename = new SheetRenameForm();
         CurrencyForm form_Currency = new CurrencyForm();
+        ProgressBarForm form_ProgressBar = new ProgressBarForm();
         List<string> sheetsName = new List<string>();
         long lastRow;
         long lastCol;
@@ -221,6 +222,9 @@ namespace XAdd
         {
             
             Application.DisplayAlerts = false;
+            Application.Calculation = Excel.XlCalculation.xlCalculationManual;
+            int sheetsCompleted = 0;
+            
 
             DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа, будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
             switch (dr)
@@ -231,6 +235,8 @@ namespace XAdd
                     answer = true;
                     break;
                 case DialogResult.Cancel:
+                    Application.DisplayAlerts = true;
+                    Application.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
                     return;
                 case DialogResult.Yes:
                     answer = true;
@@ -261,10 +267,12 @@ namespace XAdd
                 default:
                     break;
             }
+            
 
             try
             {
                 Application.Sheets["Job"].Delete();
+                
             }
             catch (Exception)
             {
@@ -275,6 +283,11 @@ namespace XAdd
             Application.Sheets.Add(Before: Application.Sheets[1], Count: 1);
             Application.ActiveSheet.Name = "Job";
             Excel.Worksheet jobSheet = Application.Sheets["Job"];
+            int sheetsCount = Application.Sheets.Count-1;
+            form_ProgressBar.progressBar1.Maximum = sheetsCount;
+            form_ProgressBar.progressBar1.Value = 0;
+            form_ProgressBar.label1.Text = $"Объединено 0 из {sheetsCount}";
+            form_ProgressBar.Show();
 
             foreach (Excel.Worksheet ws in Application.Sheets)
             {
@@ -321,6 +334,9 @@ namespace XAdd
                             jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
                             jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
                         }
+                        sheetsCompleted++;
+                        form_ProgressBar.label1.Text = $"Объединено {sheetsCompleted} из {sheetsCount}";
+                        form_ProgressBar.progressBar1.Value = sheetsCompleted;
 
 
                     } //учитывать фильтры
@@ -390,14 +406,21 @@ namespace XAdd
                                 actSheetCopy.Delete();
                             }
                         }
+                        sheetsCompleted++;
+                        form_ProgressBar.label1.Text = $"Объединено {sheetsCompleted} из {sheetsCount}";
+                        form_ProgressBar.progressBar1.Value = sheetsCompleted;
 
 
                     } // не учитывать фильтры
                 }
 
+                form_ProgressBar.Refresh();
             }
+            form_ProgressBar.Refresh();
+            form_ProgressBar.Hide();
             jobSheet.Cells[1, 1].EntireRow.Delete();
             jobSheet.Activate();
+            Application.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
             Application.DisplayAlerts = true;
         }
 
@@ -538,9 +561,28 @@ namespace XAdd
 
         private void AppendSheetsCustom_Append(object sender, System.EventArgs e) // объединение листов (кнопка нажата)
         {
+            Application.DisplayAlerts = false;
+            Application.Calculation = Excel.XlCalculation.xlCalculationManual;
+            int sheetsCompleted = 0;
+            int sheetsCount = 0;
+            foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
+            {
+                if (node.Nodes.Count > 0)
+                {
+                    foreach (TreeNode childNode in node.Nodes)
+                    {
+                        sheetsCount++;
+                    }
+                }
+                else
+                {
+                    sheetsCount++;
+                }
+            }
+
             if (form_AppendSheetsCustom.checkBox1.Checked)
             { // объединение с учетом заголовков
-
+                
                 DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
                 switch (dr)
                 {
@@ -550,6 +592,8 @@ namespace XAdd
                         answer = true;
                         break;
                     case DialogResult.Cancel:
+                        Application.DisplayAlerts = true;
+                        Application.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
                         return;
                     case DialogResult.Yes:
                         answer = true;
@@ -560,7 +604,7 @@ namespace XAdd
                     default:
                         break;
                 }
-
+                
                 Application.Workbooks.Add();
                 string jobWbString = Application.ActiveWorkbook.Name;
                 Application.ActiveSheet.Name = "Job";
@@ -576,7 +620,10 @@ namespace XAdd
                 Excel.Workbook jobWb = Application.Workbooks.Item[jobWbString];
                 Excel.Worksheet jobSheet = jobWb.Sheets["Job"];
                 jobSheet.Paste(jobSheet.Cells[1, 1]);
-                Application.DisplayAlerts = false;
+                form_ProgressBar.progressBar1.Maximum = sheetsCount;
+                form_ProgressBar.progressBar1.Value = 0;
+                form_ProgressBar.label1.Text = $"Объединено 0 из {sheetsCount}";
+                form_ProgressBar.Show();
                 if (form_AppendSheetsCustom.checkBox3.Checked == false)
                 {
                     foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
@@ -612,7 +659,9 @@ namespace XAdd
                                     {
                                         actSheetCopy.Delete();
                                     }
-
+                                    sheetsCompleted++;
+                                    form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                                    form_ProgressBar.Refresh();
                                     continue;
                                 }
 
@@ -649,6 +698,10 @@ namespace XAdd
                                         actSheetCopy.Delete();
                                     }
                                 }
+                                sheetsCompleted++;
+                                form_ProgressBar.label1.Text = $"Объединено {sheetsCompleted} из {sheetsCount}";
+                                form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                                form_ProgressBar.Refresh();
                             }
 
                         }
@@ -680,7 +733,9 @@ namespace XAdd
                                 {
                                     actSheetCopy.Delete();
                                 }
-
+                                sheetsCompleted++;
+                                form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                                form_ProgressBar.Refresh();
                                 continue;
                             }
 
@@ -717,6 +772,10 @@ namespace XAdd
                                     actSheetCopy.Delete();
                                 }
                             }
+                            sheetsCompleted++;
+                            form_ProgressBar.label1.Text = $"Объединено {sheetsCompleted} из {sheetsCount}";
+                            form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                            form_ProgressBar.Refresh();
                         }
                     } // Не учитывая фильтры
                 }
@@ -844,6 +903,10 @@ namespace XAdd
                     default:
                         break;
                 }
+                form_ProgressBar.progressBar1.Maximum = sheetsCount;
+                form_ProgressBar.progressBar1.Value = 0;
+                form_ProgressBar.label1.Text = $"Объединено 0 из {sheetsCount}";
+                form_ProgressBar.Show();
 
                 Application.Workbooks.Add();
                 string JobWb = Application.ActiveWorkbook.Name;
@@ -870,7 +933,9 @@ namespace XAdd
                                 }
                                 catch (Exception)
                                 {
-
+                                    sheetsCompleted++;
+                                    form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                                    form_ProgressBar.Refresh();
                                     continue;
                                 }
 
@@ -904,6 +969,10 @@ namespace XAdd
                                     jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
                                     jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
                                 }
+                                sheetsCompleted++;
+                                form_ProgressBar.label1.Text = $"Объединено {sheetsCompleted} из {sheetsCount}";
+                                form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                                form_ProgressBar.Refresh();
                             }
 
                         }
@@ -921,7 +990,8 @@ namespace XAdd
                             }
                             catch (Exception)
                             {
-
+                                sheetsCompleted++;
+                                form_ProgressBar.progressBar1.Value = sheetsCompleted;
                                 continue;
                             }
 
@@ -970,8 +1040,13 @@ namespace XAdd
                                 }
 
                             }
+                            sheetsCompleted++;
+                            form_ProgressBar.label1.Text = $"Объединено {sheetsCompleted} из {sheetsCount}";
+                            form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                            form_ProgressBar.Refresh();
                         }
                     } // Учитывая фильтры
+                    form_ProgressBar.Refresh();
                 }
                 else
                 {
@@ -1008,7 +1083,9 @@ namespace XAdd
                                     {
                                         actSheetCopy.Delete();
                                     }
-
+                                    sheetsCompleted++;
+                                    form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                                    form_ProgressBar.Refresh();
                                     continue;
                                 }
 
@@ -1050,6 +1127,10 @@ namespace XAdd
                                         actSheetCopy.Delete();
                                     }
                                 }
+                                sheetsCompleted++;
+                                form_ProgressBar.label1.Text = $"Объединено {sheetsCompleted} из {sheetsCount}";
+                                form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                                form_ProgressBar.Refresh();
                             }
 
                         }
@@ -1081,7 +1162,9 @@ namespace XAdd
                                 {
                                     actSheetCopy.Delete();
                                 }
-
+                                sheetsCompleted++;
+                                form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                                form_ProgressBar.Refresh();
                                 continue;
                             }
 
@@ -1146,14 +1229,22 @@ namespace XAdd
                                 }
 
                             }
+                            sheetsCompleted++;
+                            form_ProgressBar.label1.Text = $"Объединено {sheetsCompleted} из {sheetsCount}";
+                            form_ProgressBar.progressBar1.Value = sheetsCompleted;
+                            form_ProgressBar.Refresh();
                         }
                     } // Не учитывая фильтры
+                    form_ProgressBar.Refresh();
                 }
+                form_ProgressBar.Hide();
                 Excel.Workbook jobWbFinal = Application.Workbooks.Item[JobWb];
                 Excel.Worksheet finishSheet = jobWbFinal.Worksheets["Job"];
+                jobWbFinal.Activate();
                 finishSheet.Activate();
                 finishSheet.Cells[1, 1].EntireRow.Delete();
                 Application.DisplayAlerts = true;
+                Application.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
             }
             Clipboard.Clear();
         }
