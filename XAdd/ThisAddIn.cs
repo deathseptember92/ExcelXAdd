@@ -1247,6 +1247,7 @@ namespace XAdd
             {
                 Excel.Workbook actWb = Application.Workbooks.Item[form_SheetsManager.treeView1.SelectedNode.Name];
                 Excel.Worksheet actSheet = actWb.Sheets.Item[form_SheetsManager.treeView1.SelectedNode.Text];
+                actWb.Activate();
                 actSheet.Activate();
 
             }
