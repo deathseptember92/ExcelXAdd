@@ -52,6 +52,7 @@
             this.group4 = this.Factory.CreateRibbonGroup();
             this.Currency = this.Factory.CreateRibbonButton();
             this.Calculator = this.Factory.CreateRibbonButton();
+            this.SortSheets = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -117,6 +118,7 @@
             this.group2.Items.Add(this.SheetsManager);
             this.group2.Items.Add(this.toggleButton1);
             this.group2.Items.Add(this.ShowSheetsShortcuts);
+            this.group2.Items.Add(this.SortSheets);
             this.group2.Label = "Листы";
             this.group2.Name = "group2";
             // 
@@ -211,6 +213,12 @@
             this.Calculator.ShowImage = true;
             this.Calculator.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Calculator_Click);
             // 
+            // SortSheets
+            // 
+            this.SortSheets.Label = "Сортировать листы";
+            this.SortSheets.Name = "SortSheets";
+            this.SortSheets.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SortSheets_Click);
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -253,6 +261,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton ShowSheetsShortcuts;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton AutoFill;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton Calculator;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton SortSheets;
     }
 
     partial class ThisRibbonCollection

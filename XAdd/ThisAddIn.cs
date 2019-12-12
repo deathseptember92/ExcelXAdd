@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
+using System.Linq;
 
 namespace XAdd
 {
@@ -99,8 +100,11 @@ namespace XAdd
             ribbon.ButtonHideSheetsShortcutsClicked += Ribbon_ButtonHideSheetsShortcuts;
             ribbon.ButtonAutoFillClicked += Ribbon_ButtonAutoFill;
             ribbon.ButtonCalculatorClicked += Ribbon_ButtonCalculator;
+            ribbon.ButtonSortSheetsClicked += Ribbon_ButtonSortSheets;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
+
+        
 
 
 
@@ -506,7 +510,7 @@ namespace XAdd
                 foreach (Excel.Workbook wb in Application.Workbooks)
                 {
                     TreeNode tempWorkbookNode = form_AppendSheetsCustom.treeView1.Nodes.Add(wb.Name, wb.Name);
-                    tempWorkbookNode.BackColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                    tempWorkbookNode.BackColor = Color.FromArgb(rnd.Next(180,256), rnd.Next(180, 256), rnd.Next(180, 256));
                     TreeNode[] tnd = form_AppendSheetsCustom.treeView1.Nodes.Find(wb.Name, false);
                     form_AppendSheetsCustom.treeView1.SelectedNode = tnd[0];
                     foreach (Excel.Worksheet ws in wb.Sheets)
@@ -526,6 +530,9 @@ namespace XAdd
             form_AppendSheetsCustom.treeView1.Nodes.Clear();
             form_AppendSheetsCustom.treeView2.Nodes.Clear();
             form_AppendSheetsCustomFillNode();
+            form_AppendSheetsCustom.checkBox2.Checked = true;
+            form_AppendSheetsCustom.checkBox3.Checked = true;
+            form_AppendSheetsCustom.checkBox4.Checked = true;
             form_AppendSheetsCustom.Show();
 
         }
@@ -562,7 +569,11 @@ namespace XAdd
         private void AppendSheetsCustom_Append(object sender, System.EventArgs e) // объединение листов (кнопка нажата)
         {
             Application.DisplayAlerts = false;
-            Application.Calculation = Excel.XlCalculation.xlCalculationManual;
+
+            if (form_AppendSheetsCustom.checkBox4.Checked==false)
+            {
+                Application.Calculation = Excel.XlCalculation.xlCalculationManual;
+            }
             int sheetsCompleted = 0;
             int sheetsCount = 0;
             foreach (TreeNode node in form_AppendSheetsCustom.treeView2.Nodes)
@@ -1258,7 +1269,7 @@ namespace XAdd
         private void Ribbon_ButtonTableOfContents()
         {
             //int LastCol;
-            Application.
+            Application.Calculation = Excel.XlCalculation.xlCalculationManual;
             Application.DisplayAlerts = false;
 
             try
@@ -1305,7 +1316,7 @@ namespace XAdd
             }
 
             Application.DisplayAlerts = true;
-
+            Application.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
 
         }
 
@@ -1698,6 +1709,24 @@ namespace XAdd
             selRange.Copy();
             selRange.PasteSpecial(Excel.XlPasteType.xlPasteValues, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, false, false);
             Clipboard.Clear();
+        }
+
+        #endregion
+
+        #region Сортировка листов
+
+        private void Ribbon_ButtonSortSheets()
+        {
+            for (int i = 1; i < Application.Sheets.Count-1; i++)
+            {
+                for (int j = i+1; j < Application.Sheets.Count; j++)
+                {
+                    if (string.Compare(Application.Sheets[i].Name,Application.Sheets[j].Name))
+                    {
+
+                    }
+                }
+            }
         }
 
         #endregion

@@ -77,6 +77,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SheetRenameForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Переименование листа - XAdd";
             this.ResumeLayout(false);
             this.PerformLayout();

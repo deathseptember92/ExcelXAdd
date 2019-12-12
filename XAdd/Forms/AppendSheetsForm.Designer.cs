@@ -39,8 +39,11 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
@@ -82,7 +85,7 @@
             // AppendSheetsOK
             // 
             this.AppendSheetsOK.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.AppendSheetsOK.Location = new System.Drawing.Point(690, 460);
+            this.AppendSheetsOK.Location = new System.Drawing.Point(694, 443);
             this.AppendSheetsOK.Name = "AppendSheetsOK";
             this.AppendSheetsOK.Size = new System.Drawing.Size(135, 37);
             this.AppendSheetsOK.TabIndex = 6;
@@ -93,7 +96,7 @@
             // 
             this.AppendSheetsCancel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.AppendSheetsCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.AppendSheetsCancel.Location = new System.Drawing.Point(831, 460);
+            this.AppendSheetsCancel.Location = new System.Drawing.Point(835, 443);
             this.AppendSheetsCancel.Name = "AppendSheetsCancel";
             this.AppendSheetsCancel.Size = new System.Drawing.Size(135, 37);
             this.AppendSheetsCancel.TabIndex = 7;
@@ -104,7 +107,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(599, 437);
+            this.checkBox1.Location = new System.Drawing.Point(6, 64);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(164, 17);
             this.checkBox1.TabIndex = 8;
@@ -134,7 +137,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(19, 437);
+            this.checkBox2.Location = new System.Drawing.Point(19, 443);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(170, 17);
             this.checkBox2.TabIndex = 11;
@@ -144,12 +147,34 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(769, 437);
+            this.checkBox3.Location = new System.Drawing.Point(6, 19);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(129, 17);
             this.checkBox3.TabIndex = 12;
             this.checkBox3.Text = "Учитывать фильтры";
             this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(6, 41);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(144, 17);
+            this.checkBox4.TabIndex = 13;
+            this.checkBox4.Text = "Калькуляция включена";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.checkBox4);
+            this.groupBox3.Controls.Add(this.checkBox3);
+            this.groupBox3.Controls.Add(this.checkBox1);
+            this.groupBox3.Location = new System.Drawing.Point(400, 344);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(187, 87);
+            this.groupBox3.TabIndex = 14;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Настройки объединения";
             // 
             // AppendSheetsForm
             // 
@@ -158,11 +183,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.CancelButton = this.AppendSheetsCancel;
-            this.ClientSize = new System.Drawing.Size(982, 504);
-            this.Controls.Add(this.checkBox3);
-            this.Controls.Add(this.checkBox2);
+            this.ClientSize = new System.Drawing.Size(982, 488);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.AppendSheetsCancel);
             this.Controls.Add(this.AppendSheetsOK);
             this.Controls.Add(this.RemoveNodesFromFinal);
@@ -172,12 +196,15 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AppendSheetsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Объединение листов - XAdd";
             this.Deactivate += new System.EventHandler(this.AppendSheetsForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AppendSheetsForm_FormClosing);
             this.Load += new System.EventHandler(this.AppendSheetsForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,5 +222,7 @@
         internal System.Windows.Forms.Button AppendSheetsOK;
         internal System.Windows.Forms.Button AppendSheetsCancel;
         internal System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.GroupBox groupBox3;
+        internal System.Windows.Forms.CheckBox checkBox4;
     }
 }

@@ -118,6 +118,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CurrencyForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Курсы валют - XAdd";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CurrencyForm_FormClosing);
             this.Load += new System.EventHandler(this.CurrencyForm_Load);

@@ -23,6 +23,8 @@ namespace XAdd
         public event Action ButtonHideSheetsShortcutsClicked;
         public event Action ButtonAutoFillClicked;
         public event Action ButtonCalculatorClicked;
+        public event Action ButtonSortSheetsClicked;
+
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             ShowSheetsShortcuts.Checked=true;
@@ -115,6 +117,11 @@ namespace XAdd
         private void Calculator_Click(object sender, RibbonControlEventArgs e)
         {
             ButtonCalculatorClicked?.Invoke();
+        }
+
+        private void SortSheets_Click(object sender, RibbonControlEventArgs e)
+        {
+            ButtonSortSheetsClicked?.Invoke();
         }
     }
 }
