@@ -217,6 +217,8 @@
             // 
             this.SortSheets.Label = "Сортировать листы";
             this.SortSheets.Name = "SortSheets";
+            this.SortSheets.OfficeImageId = "SortUp";
+            this.SortSheets.ShowImage = true;
             this.SortSheets.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SortSheets_Click);
             // 
             // Ribbon1

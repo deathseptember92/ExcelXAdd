@@ -1717,16 +1717,18 @@ namespace XAdd
 
         private void Ribbon_ButtonSortSheets()
         {
+            Application.Calculation = Excel.XlCalculation.xlCalculationManual;
             for (int i = 1; i < Application.Sheets.Count-1; i++)
             {
-                for (int j = i+1; j < Application.Sheets.Count; j++)
+                for (int j = i+1; j < Application.Sheets.Count+1; j++)
                 {
-                    if (string.Compare(Application.Sheets[i].Name,Application.Sheets[j].Name))
+                    if (string.Compare(Application.Sheets[i].Name,Application.Sheets[j].Name)>0)
                     {
-
+                        Application.ActiveWorkbook.Worksheets.Item[j].Move(Application.ActiveWorkbook.Worksheets.Item[i], missing);
                     }
                 }
             }
+            Application.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
         }
 
         #endregion
