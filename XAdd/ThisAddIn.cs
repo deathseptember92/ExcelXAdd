@@ -31,6 +31,14 @@ namespace XAdd
         #endregion
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            #region Обработчики_ApplicationEvents
+
+            Application.WorkbookActivate += Application_WorkbookActivate;
+            Application.SheetChange += Application_SheetChange;
+            Application.SheetActivate += Application_SheetActivate;
+
+            #endregion
+
             #region Обработчики_ОбъединениеЛистов
             form_AppendSheetsCustom.checkBox2.CheckedChanged += form_AppendSheetsCustomCheckBox2_CheckedChanged;
             form_AppendSheetsCustom.SelectedNodesToFinal.Click += AppendSheetsCustom_SelectedNodesToList;
@@ -38,7 +46,6 @@ namespace XAdd
             form_AppendSheetsCustom.RemoveNodesFromFinal.Click += AppendSheetsCustom_RemoveNodesFromList;
             form_AppendSheetsCustom.treeView2.DoubleClick += AppendSheetsCustom_RemoveNodesFromList;
             form_AppendSheetsCustom.AppendSheetsOK.Click += AppendSheetsCustom_Append;
-
             #endregion
 
             #region Обработчики_ДиспетчерЛистов
@@ -1729,6 +1736,25 @@ namespace XAdd
                 }
             }
             Application.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
+        }
+
+        #endregion
+
+        #region Строка состояния
+
+        private void Application_SheetActivate(object Sh)
+        {
+            Application.StatusBar = $"Строк: {Application.ActiveSheet.UsedRange.Rows.Count}, Столбцов: {Application.ActiveSheet.UsedRange.Columns.Count}";
+        }
+
+        private void Application_SheetChange(object Sh, Excel.Range Target)
+        {
+            Application.StatusBar = $"Строк: {Application.ActiveSheet.UsedRange.Rows.Count}, Столбцов: {Application.ActiveSheet.UsedRange.Columns.Count}";
+        }
+
+        private void Application_WorkbookActivate(Excel.Workbook Wb)
+        {
+            Application.StatusBar = $"Строк: {Application.ActiveSheet.UsedRange.Rows.Count}, Столбцов: {Application.ActiveSheet.UsedRange.Columns.Count}";
         }
 
         #endregion
