@@ -41,6 +41,7 @@
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkboxFormating = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -107,7 +108,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 64);
+            this.checkBox1.Location = new System.Drawing.Point(6, 87);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(164, 17);
             this.checkBox1.TabIndex = 8;
@@ -157,7 +158,7 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(6, 41);
+            this.checkBox4.Location = new System.Drawing.Point(6, 64);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(144, 17);
             this.checkBox4.TabIndex = 13;
@@ -166,15 +167,26 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.checkboxFormating);
             this.groupBox3.Controls.Add(this.checkBox4);
             this.groupBox3.Controls.Add(this.checkBox3);
             this.groupBox3.Controls.Add(this.checkBox1);
-            this.groupBox3.Location = new System.Drawing.Point(400, 344);
+            this.groupBox3.Location = new System.Drawing.Point(400, 324);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(187, 87);
+            this.groupBox3.Size = new System.Drawing.Size(187, 107);
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Настройки объединения";
+            // 
+            // checkBox5
+            // 
+            this.checkboxFormating.AutoSize = true;
+            this.checkboxFormating.Location = new System.Drawing.Point(6, 41);
+            this.checkboxFormating.Name = "checkBox5";
+            this.checkboxFormating.Size = new System.Drawing.Size(171, 17);
+            this.checkboxFormating.TabIndex = 14;
+            this.checkboxFormating.Text = "Учитывать форматирование";
+            this.checkboxFormating.UseVisualStyleBackColor = true;
             // 
             // AppendSheetsForm
             // 
@@ -224,5 +236,6 @@
         internal System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.GroupBox groupBox3;
         internal System.Windows.Forms.CheckBox checkBox4;
+        internal System.Windows.Forms.CheckBox checkboxFormating;
     }
 }

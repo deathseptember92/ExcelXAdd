@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
-using System.Linq;
 
 namespace XAdd
 {
@@ -111,7 +110,7 @@ namespace XAdd
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
 
-        
+
 
 
 
@@ -231,11 +230,11 @@ namespace XAdd
         #region Объединение листов
         private void Ribbon_ButtonAppendSheets() // объединяет все листы в активной книге. кнопка нажата
         {
-            
+
             Application.DisplayAlerts = false;
             Application.Calculation = Excel.XlCalculation.xlCalculationManual;
             int sheetsCompleted = 0;
-            
+
 
             DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа, будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
             switch (dr)
@@ -278,12 +277,12 @@ namespace XAdd
                 default:
                     break;
             }
-            
+
 
             try
             {
                 Application.Sheets["Job"].Delete();
-                
+
             }
             catch (Exception)
             {
@@ -294,7 +293,7 @@ namespace XAdd
             Application.Sheets.Add(Before: Application.Sheets[1], Count: 1);
             Application.ActiveSheet.Name = "Job";
             Excel.Worksheet jobSheet = Application.Sheets["Job"];
-            int sheetsCount = Application.Sheets.Count-1;
+            int sheetsCount = Application.Sheets.Count - 1;
             form_ProgressBar.progressBar1.Maximum = sheetsCount;
             form_ProgressBar.progressBar1.Value = 0;
             form_ProgressBar.label1.Text = $"Объединено 0 из {sheetsCount}";
@@ -357,7 +356,7 @@ namespace XAdd
                     if (ws.Index != 1)
                     {
                         Excel.Worksheet actSheetCopy;
-                        if (ws.AutoFilter!=null)
+                        if (ws.AutoFilter != null)
                         {
                             ws.Copy(ws, missing);
                             actSheetCopy = Application.ActiveWorkbook.Worksheets[ws.Index - 1];
@@ -375,7 +374,7 @@ namespace XAdd
                         }
                         catch (Exception)
                         {
-                            if (ws.AutoFilter!=null)
+                            if (ws.AutoFilter != null)
                             {
                                 actSheetCopy.Delete();
                             }
@@ -517,7 +516,7 @@ namespace XAdd
                 foreach (Excel.Workbook wb in Application.Workbooks)
                 {
                     TreeNode tempWorkbookNode = form_AppendSheetsCustom.treeView1.Nodes.Add(wb.Name, wb.Name);
-                    tempWorkbookNode.BackColor = Color.FromArgb(rnd.Next(180,256), rnd.Next(180, 256), rnd.Next(180, 256));
+                    tempWorkbookNode.BackColor = Color.FromArgb(rnd.Next(180, 256), rnd.Next(180, 256), rnd.Next(180, 256));
                     TreeNode[] tnd = form_AppendSheetsCustom.treeView1.Nodes.Find(wb.Name, false);
                     form_AppendSheetsCustom.treeView1.SelectedNode = tnd[0];
                     foreach (Excel.Worksheet ws in wb.Sheets)
@@ -540,6 +539,7 @@ namespace XAdd
             form_AppendSheetsCustom.checkBox2.Checked = true;
             form_AppendSheetsCustom.checkBox3.Checked = true;
             form_AppendSheetsCustom.checkBox4.Checked = true;
+            form_AppendSheetsCustom.checkboxFormating.Checked = true;
             form_AppendSheetsCustom.Show();
 
         }
@@ -577,7 +577,7 @@ namespace XAdd
         {
             Application.DisplayAlerts = false;
 
-            if (form_AppendSheetsCustom.checkBox4.Checked==false)
+            if (form_AppendSheetsCustom.checkBox4.Checked == false)
             {
                 Application.Calculation = Excel.XlCalculation.xlCalculationManual;
             }
@@ -600,7 +600,7 @@ namespace XAdd
 
             if (form_AppendSheetsCustom.checkBox1.Checked)
             { // объединение с учетом заголовков
-                
+
                 DialogResult dr = MessageBox.Show("Нужно ли копировать формулы? (в случае отрицательного ответа будут скопированы только значения)", "XAdd", MessageBoxButtons.YesNoCancel);
                 switch (dr)
                 {
@@ -622,7 +622,7 @@ namespace XAdd
                     default:
                         break;
                 }
-                
+
                 Application.Workbooks.Add();
                 string jobWbString = Application.ActiveWorkbook.Name;
                 Application.ActiveSheet.Name = "Job";
@@ -701,7 +701,14 @@ namespace XAdd
                                 }
                                 if (answer)
                                 {
-                                    jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                    }
+                                    else
+                                    {
+                                        jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormulasAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
                                     if (actSheet.AutoFilter != null)
                                     {
                                         actSheetCopy.Delete();
@@ -710,7 +717,11 @@ namespace XAdd
                                 else
                                 {
                                     jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                     if (actSheet.AutoFilter != null)
                                     {
                                         actSheetCopy.Delete();
@@ -775,7 +786,15 @@ namespace XAdd
                             }
                             if (answer)
                             {
-                                jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                {
+                                    jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                }
+                                else
+                                {
+                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormulasAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                }
+
                                 if (actSheet.AutoFilter != null)
                                 {
                                     actSheetCopy.Delete();
@@ -784,7 +803,11 @@ namespace XAdd
                             else
                             {
                                 jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                {
+                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                }
+
                                 if (actSheet.AutoFilter != null)
                                 {
                                     actSheetCopy.Delete();
@@ -840,12 +863,25 @@ namespace XAdd
                                 }
                                 if (answer)
                                 {
-                                    jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                    }
+                                    else
+                                    {
+                                        jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormulasAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                 }
                                 else
                                 {
                                     jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                 }
                             }
 
@@ -886,12 +922,23 @@ namespace XAdd
                             }
                             if (answer)
                             {
-                                jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                {
+                                    jobSheet.Paste(jobSheet.Cells[lastRow, 1]);
+                                }
+                                else
+                                {
+                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormulasAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                }
                             }
                             else
                             {
                                 jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                {
+                                    jobSheet.Cells[lastRow, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                }
+
                             }
                         }
                     } // Учитывая фильтры
@@ -980,12 +1027,24 @@ namespace XAdd
                                 jobSheet.Cells[lastRow, 1].Value = shName;
                                 if (answer)
                                 {
-                                    jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    }
+                                    else
+                                    {
+                                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormulasAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                 }
                                 else
                                 {
                                     jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                 }
                                 sheetsCompleted++;
                                 form_ProgressBar.label1.Text = $"Объединено {sheetsCompleted} из {sheetsCount}";
@@ -1037,7 +1096,15 @@ namespace XAdd
                             {
                                 try
                                 {
-                                    jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    }
+                                    else
+                                    {
+                                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormulasAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                 }
                                 catch (Exception ex)
                                 {
@@ -1050,7 +1117,11 @@ namespace XAdd
                                 try
                                 {
                                     jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                 }
                                 catch (Exception ex)
                                 {
@@ -1130,7 +1201,15 @@ namespace XAdd
                                 jobSheet.Cells[lastRow, 1].Value = shName;
                                 if (answer)
                                 {
-                                    jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    }
+                                    else
+                                    {
+                                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormulasAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                     if (actSheet.AutoFilter != null)
                                     {
                                         actSheetCopy.Delete();
@@ -1139,7 +1218,11 @@ namespace XAdd
                                 else
                                 {
                                     jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                     if (actSheet.AutoFilter != null)
                                     {
                                         actSheetCopy.Delete();
@@ -1210,7 +1293,15 @@ namespace XAdd
                             {
                                 try
                                 {
-                                    jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Paste(jobSheet.Cells[lastRow + 1, 1]);
+                                    }
+                                    else
+                                    {
+                                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormulasAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+
                                     if (actSheet.AutoFilter != null)
                                     {
                                         actSheetCopy.Delete();
@@ -1231,7 +1322,11 @@ namespace XAdd
                                 try
                                 {
                                     jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteValuesAndNumberFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
-                                    jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    if (form_AppendSheetsCustom.checkboxFormating.Checked)
+                                    {
+                                        jobSheet.Cells[lastRow + 1, 1].PasteSpecial(Excel.XlPasteType.xlPasteFormats, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, missing, missing);
+                                    }
+                                    
                                     if (actSheet.AutoFilter != null)
                                     {
                                         actSheetCopy.Delete();
@@ -1725,11 +1820,11 @@ namespace XAdd
         private void Ribbon_ButtonSortSheets()
         {
             Application.Calculation = Excel.XlCalculation.xlCalculationManual;
-            for (int i = 1; i < Application.Sheets.Count-1; i++)
+            for (int i = 1; i < Application.Sheets.Count - 1; i++)
             {
-                for (int j = i+1; j < Application.Sheets.Count+1; j++)
+                for (int j = i + 1; j < Application.Sheets.Count + 1; j++)
                 {
-                    if (string.Compare(Application.Sheets[i].Name,Application.Sheets[j].Name)>0)
+                    if (string.Compare(Application.Sheets[i].Name, Application.Sheets[j].Name) > 0)
                     {
                         Application.ActiveWorkbook.Worksheets.Item[j].Move(Application.ActiveWorkbook.Worksheets.Item[i], missing);
                     }
