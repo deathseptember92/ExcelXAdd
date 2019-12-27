@@ -12,12 +12,12 @@ namespace XAdd
         #region Переменные
         Office.CommandBar cb = null;
         Office.CommandBarButton buttonContext = null;
-        DatePickerForm form_DatePicker = new DatePickerForm();
-        AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
-        SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
-        SheetRenameForm form_SheetRename = new SheetRenameForm();
-        CurrencyForm form_Currency = new CurrencyForm();
-        ProgressBarForm form_ProgressBar = new ProgressBarForm();
+        readonly DatePickerForm form_DatePicker = new DatePickerForm();
+        readonly AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
+        readonly SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
+        readonly SheetRenameForm form_SheetRename = new SheetRenameForm();
+        readonly CurrencyForm form_Currency = new CurrencyForm();
+        readonly ProgressBarForm form_ProgressBar = new ProgressBarForm();
         List<string> sheetsName = new List<string>();
         long lastRow;
         long lastCol;

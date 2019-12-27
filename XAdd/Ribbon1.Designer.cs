@@ -47,12 +47,12 @@
             this.SheetsManager = this.Factory.CreateRibbonButton();
             this.toggleButton1 = this.Factory.CreateRibbonToggleButton();
             this.ShowSheetsShortcuts = this.Factory.CreateRibbonToggleButton();
+            this.SortSheets = this.Factory.CreateRibbonButton();
             this.group3 = this.Factory.CreateRibbonGroup();
             this.InsertDate = this.Factory.CreateRibbonButton();
             this.group4 = this.Factory.CreateRibbonGroup();
             this.Currency = this.Factory.CreateRibbonButton();
             this.Calculator = this.Factory.CreateRibbonButton();
-            this.SortSheets = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -175,6 +175,14 @@
             this.ShowSheetsShortcuts.ShowImage = true;
             this.ShowSheetsShortcuts.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ShowSheetsShortcuts_Click);
             // 
+            // SortSheets
+            // 
+            this.SortSheets.Label = "Сортировать листы";
+            this.SortSheets.Name = "SortSheets";
+            this.SortSheets.OfficeImageId = "SortUp";
+            this.SortSheets.ShowImage = true;
+            this.SortSheets.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SortSheets_Click);
+            // 
             // group3
             // 
             this.group3.Items.Add(this.InsertDate);
@@ -212,14 +220,6 @@
             this.Calculator.OfficeImageId = "Calculator";
             this.Calculator.ShowImage = true;
             this.Calculator.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Calculator_Click);
-            // 
-            // SortSheets
-            // 
-            this.SortSheets.Label = "Сортировать листы";
-            this.SortSheets.Name = "SortSheets";
-            this.SortSheets.OfficeImageId = "SortUp";
-            this.SortSheets.ShowImage = true;
-            this.SortSheets.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SortSheets_Click);
             // 
             // Ribbon1
             // 

@@ -22,7 +22,7 @@ namespace XAdd
 
         private void CurrencyForm_Load(object sender, EventArgs e)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://www.cbr.ru/scripts/XML_daily.asp?date_req=07/10/2019");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://www.cbr.ru/");
 
             try
             {
