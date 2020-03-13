@@ -187,6 +187,12 @@
     <Compile Include="Forms\AppendSheetsForm.Designer.cs">
       <DependentUpon>AppendSheetsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AppendWorkbooksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AppendWorkbooksForm.Designer.cs">
+      <DependentUpon>AppendWorkbooksForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\CurrencyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,6 +228,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\AppendSheetsForm.resx">
       <DependentUpon>AppendSheetsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AppendWorkbooksForm.resx">
+      <DependentUpon>AppendWorkbooksForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CurrencyForm.resx">
       <DependentUpon>CurrencyForm.cs</DependentUpon>

@@ -53,12 +53,15 @@
             this.group4 = this.Factory.CreateRibbonGroup();
             this.Currency = this.Factory.CreateRibbonButton();
             this.Calculator = this.Factory.CreateRibbonButton();
+            this.AppendWorkbooks = this.Factory.CreateRibbonButton();
+            this.group6 = this.Factory.CreateRibbonGroup();
             this.tab1.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
             this.group4.SuspendLayout();
+            this.group6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -69,6 +72,7 @@
             this.tab1.Groups.Add(this.group2);
             this.tab1.Groups.Add(this.group3);
             this.tab1.Groups.Add(this.group4);
+            this.tab1.Groups.Add(this.group6);
             this.tab1.Label = "XAdd";
             this.tab1.Name = "tab1";
             // 
@@ -221,6 +225,18 @@
             this.Calculator.ShowImage = true;
             this.Calculator.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Calculator_Click);
             // 
+            // AppendWorkbooks
+            // 
+            this.AppendWorkbooks.Label = "Объединить книги из файлов";
+            this.AppendWorkbooks.Name = "AppendWorkbooks";
+            this.AppendWorkbooks.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AppendWorkbooks_Click);
+            // 
+            // group6
+            // 
+            this.group6.Items.Add(this.AppendWorkbooks);
+            this.group6.Label = "Книги";
+            this.group6.Name = "group6";
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -239,6 +255,8 @@
             this.group3.PerformLayout();
             this.group4.ResumeLayout(false);
             this.group4.PerformLayout();
+            this.group6.ResumeLayout(false);
+            this.group6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -264,6 +282,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton AutoFill;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton Calculator;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton SortSheets;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group6;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton AppendWorkbooks;
     }
 
     partial class ThisRibbonCollection

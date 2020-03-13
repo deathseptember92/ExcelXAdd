@@ -24,6 +24,7 @@ namespace XAdd
         public event Action ButtonAutoFillClicked;
         public event Action ButtonCalculatorClicked;
         public event Action ButtonSortSheetsClicked;
+        public event Action ButtonAppendWorkbooksClicked;
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
@@ -122,6 +123,11 @@ namespace XAdd
         private void SortSheets_Click(object sender, RibbonControlEventArgs e)
         {
             ButtonSortSheetsClicked?.Invoke();
+        }
+
+        private void AppendWorkbooks_Click(object sender, RibbonControlEventArgs e)
+        {
+            ButtonAppendWorkbooksClicked?.Invoke();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace XAdd
         readonly SheetRenameForm form_SheetRename = new SheetRenameForm();
         readonly CurrencyForm form_Currency = new CurrencyForm();
         readonly ProgressBarForm form_ProgressBar = new ProgressBarForm();
+        readonly AppendWorkbooksForm form_AppendWorkbooks = new AppendWorkbooksForm();
         List<string> sheetsName = new List<string>();
         long lastRow;
         long lastCol;
@@ -38,7 +39,7 @@ namespace XAdd
 
             #endregion
 
-            #region Обработчики_ОбъединениеЛистов
+            #region Обработчики_AppendSheetsForm
             form_AppendSheetsCustom.checkBox2.CheckedChanged += form_AppendSheetsCustomCheckBox2_CheckedChanged;
             form_AppendSheetsCustom.SelectedNodesToFinal.Click += AppendSheetsCustom_SelectedNodesToList;
             form_AppendSheetsCustom.treeView1.DoubleClick += AppendSheetsCustom_SelectedNodesToList;
@@ -47,7 +48,7 @@ namespace XAdd
             form_AppendSheetsCustom.AppendSheetsOK.Click += AppendSheetsCustom_Append;
             #endregion
 
-            #region Обработчики_ДиспетчерЛистов
+            #region Обработчики_SheetsManagerForm
 
             form_SheetsManager.SheetsManagerClickNode += SheetsManagerClickNode;
             form_SheetsManager.SheetsManagerDoubleClickNode += SheetsManagerDoubleClickNode;
@@ -60,6 +61,9 @@ namespace XAdd
 
             #endregion
 
+            #region Обработчики_AppendWorkbooksForm
+
+            #endregion
 
             form_DatePicker.DateSelected += DatePicker_dateSelected;// обработчик выбор даты
 
@@ -107,7 +111,13 @@ namespace XAdd
             ribbon.ButtonAutoFillClicked += Ribbon_ButtonAutoFill;
             ribbon.ButtonCalculatorClicked += Ribbon_ButtonCalculator;
             ribbon.ButtonSortSheetsClicked += Ribbon_ButtonSortSheets;
+            ribbon.ButtonAppendWorkbooksClicked += Ribbon_ButtonAppendWorkbooks;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
+        }
+
+        private void Ribbon_ButtonAppendWorkbooks()
+        {
+            throw new NotImplementedException();
         }
 
 
