@@ -136,6 +136,8 @@ namespace XAdd
 
         private void Form_AppendWorkbooks_AppendWorkbooksButton()
         {
+            Application.DisplayAlerts = false;
+
             if (form_AppendWorkbooks.listView1.Items.Count>=2)
             {
                 Excel.Workbook jobWb = Application.Workbooks.Add();
@@ -143,6 +145,7 @@ namespace XAdd
                 foreach (ListViewItem item in form_AppendWorkbooks.listView1.Items)
                 {
                     Excel.Workbook curWb;
+                    Excel.Worksheet jobWs;
                     try
                     {
                         curWb = Application.Workbooks.Open(item.Text, missing, false, missing, missing, missing,
@@ -158,13 +161,21 @@ namespace XAdd
                     foreach (Excel.Worksheet sheet in curWb.Sheets)
                     {
                         sheet.Copy(After: jobWb.Sheets[jobWb.Sheets.Count]);
+                        if (form_AppendWorkbooks.checkBoxFileNames.Checked==true)
+                        {
+                             jobWs = jobWb.Sheets[jobWb.Sheets.Count];
+                             jobWs.Name = curWb.Name + "!" + sheet.Name;
+                        }
+                        
                     }
 
                     curWb.Close(false, missing, missing);
                     
                 }
             }
-            
+
+            Application.DisplayAlerts = true;
+
         }
 
 

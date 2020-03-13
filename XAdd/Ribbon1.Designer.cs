@@ -184,6 +184,8 @@
             // 
             this.AppendWorkbooks.Label = "Объединить книги из файлов";
             this.AppendWorkbooks.Name = "AppendWorkbooks";
+            this.AppendWorkbooks.OfficeImageId = "FileCloseAll";
+            this.AppendWorkbooks.ShowImage = true;
             this.AppendWorkbooks.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AppendWorkbooks_Click);
             // 
             // RemoveColumns

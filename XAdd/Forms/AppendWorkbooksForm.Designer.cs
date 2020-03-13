@@ -34,6 +34,7 @@
             this.buttonFileDialog = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonExclude = new System.Windows.Forms.Button();
+            this.checkBoxFileNames = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // buttonAppend
@@ -41,7 +42,7 @@
             this.buttonAppend.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonAppend.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonAppend.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonAppend.Location = new System.Drawing.Point(522, 258);
+            this.buttonAppend.Location = new System.Drawing.Point(522, 278);
             this.buttonAppend.Name = "buttonAppend";
             this.buttonAppend.Size = new System.Drawing.Size(85, 23);
             this.buttonAppend.TabIndex = 0;
@@ -64,7 +65,7 @@
             this.buttonCancel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonCancel.Location = new System.Drawing.Point(613, 258);
+            this.buttonCancel.Location = new System.Drawing.Point(613, 278);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(59, 23);
             this.buttonCancel.TabIndex = 2;
@@ -108,6 +109,16 @@
             this.buttonExclude.UseVisualStyleBackColor = false;
             this.buttonExclude.Click += new System.EventHandler(this.buttonExclude_Click);
             // 
+            // checkBoxFileNames
+            // 
+            this.checkBoxFileNames.AutoSize = true;
+            this.checkBoxFileNames.Location = new System.Drawing.Point(12, 288);
+            this.checkBoxFileNames.Name = "checkBoxFileNames";
+            this.checkBoxFileNames.Size = new System.Drawing.Size(285, 17);
+            this.checkBoxFileNames.TabIndex = 6;
+            this.checkBoxFileNames.Text = "Переименовать листы (имя книги!название листа)";
+            this.checkBoxFileNames.UseVisualStyleBackColor = true;
+            // 
             // AppendWorkbooksForm
             // 
             this.AcceptButton = this.buttonAppend;
@@ -115,7 +126,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(684, 288);
+            this.ClientSize = new System.Drawing.Size(684, 313);
+            this.Controls.Add(this.checkBoxFileNames);
             this.Controls.Add(this.buttonExclude);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.buttonFileDialog);
@@ -129,6 +141,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AppendWorkbooksForm_FormClosing);
             this.Load += new System.EventHandler(this.AppendWorkbooksForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -140,5 +153,6 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonExclude;
         internal System.Windows.Forms.ListView listView1;
+        internal System.Windows.Forms.CheckBox checkBoxFileNames;
     }
 }
