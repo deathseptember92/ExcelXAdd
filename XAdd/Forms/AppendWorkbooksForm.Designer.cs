@@ -38,13 +38,16 @@
             // 
             // buttonAppend
             // 
+            this.buttonAppend.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonAppend.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonAppend.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonAppend.Location = new System.Drawing.Point(522, 258);
             this.buttonAppend.Name = "buttonAppend";
             this.buttonAppend.Size = new System.Drawing.Size(85, 23);
             this.buttonAppend.TabIndex = 0;
             this.buttonAppend.Text = "Объединить";
-            this.buttonAppend.UseVisualStyleBackColor = true;
+            this.buttonAppend.UseVisualStyleBackColor = false;
+            this.buttonAppend.Click += new System.EventHandler(this.buttonAppend_Click);
             // 
             // listView1
             // 
@@ -54,43 +57,56 @@
             this.listView1.Size = new System.Drawing.Size(660, 240);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.List;
             // 
             // buttonCancel
             // 
+            this.buttonCancel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonCancel.Location = new System.Drawing.Point(613, 258);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(59, 23);
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Отмена";
-            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.UseVisualStyleBackColor = false;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // buttonFileDialog
             // 
+            this.buttonFileDialog.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.buttonFileDialog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonFileDialog.Location = new System.Drawing.Point(13, 258);
             this.buttonFileDialog.Name = "buttonFileDialog";
             this.buttonFileDialog.Size = new System.Drawing.Size(53, 23);
             this.buttonFileDialog.TabIndex = 3;
             this.buttonFileDialog.Text = "...";
-            this.buttonFileDialog.UseVisualStyleBackColor = true;
+            this.buttonFileDialog.UseVisualStyleBackColor = false;
+            this.buttonFileDialog.Click += new System.EventHandler(this.buttonFileDialog_Click);
             // 
             // buttonAdd
             // 
+            this.buttonAdd.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonAdd.Location = new System.Drawing.Point(72, 258);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(73, 23);
             this.buttonAdd.TabIndex = 4;
             this.buttonAdd.Text = "Добавить";
-            this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.UseVisualStyleBackColor = false;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
             // buttonExclude
             // 
+            this.buttonExclude.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.buttonExclude.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonExclude.Location = new System.Drawing.Point(151, 258);
             this.buttonExclude.Name = "buttonExclude";
             this.buttonExclude.Size = new System.Drawing.Size(72, 23);
             this.buttonExclude.TabIndex = 5;
             this.buttonExclude.Text = "Исключить";
-            this.buttonExclude.UseVisualStyleBackColor = true;
+            this.buttonExclude.UseVisualStyleBackColor = false;
+            this.buttonExclude.Click += new System.EventHandler(this.buttonExclude_Click);
             // 
             // AppendWorkbooksForm
             // 
@@ -108,6 +124,7 @@
             this.Controls.Add(this.buttonAppend);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "AppendWorkbooksForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Объединение книг - XAdd";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AppendWorkbooksForm_FormClosing);
             this.Load += new System.EventHandler(this.AppendWorkbooksForm_Load);
@@ -118,10 +135,10 @@
         #endregion
 
         private System.Windows.Forms.Button buttonAppend;
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonFileDialog;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonExclude;
+        internal System.Windows.Forms.ListView listView1;
     }
 }

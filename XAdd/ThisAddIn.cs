@@ -62,7 +62,7 @@ namespace XAdd
             #endregion
 
             #region Обработчики_AppendWorkbooksForm
-
+            form_AppendWorkbooks.AppendWorkbooksButtonClicked += Form_AppendWorkbooks_AppendWorkbooksButton;
             #endregion
 
             form_DatePicker.DateSelected += DatePicker_dateSelected;// обработчик выбор даты
@@ -85,7 +85,7 @@ namespace XAdd
 
         }
 
-
+        
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
@@ -115,21 +115,60 @@ namespace XAdd
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
 
+
+
+
+
+
+
+
+
+
+
+
+        #region Объединение книг
+
         private void Ribbon_ButtonAppendWorkbooks()
         {
-            throw new NotImplementedException();
+            form_AppendWorkbooks.Hide();
+            form_AppendWorkbooks.Show();
+        }
+
+        private void Form_AppendWorkbooks_AppendWorkbooksButton()
+        {
+            if (form_AppendWorkbooks.listView1.Items.Count>=2)
+            {
+                Excel.Workbook jobWb = Application.Workbooks.Add();
+
+                foreach (ListViewItem item in form_AppendWorkbooks.listView1.Items)
+                {
+                    Excel.Workbook curWb;
+                    try
+                    {
+                        curWb = Application.Workbooks.Open(item.Text, missing, false, missing, missing, missing,
+                        true, missing, missing, missing, false, missing, missing, missing, missing);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        continue;
+                    }
+
+                    foreach (Excel.Worksheet sheet in curWb.Sheets)
+                    {
+                        sheet.Copy(After: jobWb.Sheets[jobWb.Sheets.Count]);
+                    }
+
+                    curWb.Close(false, missing, missing);
+                    
+                }
+            }
+            
         }
 
 
-
-
-
-
-
-
-
-
-
+        #endregion
 
         #region Удаление столбцов
         private void Ribbon_ButtonRemoveColumns() //удаляет столбцы на активном листе. кнопка нажата
