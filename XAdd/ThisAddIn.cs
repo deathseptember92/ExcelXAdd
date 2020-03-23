@@ -11,7 +11,8 @@ namespace XAdd
     {
         #region Переменные
         Office.CommandBar cb = null;
-        Office.CommandBarButton buttonContext = null;
+        Office.CommandBarButton buttonContext;
+        Office.CommandBarButton buttonContext2;
         readonly DatePickerForm form_DatePicker = new DatePickerForm();
         readonly AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
         readonly SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
@@ -76,12 +77,12 @@ namespace XAdd
             buttonContext.Visible = true;
 
 
-            buttonContext = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton; // Кнопка "Заменить формулы на значения"
-            buttonContext.Caption = "Заменить формулы на значения (XAdd)";
-            buttonContext.Tag = "ReplaceFormulasWithValues";
-            buttonContext.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext.Click += ReplaceFormulasWithValues;
-            buttonContext.Visible = true;
+            buttonContext2 = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton; // Кнопка "Заменить формулы на значения"
+            buttonContext2.Caption = "Заменить формулы на значения (XAdd)";
+            buttonContext2.Tag = "ReplaceFormulasWithValues";
+            buttonContext2.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContext2.Click += ReplaceFormulasWithValues;
+            buttonContext2.Visible = true;
 
         }
 
@@ -114,15 +115,6 @@ namespace XAdd
             ribbon.ButtonAppendWorkbooksClicked += Ribbon_ButtonAppendWorkbooks;
             return Globals.Factory.GetRibbonFactory().CreateRibbonManager(new Microsoft.Office.Tools.Ribbon.IRibbonExtension[] { ribbon });
         }
-
-
-
-
-
-
-
-
-
 
 
 
