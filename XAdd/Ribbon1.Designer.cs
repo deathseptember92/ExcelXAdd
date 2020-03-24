@@ -38,22 +38,22 @@
             this.group5 = this.Factory.CreateRibbonGroup();
             this.FormulaFormat = this.Factory.CreateRibbonToggleButton();
             this.AutoFill = this.Factory.CreateRibbonButton();
+            this.AppendWorkbooks = this.Factory.CreateRibbonButton();
             this.group1 = this.Factory.CreateRibbonGroup();
+            this.RemoveColumns = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
+            this.AppendSheets = this.Factory.CreateRibbonButton();
+            this.AppendSheetsCustom = this.Factory.CreateRibbonButton();
             this.TableOfContents = this.Factory.CreateRibbonButton();
             this.SheetsManager = this.Factory.CreateRibbonButton();
+            this.toggleButton1 = this.Factory.CreateRibbonToggleButton();
             this.ShowSheetsShortcuts = this.Factory.CreateRibbonToggleButton();
             this.SortSheets = this.Factory.CreateRibbonButton();
             this.group3 = this.Factory.CreateRibbonGroup();
             this.InsertDate = this.Factory.CreateRibbonButton();
             this.group4 = this.Factory.CreateRibbonGroup();
-            this.Calculator = this.Factory.CreateRibbonButton();
-            this.AppendWorkbooks = this.Factory.CreateRibbonButton();
-            this.RemoveColumns = this.Factory.CreateRibbonButton();
-            this.AppendSheets = this.Factory.CreateRibbonButton();
-            this.AppendSheetsCustom = this.Factory.CreateRibbonButton();
-            this.toggleButton1 = this.Factory.CreateRibbonToggleButton();
             this.Currency = this.Factory.CreateRibbonButton();
+            this.Calculator = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -98,11 +98,27 @@
             this.AutoFill.SuperTip = "Используется при включенном фильтре";
             this.AutoFill.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AutoFill_Click);
             // 
+            // AppendWorkbooks
+            // 
+            this.AppendWorkbooks.Label = "Объединить книги из файлов";
+            this.AppendWorkbooks.Name = "AppendWorkbooks";
+            this.AppendWorkbooks.OfficeImageId = "FileCloseAll";
+            this.AppendWorkbooks.ShowImage = true;
+            this.AppendWorkbooks.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AppendWorkbooks_Click);
+            // 
             // group1
             // 
             this.group1.Items.Add(this.RemoveColumns);
             this.group1.Label = "Столбцы";
             this.group1.Name = "group1";
+            // 
+            // RemoveColumns
+            // 
+            this.RemoveColumns.Image = global::XAdd.Properties.Resources.deletecolumn;
+            this.RemoveColumns.Label = "Удалить столбцы";
+            this.RemoveColumns.Name = "RemoveColumns";
+            this.RemoveColumns.ShowImage = true;
+            this.RemoveColumns.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.RemoveColumns_Click);
             // 
             // group2
             // 
@@ -115,6 +131,25 @@
             this.group2.Items.Add(this.SortSheets);
             this.group2.Label = "Листы";
             this.group2.Name = "group2";
+            // 
+            // AppendSheets
+            // 
+            this.AppendSheets.Image = global::XAdd.Properties.Resources.appendtable;
+            this.AppendSheets.Label = "Объединить все листы в книге";
+            this.AppendSheets.Name = "AppendSheets";
+            this.AppendSheets.ShowImage = true;
+            this.AppendSheets.SuperTip = "Будет создан лист Job, на который скопируются все листы текущей книги";
+            this.AppendSheets.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AppendSheets_Click);
+            // 
+            // AppendSheetsCustom
+            // 
+            this.AppendSheetsCustom.Image = global::XAdd.Properties.Resources.combine;
+            this.AppendSheetsCustom.Label = "Объединить листы выборочно";
+            this.AppendSheetsCustom.Name = "AppendSheetsCustom";
+            this.AppendSheetsCustom.ShowImage = true;
+            this.AppendSheetsCustom.SuperTip = "Будет создана новая книга с листом Job, на который скопируются выбранные вами лис" +
+    "ты";
+            this.AppendSheetsCustom.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AppendSheetsCustom_Click);
             // 
             // TableOfContents
             // 
@@ -133,6 +168,14 @@
             this.SheetsManager.OfficeImageId = "BibliographyGallery";
             this.SheetsManager.ShowImage = true;
             this.SheetsManager.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SheetsManager_Click);
+            // 
+            // toggleButton1
+            // 
+            this.toggleButton1.Image = global::XAdd.Properties.Resources.eye_icon_png_viewed_accomms_10;
+            this.toggleButton1.Label = "Показать скрытые листы";
+            this.toggleButton1.Name = "toggleButton1";
+            this.toggleButton1.ShowImage = true;
+            this.toggleButton1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.toggleButton1_Click);
             // 
             // ShowSheetsShortcuts
             // 
@@ -172,57 +215,6 @@
             this.group4.Label = "Числа";
             this.group4.Name = "group4";
             // 
-            // Calculator
-            // 
-            this.Calculator.Label = "Калькулятор";
-            this.Calculator.Name = "Calculator";
-            this.Calculator.OfficeImageId = "Calculator";
-            this.Calculator.ShowImage = true;
-            this.Calculator.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Calculator_Click);
-            // 
-            // AppendWorkbooks
-            // 
-            this.AppendWorkbooks.Label = "Объединить книги из файлов";
-            this.AppendWorkbooks.Name = "AppendWorkbooks";
-            this.AppendWorkbooks.OfficeImageId = "FileCloseAll";
-            this.AppendWorkbooks.ShowImage = true;
-            this.AppendWorkbooks.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AppendWorkbooks_Click);
-            // 
-            // RemoveColumns
-            // 
-            this.RemoveColumns.Image = global::XAdd.Properties.Resources.deletecolumn;
-            this.RemoveColumns.Label = "Удалить столбцы";
-            this.RemoveColumns.Name = "RemoveColumns";
-            this.RemoveColumns.ShowImage = true;
-            this.RemoveColumns.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.RemoveColumns_Click);
-            // 
-            // AppendSheets
-            // 
-            this.AppendSheets.Image = global::XAdd.Properties.Resources.appendtable;
-            this.AppendSheets.Label = "Объединить все листы в книге";
-            this.AppendSheets.Name = "AppendSheets";
-            this.AppendSheets.ShowImage = true;
-            this.AppendSheets.SuperTip = "Будет создан лист Job, на который скопируются все листы текущей книги";
-            this.AppendSheets.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AppendSheets_Click);
-            // 
-            // AppendSheetsCustom
-            // 
-            this.AppendSheetsCustom.Image = global::XAdd.Properties.Resources.combine;
-            this.AppendSheetsCustom.Label = "Объединить листы выборочно";
-            this.AppendSheetsCustom.Name = "AppendSheetsCustom";
-            this.AppendSheetsCustom.ShowImage = true;
-            this.AppendSheetsCustom.SuperTip = "Будет создана новая книга с листом Job, на который скопируются выбранные вами лис" +
-    "ты";
-            this.AppendSheetsCustom.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AppendSheetsCustom_Click);
-            // 
-            // toggleButton1
-            // 
-            this.toggleButton1.Image = global::XAdd.Properties.Resources.eye_icon_png_viewed_accomms_10;
-            this.toggleButton1.Label = "Показать скрытые листы";
-            this.toggleButton1.Name = "toggleButton1";
-            this.toggleButton1.ShowImage = true;
-            this.toggleButton1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.toggleButton1_Click);
-            // 
             // Currency
             // 
             this.Currency.Image = global::XAdd.Properties.Resources.img_202966;
@@ -230,6 +222,14 @@
             this.Currency.Name = "Currency";
             this.Currency.ShowImage = true;
             this.Currency.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Currency_Click);
+            // 
+            // Calculator
+            // 
+            this.Calculator.Label = "Калькулятор";
+            this.Calculator.Name = "Calculator";
+            this.Calculator.OfficeImageId = "Calculator";
+            this.Calculator.ShowImage = true;
+            this.Calculator.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Calculator_Click);
             // 
             // Ribbon1
             // 

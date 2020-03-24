@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -14,6 +15,7 @@ namespace XAdd
 {
     public partial class CurrencyForm : Form
     {
+        HttpWebResponse response;
         public string dateSelected { get; set; }
         public CurrencyForm()
         {
@@ -22,16 +24,16 @@ namespace XAdd
 
         private void CurrencyForm_Load(object sender, EventArgs e)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://www.cbr.ru/");
+            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://www.cbr.ru/");
 
-            try
-            {
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            }
-            catch (Exception)
-            {
+            //try
+            //{
+            //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            //}
+            //catch (Exception)
+            //{
                 
-            }
+            //}
             
             
 
@@ -46,6 +48,7 @@ namespace XAdd
 
         private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
         {
+            
             dataGridView1.Rows.Clear();
             dataGridView1.Rows.Add();
             if (monthCalendar1.SelectionStart > DateTime.Now)
@@ -56,16 +59,36 @@ namespace XAdd
             label1.Text = "Курс на " + monthCalendar1.SelectionStart.ToString("dd'/'MM'/'yyyy");
             dateSelected = monthCalendar1.SelectionStart.ToString("dd'/'MM'/'yyyy");
             XmlDocument xDoc = new XmlDocument();
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Format(@"http://www.cbr.ru/scripts/XML_daily.asp?date_req={0}", dateSelected));
+            request.AllowAutoRedirect = true;
+            request.MaximumAutomaticRedirections = 9999;
             try
             {
-                xDoc.Load(string.Format(@"http://www.cbr.ru/scripts/XML_daily.asp?date_req={0}", dateSelected));
+                response = (HttpWebResponse)request.GetResponse();
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show("Нет доступа к интернету или источник недоступен! "+ex.Message, "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message,"XAdd",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
             }
+            
+
+            using (Stream xmlStream = response.GetResponseStream())
+            {
+                xDoc.Load(xmlStream);
+            }
+
+            //try
+            //{
+            //    xDoc.Load(string.Format(@"http://www.cbr.ru/scripts/XML_daily.asp?date_req={0}", dateSelected));
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    MessageBox.Show("Нет доступа к интернету или источник недоступен! "+ex.Message, "XAdd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
             XmlElement xRoot = xDoc.DocumentElement;
 

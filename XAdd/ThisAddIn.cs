@@ -10,9 +10,12 @@ namespace XAdd
     public partial class ThisAddIn
     {
         #region Переменные
-        Office.CommandBar cb = null;
+        Office.CommandBar cb;
+        Office.CommandBarPopup submenu;
         Office.CommandBarButton buttonContext;
         Office.CommandBarButton buttonContext2;
+        Office.CommandBarButton buttonContext3;
+        Office.CommandBarButton buttonContext4;
         readonly DatePickerForm form_DatePicker = new DatePickerForm();
         readonly AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
         readonly SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
@@ -68,25 +71,48 @@ namespace XAdd
 
             form_DatePicker.DateSelected += DatePicker_dateSelected;// обработчик выбор даты
 
+
+            #region Контекстное меню
             cb = Application.CommandBars["Cell"];
-            buttonContext = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton; // Кнопка "Протянуть формулу"
-            buttonContext.Caption = "Протянуть формулу (XAdd)";
+            submenu = (Office.CommandBarPopup)cb.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, 1, true);
+            submenu.Caption = "XAdd...";
+            
+            buttonContext = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
+            buttonContext.Caption = "Протянуть формулу";
             buttonContext.Tag = "FormulaFil";
             buttonContext.Style = Office.MsoButtonStyle.msoButtonCaption;
             buttonContext.Click += ButtonContext_Click;
             buttonContext.Visible = true;
 
 
-            buttonContext2 = cb.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton; // Кнопка "Заменить формулы на значения"
-            buttonContext2.Caption = "Заменить формулы на значения (XAdd)";
+            buttonContext2 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 2, true) as Office.CommandBarButton;
+            buttonContext2.Caption = "Заменить формулы на значения";
             buttonContext2.Tag = "ReplaceFormulasWithValues";
             buttonContext2.Style = Office.MsoButtonStyle.msoButtonCaption;
             buttonContext2.Click += ReplaceFormulasWithValues;
             buttonContext2.Visible = true;
 
+            buttonContext3 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 3, true) as Office.CommandBarButton;
+            buttonContext3.Caption = "Вставить дату";
+            buttonContext3.Tag = "InsertDate";
+            buttonContext3.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContext3.Click += InsertDate;
+            buttonContext3.Visible = true;
+
+            buttonContext4 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 4, true) as Office.CommandBarButton;
+            buttonContext4.Caption = "Выделить таблицу на листе";
+            buttonContext4.Tag = "SelectUsedRange";
+            buttonContext4.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContext4.Click += SelectUsedRange; ;
+            buttonContext4.Visible = true;
+
+            #endregion
         }
 
-        
+        private void SelectUsedRange(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Application.ActiveSheet.UsedRange.Select();
+        }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
@@ -482,20 +508,18 @@ namespace XAdd
         #endregion
 
         #region Выбор даты
+
+        private void InsertDate(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Ribbon_ButtonInsertDate();
+        }
+
         private void Ribbon_ButtonInsertDate() // показывает пользователю форму с календарем. нажата кнопка на риббоне ( см. форму DatePickerForm )
         {
 
             form_DatePicker.StartPosition = FormStartPosition.CenterScreen;
             form_DatePicker.Show();
         }
-
-        //private void ribbon_ButtonInsertDate(Microsoft.Office.Core.CommandBarButton Ctrl, ref bool CancelDefault) // показывает пользователю форму с календарем. нажата кнопка в контекстном меню
-        //{
-        //    Point mousePoint = new Point(Cursor.Position.X, Cursor.Position.Y);
-        //    form_DatePicker.Location = mousePoint;
-        //    form_DatePicker.StartPosition = FormStartPosition.Manual;
-        //    form_DatePicker.Show();
-        //}
 
 
 
