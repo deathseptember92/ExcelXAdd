@@ -46,7 +46,7 @@ namespace XAdd
         }
 
 
-        private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
+        private async void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
         {
             
             dataGridView1.Rows.Clear();
@@ -65,7 +65,7 @@ namespace XAdd
             request.MaximumAutomaticRedirections = 9999;
             try
             {
-                response = (HttpWebResponse)request.GetResponse();
+                response = (HttpWebResponse)await request.GetResponseAsync();
             }
             catch (Exception ex)
             {
@@ -91,6 +91,7 @@ namespace XAdd
             //}
 
             XmlElement xRoot = xDoc.DocumentElement;
+            response.Close();
 
             foreach (XmlNode xnode in xRoot)
             {
