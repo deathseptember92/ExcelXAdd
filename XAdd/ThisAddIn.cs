@@ -29,6 +29,8 @@ namespace XAdd
         bool answer = false;
         bool answerFilters = false;
         Excel.Range area;
+        Excel.Range activeCell;
+        Excel.Range wRange;
         string shName;
         Random rnd = new Random();
 
@@ -1825,7 +1827,7 @@ namespace XAdd
         #region Тестовая функция умное автозаполнение
         private void Ribbon_ButtonAutoFill()
         {
-            Excel.Range activeCell = Application.ActiveCell;
+            activeCell = Application.ActiveCell;
 
             try
             {
@@ -1843,17 +1845,13 @@ namespace XAdd
 
 
 
-            Excel.Range wRange = Application.Range[Application.ActiveCell, Application.ActiveCell.EntireColumn.Find("*", System.Reflection.Missing.Value,
+            wRange = Application.Range[Application.ActiveCell, Application.ActiveCell.EntireColumn.Find("*", System.Reflection.Missing.Value,
                         System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByColumns,
                         Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Cells]
                 .SpecialCells(Excel.XlCellType.xlCellTypeVisible, missing);
 
             wRange.Cells.Value = activeCell.FormulaR1C1;
 
-            //foreach (Excel.Range cell in wRange)
-            //{
-            //    cell.FormulaR1C1 = activeCell.FormulaR1C1;
-            //}
 
         }
 
