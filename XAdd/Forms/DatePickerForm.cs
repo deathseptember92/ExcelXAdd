@@ -28,7 +28,7 @@ namespace XAdd
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            this.Size = monthCalendar1.Size;
         }
 
         private void MonthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
