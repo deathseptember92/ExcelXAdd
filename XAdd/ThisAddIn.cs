@@ -1828,12 +1828,13 @@ namespace XAdd
         private void Ribbon_ButtonAutoFill()
         {
             activeCell = Application.ActiveCell;
+            Excel.Range usedRange = Application.ActiveSheet.UsedRange.SpecialCells(Excel.XlCellType.xlCellTypeVisible);
 
             try
             {
-                lastRow = Application.ActiveSheet.Cells.Find("*", System.Reflection.Missing.Value,
-                    System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
-                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+                lastRow = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
             }
             catch (Exception)
             {

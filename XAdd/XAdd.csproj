@@ -359,7 +359,7 @@
     <ManifestKeyFile>XAdd_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>D533DBFD59A2959DD4D883740A983D2D39618187</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F80448030A6B4F96188EFEDF3E434AC7E9BE5A2E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
