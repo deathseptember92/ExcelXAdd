@@ -16,6 +16,7 @@ namespace XAdd
         Office.CommandBarButton buttonContext2;
         Office.CommandBarButton buttonContext3;
         Office.CommandBarButton buttonContext4;
+        Office.CommandBarButton buttonContext5;
         readonly DatePickerForm form_DatePicker = new DatePickerForm();
         readonly AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
         readonly SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
@@ -105,10 +106,32 @@ namespace XAdd
             buttonContext4.Caption = "Выделить таблицу на листе";
             buttonContext4.Tag = "SelectUsedRange";
             buttonContext4.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext4.Click += SelectUsedRange; ;
+            buttonContext4.Click += SelectUsedRange;
             buttonContext4.Visible = true;
 
+            buttonContext5 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 4, true) as Office.CommandBarButton;
+            buttonContext5.Caption = "Изменить регистр строк";
+            buttonContext5.Tag = "UpperLowerCaseRange";
+            buttonContext5.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContext5.Click += UpperLowerCase;
+            buttonContext5.Visible = true;
+
             #endregion
+        }
+
+        private void UpperLowerCase(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Excel.Range selectedRange = Application.Selection;
+            var vURPs = selectedRange.Value2;
+            for (int i = 1; i < selectedRange.Rows.Count+1; i++)
+            {
+                for (int j = 1; j < selectedRange.Columns.Count+1; j++)
+                {
+                    vURPs[i, j] = ((string)vURPs[i, j]).ToLower();
+                }
+                
+            }
+            selectedRange.Value2 = vURPs;
         }
 
         private void SelectUsedRange(Office.CommandBarButton Ctrl, ref bool CancelDefault)
