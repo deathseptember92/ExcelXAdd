@@ -109,7 +109,7 @@ namespace XAdd
             buttonContext4.Click += SelectUsedRange;
             buttonContext4.Visible = true;
 
-            buttonContext5 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 4, true) as Office.CommandBarButton;
+            buttonContext5 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 5, true) as Office.CommandBarButton;
             buttonContext5.Caption = "Изменить регистр строк";
             buttonContext5.Tag = "UpperLowerCaseRange";
             buttonContext5.Style = Office.MsoButtonStyle.msoButtonCaption;
@@ -122,16 +122,21 @@ namespace XAdd
         private void UpperLowerCase(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
             Excel.Range selectedRange = Application.Selection;
-            var vURPs = selectedRange.Value2;
+            dynamic vURPs = selectedRange.Value2;
             for (int i = 1; i < selectedRange.Rows.Count+1; i++)
             {
                 for (int j = 1; j < selectedRange.Columns.Count+1; j++)
                 {
-                    vURPs[i, j] = ((string)vURPs[i, j]).ToLower();
+                    if (vURPs[i, j] is string s)
+                    {
+                        vURPs[i, j] = s?.ToLower();
+                    }
+                    
                 }
                 
             }
             selectedRange.Value2 = vURPs;
+            
         }
 
         private void SelectUsedRange(Office.CommandBarButton Ctrl, ref bool CancelDefault)
