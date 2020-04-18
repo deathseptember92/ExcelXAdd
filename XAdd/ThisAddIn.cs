@@ -13,13 +13,14 @@ namespace XAdd
         Office.CommandBar cb;
         Office.CommandBarPopup subXadd;
         Office.CommandBarPopup subCase;
-        Office.CommandBarButton buttonContext;
-        Office.CommandBarButton buttonContext2;
-        Office.CommandBarButton buttonContext3;
-        Office.CommandBarButton buttonContext4;
-        Office.CommandBarButton buttonContext5;
-        Office.CommandBarButton buttonContext6;
-        Office.CommandBarButton buttonContext7;
+        Office.CommandBarButton buttonContextFillFormula;
+        Office.CommandBarButton buttonContextReplaceFormulasWithValues;
+        Office.CommandBarButton buttonContextInsertDate;
+        Office.CommandBarButton buttonContextSelectUsedRange;
+        Office.CommandBarButton buttonContextLowerCase;
+        Office.CommandBarButton buttonContextUpperCase;
+        Office.CommandBarButton buttonContextFirstUpperCase;
+        Office.CommandBarButton buttonContextExpandSelectionDown;
         readonly DatePickerForm form_DatePicker = new DatePickerForm();
         readonly AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
         readonly SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
@@ -84,68 +85,72 @@ namespace XAdd
             subXadd.Caption = "XAdd...";
             
 
-            buttonContext = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
-            buttonContext.Caption = "Протянуть формулу";
-            buttonContext.Tag = "FormulaFil";
-            buttonContext.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext.Click += ButtonContext_Click;
-            buttonContext.Visible = true;
+            buttonContextFillFormula = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
+            buttonContextFillFormula.Caption = "Протянуть формулу";
+            buttonContextFillFormula.Tag = "FormulaFil";
+            buttonContextFillFormula.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContextFillFormula.Click += ButtonContext_Click;
+            buttonContextFillFormula.Visible = true;
 
 
-            buttonContext2 = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 2, true) as Office.CommandBarButton;
-            buttonContext2.Caption = "Заменить формулы на значения";
-            buttonContext2.Tag = "ReplaceFormulasWithValues";
-            buttonContext2.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext2.Click += ReplaceFormulasWithValues;
-            buttonContext2.Visible = true;
+            buttonContextReplaceFormulasWithValues = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 2, true) as Office.CommandBarButton;
+            buttonContextReplaceFormulasWithValues.Caption = "Заменить формулы на значения";
+            buttonContextReplaceFormulasWithValues.Tag = "ReplaceFormulasWithValues";
+            buttonContextReplaceFormulasWithValues.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContextReplaceFormulasWithValues.Click += ReplaceFormulasWithValues;
+            buttonContextReplaceFormulasWithValues.Visible = true;
 
-            buttonContext3 = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 3, true) as Office.CommandBarButton;
-            buttonContext3.Caption = "Вставить дату";
-            buttonContext3.Tag = "InsertDate";
-            buttonContext3.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext3.Click += InsertDate;
-            buttonContext3.Visible = true;
+            buttonContextInsertDate = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 3, true) as Office.CommandBarButton;
+            buttonContextInsertDate.Caption = "Вставить дату";
+            buttonContextInsertDate.Tag = "InsertDate";
+            buttonContextInsertDate.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContextInsertDate.Click += InsertDate;
+            buttonContextInsertDate.Visible = true;
 
-            buttonContext4 = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 4, true) as Office.CommandBarButton;
-            buttonContext4.Caption = "Выделить таблицу на листе";
-            buttonContext4.Tag = "SelectUsedRange";
-            buttonContext4.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext4.Click += SelectUsedRange;
-            buttonContext4.Visible = true;
+            buttonContextExpandSelectionDown = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 4, true) as Office.CommandBarButton;
+            buttonContextExpandSelectionDown.Caption = "Протянуть выделение вниз";
+            buttonContextExpandSelectionDown.Tag = "ExpandSelectionDown";
+            buttonContextExpandSelectionDown.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContextExpandSelectionDown.Click += ExpandSelectionDown;
+            buttonContextExpandSelectionDown.Visible = true;
+
+            buttonContextSelectUsedRange = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 5, true) as Office.CommandBarButton;
+            buttonContextSelectUsedRange.Caption = "Выделить таблицу на листе";
+            buttonContextSelectUsedRange.Tag = "SelectUsedRange";
+            buttonContextSelectUsedRange.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContextSelectUsedRange.Click += SelectUsedRange;
+            buttonContextSelectUsedRange.Visible = true;
+
+
 
             subCase = (Office.CommandBarPopup)subXadd.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, 1, true);
             subCase.Caption = "Регистр строк...";
 
-            buttonContext5 = subCase.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
-            buttonContext5.Caption = "Нижний";
-            buttonContext5.Tag = "LowerCaseRange";
-            buttonContext5.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext5.Click += LowerCase;
-            buttonContext5.Visible = true;
+            buttonContextLowerCase = subCase.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
+            buttonContextLowerCase.Caption = "Нижний";
+            buttonContextLowerCase.Tag = "LowerCase";
+            buttonContextLowerCase.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContextLowerCase.Click += LowerCase;
+            buttonContextLowerCase.Visible = true;
 
-            buttonContext6 = subCase.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 2, true) as Office.CommandBarButton;
-            buttonContext6.Caption = "Верхний";
-            buttonContext6.Tag = "UpperCaseRange";
-            buttonContext6.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext6.Click += UpperCase;
-            buttonContext6.Visible = true;
+            buttonContextUpperCase = subCase.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 2, true) as Office.CommandBarButton;
+            buttonContextUpperCase.Caption = "Верхний";
+            buttonContextUpperCase.Tag = "UpperCase";
+            buttonContextUpperCase.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContextUpperCase.Click += UpperCase;
+            buttonContextUpperCase.Visible = true;
 
-            buttonContext7 = subCase.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 3, true) as Office.CommandBarButton;
-            buttonContext7.Caption = "Первая буква заглавная";
-            buttonContext7.Tag = "FirstUpperCaseRange";
-            buttonContext7.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext7.Click += FirstUpper;
-            buttonContext7.Visible = true;
+            buttonContextFirstUpperCase = subCase.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 3, true) as Office.CommandBarButton;
+            buttonContextFirstUpperCase.Caption = "Первая буква заглавная";
+            buttonContextFirstUpperCase.Tag = "FirstUpperCase";
+            buttonContextFirstUpperCase.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContextFirstUpperCase.Click += FirstUpper;
+            buttonContextFirstUpperCase.Visible = true;
 
             #endregion
         }
 
- 
 
-        private void SelectUsedRange(Office.CommandBarButton Ctrl, ref bool CancelDefault)
-        {
-            Application.ActiveSheet.UsedRange.Select();
-        }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
@@ -1855,7 +1860,7 @@ namespace XAdd
 
         #endregion
 
-        #region Тестовая функция умное автозаполнение
+        #region Протянуть формулу
         private void Ribbon_ButtonAutoFill()
         {
             activeCell = Application.ActiveCell;
@@ -2007,6 +2012,41 @@ namespace XAdd
             }
             selectedRange.Value2 = vURPs;
         }
+        #endregion
+
+        #region Выделение диапазона
+
+        private void ExpandSelectionDown(Office.CommandBarButton Ctrl, ref bool CancelDefault) // Протянуть выделение вниз
+        {
+            Excel.Range selectedRange = Application.Selection;
+            Excel.Range usedRange = Application.ActiveSheet.UsedRange.SpecialCells(Excel.XlCellType.xlCellTypeVisible);
+            Excel.Range firstCell;
+            Excel.Range lastCell;
+            Excel.Range finalRange;
+
+            try
+            {
+                lastRow = usedRange.Cells.Find("*", System.Reflection.Missing.Value,
+                        System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSearchOrder.xlByRows,
+                        Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            firstCell = Application.Cells[selectedRange.Cells.Row, selectedRange.Cells.Column];
+            lastCell = Application.Cells[lastRow, selectedRange.Cells[selectedRange.Cells.Count].Column];
+            finalRange = Application.Range[firstCell, lastCell];
+            finalRange.Select();
+
+        }
+
+        private void SelectUsedRange(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Application.ActiveSheet.UsedRange.Select();
+        }
+
         #endregion
 
         #region Код, автоматически созданный VSTO
