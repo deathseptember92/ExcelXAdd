@@ -11,12 +11,15 @@ namespace XAdd
     {
         #region Переменные
         Office.CommandBar cb;
-        Office.CommandBarPopup submenu;
+        Office.CommandBarPopup subXadd;
+        Office.CommandBarPopup subCase;
         Office.CommandBarButton buttonContext;
         Office.CommandBarButton buttonContext2;
         Office.CommandBarButton buttonContext3;
         Office.CommandBarButton buttonContext4;
         Office.CommandBarButton buttonContext5;
+        Office.CommandBarButton buttonContext6;
+        Office.CommandBarButton buttonContext7;
         readonly DatePickerForm form_DatePicker = new DatePickerForm();
         readonly AppendSheetsForm form_AppendSheetsCustom = new AppendSheetsForm();
         readonly SheetsManagerForm form_SheetsManager = new SheetsManagerForm();
@@ -77,10 +80,11 @@ namespace XAdd
 
             #region Контекстное меню
             cb = Application.CommandBars["Cell"];
-            submenu = (Office.CommandBarPopup)cb.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, 1, true);
-            submenu.Caption = "XAdd...";
+            subXadd = (Office.CommandBarPopup)cb.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, 1, true);
+            subXadd.Caption = "XAdd...";
             
-            buttonContext = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
+
+            buttonContext = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
             buttonContext.Caption = "Протянуть формулу";
             buttonContext.Tag = "FormulaFil";
             buttonContext.Style = Office.MsoButtonStyle.msoButtonCaption;
@@ -88,56 +92,55 @@ namespace XAdd
             buttonContext.Visible = true;
 
 
-            buttonContext2 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 2, true) as Office.CommandBarButton;
+            buttonContext2 = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 2, true) as Office.CommandBarButton;
             buttonContext2.Caption = "Заменить формулы на значения";
             buttonContext2.Tag = "ReplaceFormulasWithValues";
             buttonContext2.Style = Office.MsoButtonStyle.msoButtonCaption;
             buttonContext2.Click += ReplaceFormulasWithValues;
             buttonContext2.Visible = true;
 
-            buttonContext3 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 3, true) as Office.CommandBarButton;
+            buttonContext3 = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 3, true) as Office.CommandBarButton;
             buttonContext3.Caption = "Вставить дату";
             buttonContext3.Tag = "InsertDate";
             buttonContext3.Style = Office.MsoButtonStyle.msoButtonCaption;
             buttonContext3.Click += InsertDate;
             buttonContext3.Visible = true;
 
-            buttonContext4 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 4, true) as Office.CommandBarButton;
+            buttonContext4 = subXadd.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 4, true) as Office.CommandBarButton;
             buttonContext4.Caption = "Выделить таблицу на листе";
             buttonContext4.Tag = "SelectUsedRange";
             buttonContext4.Style = Office.MsoButtonStyle.msoButtonCaption;
             buttonContext4.Click += SelectUsedRange;
             buttonContext4.Visible = true;
 
-            buttonContext5 = submenu.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 5, true) as Office.CommandBarButton;
-            buttonContext5.Caption = "Изменить регистр строк";
-            buttonContext5.Tag = "UpperLowerCaseRange";
+            subCase = (Office.CommandBarPopup)subXadd.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, 1, true);
+            subCase.Caption = "Регистр строк...";
+
+            buttonContext5 = subCase.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 1, true) as Office.CommandBarButton;
+            buttonContext5.Caption = "Нижний";
+            buttonContext5.Tag = "LowerCaseRange";
             buttonContext5.Style = Office.MsoButtonStyle.msoButtonCaption;
-            buttonContext5.Click += UpperLowerCase;
+            buttonContext5.Click += LowerCase;
             buttonContext5.Visible = true;
+
+            buttonContext6 = subCase.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 2, true) as Office.CommandBarButton;
+            buttonContext6.Caption = "Верхний";
+            buttonContext6.Tag = "UpperCaseRange";
+            buttonContext6.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContext6.Click += UpperCase;
+            buttonContext6.Visible = true;
+
+            buttonContext7 = subCase.Controls.Add(Office.MsoControlType.msoControlButton, missing, missing, 3, true) as Office.CommandBarButton;
+            buttonContext7.Caption = "Первая буква заглавная";
+            buttonContext7.Tag = "FirstUpperCaseRange";
+            buttonContext7.Style = Office.MsoButtonStyle.msoButtonCaption;
+            buttonContext7.Click += FirstUpper;
+            buttonContext7.Visible = true;
 
             #endregion
         }
 
-        private void UpperLowerCase(Office.CommandBarButton Ctrl, ref bool CancelDefault)
-        {
-            Excel.Range selectedRange = Application.Selection;
-            dynamic vURPs = selectedRange.Value2;
-            for (int i = 1; i < selectedRange.Rows.Count+1; i++)
-            {
-                for (int j = 1; j < selectedRange.Columns.Count+1; j++)
-                {
-                    if (vURPs[i, j] is string s)
-                    {
-                        vURPs[i, j] = s?.ToLower();
-                    }
-                    
-                }
-                
-            }
-            selectedRange.Value2 = vURPs;
-            
-        }
+ 
 
         private void SelectUsedRange(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
@@ -1948,6 +1951,62 @@ namespace XAdd
             Application.StatusBar = $"Строк: {Application.ActiveSheet.UsedRange.Rows.Count}, Столбцов: {Application.ActiveSheet.UsedRange.Columns.Count}";
         }
 
+        #endregion
+
+        #region Регистр строк
+
+        private void FirstUpper(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Excel.Range selectedRange = Application.Selection;
+            dynamic vURPs = selectedRange.Value2;
+            for (int i = 1; i < selectedRange.Rows.Count + 1; i++)
+            {
+                for (int j = 1; j < selectedRange.Columns.Count + 1; j++)
+                {
+                    if (vURPs[i, j] is string s)
+                    {
+                        vURPs[i, j] = Application.WorksheetFunction.Proper(s);
+                    }
+                }
+            }
+            selectedRange.Value2 = vURPs;
+        }
+
+        private void UpperCase(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Excel.Range selectedRange = Application.Selection;
+            dynamic vURPs = selectedRange.Value2;
+            for (int i = 1; i < selectedRange.Rows.Count + 1; i++)
+            {
+                for (int j = 1; j < selectedRange.Columns.Count + 1; j++)
+                {
+                    if (vURPs[i, j] is string s)
+                    {
+                        vURPs[i, j] = s?.ToUpper();
+                    }
+
+                }
+            }
+            selectedRange.Value2 = vURPs;
+        }
+
+        private void LowerCase(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Excel.Range selectedRange = Application.Selection;
+            dynamic vURPs = selectedRange.Value2;
+            for (int i = 1; i < selectedRange.Rows.Count + 1; i++)
+            {
+                for (int j = 1; j < selectedRange.Columns.Count + 1; j++)
+                {
+                    if (vURPs[i, j] is string s)
+                    {
+                        vURPs[i, j] = s?.ToLower();
+                    }
+
+                }
+            }
+            selectedRange.Value2 = vURPs;
+        }
         #endregion
 
         #region Код, автоматически созданный VSTO
