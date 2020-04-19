@@ -565,7 +565,7 @@ namespace XAdd
         {
 
             DateTime datePicked = form_DatePicker.DateSelect;
-
+            dynamic workArr;
 
             Application.ActiveWindow.RangeSelection.Cells.NumberFormat = "m/d/yyyy";
             Excel.Range selectedRange = Application.ActiveWindow.RangeSelection.Cells;
@@ -577,11 +577,21 @@ namespace XAdd
             }
             else
             {
-                foreach (Excel.Range cell in Application.ActiveWindow.RangeSelection.Cells)
+                workArr = selectedRange.Value2;
+                for (int i = 1; i < selectedRange.Rows.Count+1; i++)
                 {
-                    cell.Value = datePicked;
-                    datePicked = datePicked.AddDays(1);
+                    for (int j = 1; j < selectedRange.Columns.Count+1; j++)
+                    {
+                        workArr[i, j] = datePicked;
+                        datePicked = datePicked.AddDays(1);
+                    }
                 }
+                selectedRange.Value2 = workArr;
+                //foreach (Excel.Range cell in Application.ActiveWindow.RangeSelection.Cells)
+                //{
+                //    cell.Value = datePicked;
+                //    datePicked = datePicked.AddDays(1);
+                //}
             }
 
             selectedRange.Columns.AutoFit();
@@ -1962,7 +1972,7 @@ namespace XAdd
 
         private void FirstUpper(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
-            Excel.Range selectedRange = Application.Selection;
+            Excel.Range selectedRange = Application.ActiveWindow.RangeSelection.Cells;
             dynamic vURPs = selectedRange.Value2;
             for (int i = 1; i < selectedRange.Rows.Count + 1; i++)
             {
@@ -1979,7 +1989,7 @@ namespace XAdd
 
         private void UpperCase(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
-            Excel.Range selectedRange = Application.Selection;
+            Excel.Range selectedRange = Application.ActiveWindow.RangeSelection.Cells;
             dynamic vURPs = selectedRange.Value2;
             for (int i = 1; i < selectedRange.Rows.Count + 1; i++)
             {
@@ -1997,7 +2007,7 @@ namespace XAdd
 
         private void LowerCase(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
-            Excel.Range selectedRange = Application.Selection;
+            Excel.Range selectedRange = Application.ActiveWindow.RangeSelection.Cells;
             dynamic vURPs = selectedRange.Value2;
             for (int i = 1; i < selectedRange.Rows.Count + 1; i++)
             {
